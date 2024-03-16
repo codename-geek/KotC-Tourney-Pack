@@ -1,8 +1,13 @@
 local CURRENT_LOCATION_ADDRESS = 0x0714DB8
 local Save = 0x09A7070 - 0x56450E
+local LUABACKEND_OFFSET = 0x56454E
 
 local noBerserk = true
 local noDoubleneg = true
+
+local function read(address)
+    return ReadByte(address - LUABACKEND_OFFSET)
+end
 
 function _OnFrame()
     ------------------------------------------------------------------------
@@ -132,10 +137,12 @@ function _OnFrame()
                 NegativeComboCount = NegativeComboCount + 1
             end
             if NegativeComboCount > 1 then --Unequip all Negative Combo except one
+				ConsolePrint("Removing One Negative Combo")
                 WriteShort(Current,Ability)
             end
-        elseif Ability == 0x018B and canBerserk then --Berserk Charge
+        elseif Ability == 0x018B and noBerserk and Initial > 0 then --Berserk Charge
             WriteShort(Current,Ability)
+			ConsolePrint("Removing Berserk Charge")
         end
     end
 end

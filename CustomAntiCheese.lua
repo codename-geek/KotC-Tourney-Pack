@@ -175,6 +175,18 @@ function _OnFrame()
         noDoubleneg = true
 		noPan = true
 
+	----The World That Never Was
+	--Data Xemnas 1
+	elseif world == 0x12 and room == 0x13 and battle == 0x61 then
+		noBerserk = false
+        noDoubleneg = false
+		noPan = false
+	--Data Final Xemnas
+	elseif world == 0x12 and room == 0x14 and battle == 0x62 then
+		noBerserk = false
+        noDoubleneg = false
+		noPan = false
+
     --Base Case
     else
         noBerserk = false

@@ -51,7 +51,7 @@ function _OnFrame()
 	if ReadByte(PauseMenu) == 3 then
 		-- In Pause Menu, put everything back to normal
 		if not hasRevertedGrowthText then
-			print('Reverting Growth Text to original')
+			-- print('Reverting Growth Text to original')
 			revertGrowthText(Save+0x25CE, Sys3+0x11754, 0x064C) -- High Jump
 			revertGrowthText(Save+0x25D0, Sys3+0x117B4, 0x0654) -- Quick Run
 			revertGrowthText(Save+0x25D2, Sys3+0x11814, 0x4E83) -- Dodge Roll
@@ -62,7 +62,7 @@ function _OnFrame()
 	else
 		-- In the field, fuck shit up
 		if hasRevertedGrowthText then
-			print('In the field, updating custom text')
+			-- print('In the field, updating custom text')
 		end
 		updateGrowthText(Save+0x25CE, 0x05E, Sys3+0x11754, 0x064C, prevHJ) -- High Jump
 		prevHJ = ReadShort(Save+0x25CE) & 0x0FFF

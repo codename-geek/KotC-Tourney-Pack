@@ -18,6 +18,7 @@ function _OnInit()
 		end
 		OnPC = false
 		Slot1    = 0x1C6C750 --Unit Slot 1
+		BtlTyp 	 = 0x1C61958
 	end
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
         if ENGINE_VERSION < 5.0 then
@@ -26,6 +27,7 @@ function _OnInit()
         end
 		OnPC = true
 		Slot1    = 0x2A20C58 - 0x56450E
+		BtlTyp   = 0x2A0EAC4 - 0x56450E
 		IsLoaded = 0x9B80D0 - 0x56454E
     end
 end
@@ -244,14 +246,21 @@ function _OnFrame()
 	if ReadByte(Save+0x3527) ~= lastGenieForm and ReadByte(Save+0x3525) == 2 then
 		lastGenieForm = ReadByte(Save+0x3527)
 		if ReadByte(Save+0x3527) ~= 0 then
-			--ignore first 2 genie swaps (freebies)
+			--ignore first 2 genie swaps
 			--first genie swap is technically cause of the code
+			if ignoreGenie > 1 then
+				ignoreGenie = ignoreGenie - 1
+				return
 			--the second swap is the manual swap
-			if ignoreGenie > 0 then
+			--only in combat
+			elseif ignoreGenie > 0 and ReadByte(BtlTyp) ~= 0 then
 				ignoreGenie = ignoreGenie - 1
 				return
 			end
-			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-600)
+			--only subtract drive when in Combat
+			if ReadByte(BtlTyp) ~= 0 then
+				WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-600)
+			end
 			--ConsolePrint("Changed forms!")
 		end
 	end

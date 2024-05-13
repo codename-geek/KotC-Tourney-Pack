@@ -5,6 +5,9 @@ local LUABACKEND_OFFSET = 0x56454E
 local noBerserk = true
 local noDoubleneg = true
 local noPan = true
+local usingGenie = true
+local lastGenieForm = 0
+local ignoreGenie = 2
 
 --Set Initial Values for OnPC
 function _OnInit()
@@ -35,36 +38,31 @@ local function BitNot(Address,Bit,Abs)
 end
 
 function _OnFrame()
-    ------------------------------------------------------------------------
-	--Checks for Current room
+    --------Checks for Current room
     local world = read(CURRENT_LOCATION_ADDRESS + 0x00)
     local room = read(CURRENT_LOCATION_ADDRESS + 0x01)
 	local battle = read(CURRENT_LOCATION_ADDRESS + 0x08)
 
-	--Pan Check
+	--------Pan Check
 	--if Pan is in Inventory and the custom flag isn't set, set it
-	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x35C7) == 0 then
-		WriteByte(Save+0x35C7,ReadByte(Save+0x35C7)+1)
+	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3608) == 0 then
+		WriteByte(Save+0x3608,ReadByte(Save+0x3608)+1)
 		--ConsolePrint("Pan in inventory")
 	end
 
-	--Horislash Check
-
-
-	--Simulated Twilight Town
+	--------Superboss Room Check
+	----Simulated Twilight Town
 	--Data Roxas
     if world == 0x12 and room == 0x15 and battle == 0x63 then
 		noBerserk = true
         noDoubleneg = true
 		noPan = false
-
 	----Twilight Town
 	--Data Axel
 	elseif world == 0x02 and room == 0x14 and battle == 0xD5 then
 		noBerserk = true
         noDoubleneg = true
 		noPan = false
-
 	--Hollow Bastion
 	--Sephiroth
 	elseif world == 0x04 and room == 0x01 and battle == 0x4B then
@@ -76,21 +74,18 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-	
 	----Land of Dragons
 	--Data Xigbar
 	elseif world == 0x12 and room == 0x0A and battle == 0x64 then
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-
 	----Beast's Castle
 	--Data Xaldin
 	elseif world == 0x05 and room == 0x0F and battle == 0x61 then
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-	
 	--Olympus Coliseum
 	--AS Zexion
 	elseif world == 0x04 and room == 0x22 and battle == 0x97 then
@@ -102,7 +97,6 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-	
 	----Disney Castle
 	--AS Marluxia
 	elseif world == 0x04 and room == 0x26 and battle == 0x91 then
@@ -124,14 +118,12 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = true
 		noPan = true
-	
 	----Port Royal
 	--Data Luxord
 	elseif world == 0x12 and room == 0x0E and battle == 0x65 then
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-
 	----Agrabah
 	--AS Lexaeus
 	elseif world == 0x04 and room == 0x21 and battle == 0x8E then
@@ -143,7 +135,6 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = true
 		noPan = true
-
 	----Halloween Town
 	--AS Vexen
 	elseif world == 0x04 and room == 0x20 and battle == 0x73 then
@@ -155,14 +146,12 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = false
 		noPan = false
-
 	----Pride Lands
 	--Data Saix
 	elseif world == 0x12 and room == 0x0F and battle == 0x66 then
 		noBerserk = true
         noDoubleneg = true
 		noPan = true
-
 	----Space Paranoids
 	--AS Larxene
 	elseif world == 0x04 and room == 0x21 and battle == 0x8F then
@@ -174,7 +163,6 @@ function _OnFrame()
 		noBerserk = true
         noDoubleneg = true
 		noPan = true
-
 	----The World That Never Was
 	--Data Xemnas 1
 	elseif world == 0x12 and room == 0x13 and battle == 0x61 then
@@ -186,7 +174,6 @@ function _OnFrame()
 		noBerserk = false
         noDoubleneg = false
 		noPan = false
-
     --Base Case
     else
         noBerserk = false
@@ -194,7 +181,7 @@ function _OnFrame()
 		noPan = false
     end
 
-    --Force unequip All Berserk and Both negative combos if 2 are equipped
+    --------Force unequip All Berserk and Both negative combos if 2 are equipped
     local NegativeComboCount = 0
     for Slot = 0,68 do
         local Current = Save + 0x2544 + 2*Slot
@@ -214,7 +201,7 @@ function _OnFrame()
             WriteShort(Current,Ability)
 			ConsolePrint("Removing Berserk Charge")
 		--Hori Slash w/ Genie Check
-		elseif Ability == 0x010F and noBerserk then
+		elseif Ability == 0x010F and noBerserk and false then
 			--if genie is ever summoned, remove hori
 			if ReadByte(Save+0x3525) == 2 then
 				WriteShort(Current,Ability)
@@ -234,11 +221,47 @@ function _OnFrame()
         end
     end
 
-	--Force Remove Pan from Summon Menu if noPan
+	--------Force Remove Pan from Summon Menu if noPan
 	if noPan then
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player should have pan outside a boss
 	elseif ReadByte(Save+0x35C7) > 0 and not noPan then
 		BitOr(Save+0x36C4,0x020)
-	end 
+	end
+
+	--------Genie Hori "Nerf"
+	--When genie is summoned for the first time, record initial form and run once
+	if ReadByte(Save+0x3525) == 2 and not usingGenie then
+		usingGenie = true
+		lastGenieForm = ReadByte(Save+0x3527)
+		ConsolePrint("Summoned Genie!")
+	end
+	--If genie is out and the form changes,
+	--Remove 1 full drive meter
+	if ReadByte(Save+0x3527) ~= lastGenieForm and ReadByte(Save+0x3525) == 2 then
+		lastGenieForm = ReadByte(Save+0x3527)
+		if ReadByte(Save+0x3527) ~= 0 then
+			--ignore first 2 genie swaps (freebies)
+			--first genie swap is technically cause of the code
+			--the second swap is the manual swap
+			if ignoreGenie > 0 then
+				ignoreGenie = ignoreGenie - 1
+				return
+			end
+			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-600)
+			--ConsolePrint("Changed forms!")
+		end
+	end
+	--Always rewrite to the address of the current form 0
+	--The form still behaves as normal since the game overwrites this every frame
+	if ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) ~= 0x00 then
+		WriteByte(Save+0x3527,0)
+	--When in a load and Genie is out, give back the freebies
+	elseif ReadByte(Save+0x3525) == 2 and usingGenie then
+		ignoreGenie = 2
+	else
+		usingGenie = false
+		ignoreGenie = 2
+		--ConsolePrint("Dismissed Genie!")
+	end
 end

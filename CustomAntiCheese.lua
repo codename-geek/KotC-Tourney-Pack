@@ -26,6 +26,7 @@ function _OnInit()
         end
 		OnPC = true
 		Slot1    = 0x2A20C58 - 0x56450E
+		IsLoaded = 0x9B80D0 - 0x56454E
     end
 end
 

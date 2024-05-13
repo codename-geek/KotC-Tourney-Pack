@@ -17,6 +17,7 @@ function _OnInit()
 			return
 		end
 		OnPC = false
+		Slot1    = 0x1C6C750 --Unit Slot 1
 	end
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
         if ENGINE_VERSION < 5.0 then
@@ -24,6 +25,7 @@ function _OnInit()
 			return
         end
 		OnPC = true
+		Slot1    = 0x2A20C58 - 0x56450E
     end
 end
 

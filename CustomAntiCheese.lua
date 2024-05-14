@@ -7,7 +7,9 @@ local noDoubleneg = true
 local noPan = true
 local usingGenie = true
 local lastGenieForm = 0
-local ignoreGenie = 2
+local realForm = 0
+local ignoreGenie = 1
+local hasLoaded = false
 
 --Set Initial Values for OnPC
 function _OnInit()
@@ -235,25 +237,24 @@ function _OnFrame()
 	end
 
 	--------Genie Hori "Nerf"
-	--When genie is summoned for the first time, record initial form and run once
+	--Record every Genie Form Change here
+	if ReadByte(Save+0x3525) == 2 and lastGenieForm ~= 0 and ReadByte(Save+0x3527) ~= 0 then
+		realForm = ReadByte(Save+0x3527)
+		--ConsolePrint(realForm)
+	end
+	--if genie is summoned for the first time, record initial form
 	if ReadByte(Save+0x3525) == 2 and not usingGenie then
 		usingGenie = true
+		realForm = ReadByte(Save+0x3527)
 		lastGenieForm = ReadByte(Save+0x3527)
-		ConsolePrint("Summoned Genie!")
+		--ConsolePrint("Summoned Genie!")
 	end
-	--If genie is out and the form changes,
-	--Remove 1 full drive meter
+	--if genie is out and the form changed, do something
 	if ReadByte(Save+0x3527) ~= lastGenieForm and ReadByte(Save+0x3525) == 2 then
 		lastGenieForm = ReadByte(Save+0x3527)
 		if ReadByte(Save+0x3527) ~= 0 then
-			--ignore first 2 genie swaps
-			--first genie swap is technically cause of the code
-			if ignoreGenie > 1 then
-				ignoreGenie = ignoreGenie - 1
-				return
-			--the second swap is the manual swap
-			--only in combat
-			elseif ignoreGenie > 0 and ReadByte(BtlTyp) ~= 0 then
+			--ignore first swap
+			if ignoreGenie > 0 and ReadByte(BtlTyp) ~= 0 then
 				ignoreGenie = ignoreGenie - 1
 				return
 			end
@@ -264,16 +265,23 @@ function _OnFrame()
 			--ConsolePrint("Changed forms!")
 		end
 	end
-	--Always rewrite to the address of the current form 0
-	--The form still behaves as normal since the game overwrites this every frame
+
 	if ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) ~= 0x00 then
-		WriteByte(Save+0x3527,0)
-	--When in a load and Genie is out, give back the freebies
-	elseif ReadByte(Save+0x3525) == 2 and usingGenie then
-		ignoreGenie = 2
+		if hasLoaded then
+			WriteByte(Save+0x3527,0)
+		else
+			WriteByte(Save+0x3527,realForm)
+		end
+	elseif ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) == 0x00 then
+		WriteByte(Save+0x3527,realForm)
+		ignoreGenie = 1
+		hasLoaded = true
 	else
 		usingGenie = false
-		ignoreGenie = 2
+		ignoreGenie = 1
+		hasLoaded = false
+		realForm = 0
+		WriteByte(Save+0x3527,0)
 		--ConsolePrint("Dismissed Genie!")
 	end
 end

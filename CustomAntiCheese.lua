@@ -10,6 +10,7 @@ local lastGenieForm = 0
 local realForm = 0
 local ignoreGenie = 1
 local hasLoaded = false
+local lastDriveMeter = 0
 
 --Set Initial Values for OnPC
 function _OnInit()
@@ -238,7 +239,7 @@ function _OnFrame()
 
 	--------Genie Hori "Nerf"
 	--Record every Genie Form Change here
-	if ReadByte(Save+0x3525) == 2 and lastGenieForm ~= 0 and ReadByte(Save+0x3527) ~= 0 then
+	if ReadByte(Save+0x3525) == 2 and lastGenieForm == 0 and ReadByte(Save+0x3527) ~= 0 then
 		realForm = ReadByte(Save+0x3527)
 		--ConsolePrint(realForm)
 	end
@@ -247,10 +248,11 @@ function _OnFrame()
 		usingGenie = true
 		realForm = ReadByte(Save+0x3527)
 		lastGenieForm = ReadByte(Save+0x3527)
+		lastDriveMeter = ReadFloat(Slot1+0x1B4)
 		--ConsolePrint("Summoned Genie!")
 	end
 	--if genie is out and the form changed, do something
-	if ReadByte(Save+0x3527) ~= lastGenieForm and ReadByte(Save+0x3525) == 2 then
+	if ReadByte(Save+0x3525) == 2 and ReadByte(Save+0x3527) ~= lastGenieForm then
 		lastGenieForm = ReadByte(Save+0x3527)
 		if ReadByte(Save+0x3527) ~= 0 then
 			--ignore first swap
@@ -267,11 +269,7 @@ function _OnFrame()
 	end
 
 	if ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) ~= 0x00 then
-		if hasLoaded then
-			WriteByte(Save+0x3527,0)
-		else
-			WriteByte(Save+0x3527,realForm)
-		end
+		WriteByte(Save+0x3527,0)
 	elseif ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) == 0x00 then
 		WriteByte(Save+0x3527,realForm)
 		ignoreGenie = 1
@@ -283,5 +281,11 @@ function _OnFrame()
 		realForm = 0
 		WriteByte(Save+0x3527,0)
 		--ConsolePrint("Dismissed Genie!")
+	end
+	--if genie is out and the drive meter has not gone down
+	if ReadByte(Save+0x3525) == 2 and lastDriveMeter == ReadFloat(Slot1+0x1B4) then
+		--ConsolePrint(ReadFloat(Slot1+0x1B4))
+		lastDriveMeter = ReadFloat(Slot1+0x1B4)
+		WriteByte(Save+0x3527,realForm)
 	end
 end

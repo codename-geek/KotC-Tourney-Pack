@@ -1,6 +1,7 @@
 local CURRENT_LOCATION_ADDRESS = 0x0714DB8
 local Save = 0x09A7070 - 0x56450E
 local LUABACKEND_OFFSET = 0x56454E
+local canExecute = false
 
 local noBerserk = true
 local noDoubleneg = true
@@ -12,9 +13,9 @@ local ignoreGenie = 1
 local hasLoaded = false
 local lastDriveMeter = 0
 
---Set Initial Values for OnPC
+--Set Initial Values
 function _OnInit()
-	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
+	--[[if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 		if ENGINE_VERSION < 3.0 then
 			print('LuaEngine is Outdated. Things might not work properly.')
 			return
@@ -22,7 +23,8 @@ function _OnInit()
 		OnPC = false
 		Slot1    = 0x1C6C750 --Unit Slot 1
 		BtlTyp 	 = 0x1C61958
-	end
+	end]]
+	--Only support PC version for now
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
         if ENGINE_VERSION < 5.0 then
             ConsolePrint('LuaBackend is outdated', 2)
@@ -32,6 +34,8 @@ function _OnInit()
 		Slot1    = 0x2A20C58 - 0x56450E
 		BtlTyp   = 0x2A0EAC4 - 0x56450E
 		IsLoaded = 0x9B80D0 - 0x56454E
+
+		canExecute = true
     end
 end
 
@@ -50,14 +54,6 @@ function _OnFrame()
     local world = read(CURRENT_LOCATION_ADDRESS + 0x00)
     local room = read(CURRENT_LOCATION_ADDRESS + 0x01)
 	local battle = read(CURRENT_LOCATION_ADDRESS + 0x08)
-
-	--------Pan Check
-	--if Pan is in Inventory and the custom flag isn't set, set it
-	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3608) == 0 then
-		WriteByte(Save+0x3608,ReadByte(Save+0x3608)+1)
-		--ConsolePrint("Pan in inventory")
-	end
-
 	--------Superboss Room Check
 	----Simulated Twilight Town
 	--Data Roxas
@@ -81,7 +77,7 @@ function _OnFrame()
 	elseif world == 0x04 and room == 0x04 and battle == 0x72 then
 		noBerserk = true
         noDoubleneg = false
-		noPan = false
+		noPan = true
 	----Land of Dragons
 	--Data Xigbar
 	elseif world == 0x12 and room == 0x0A and battle == 0x64 then
@@ -89,6 +85,11 @@ function _OnFrame()
         noDoubleneg = false
 		noPan = false
 	----Beast's Castle
+	--Xaldin
+	elseif world == 0x05 and room == 0x0F and battle == 0x52 then
+		noBerserk = true
+        noDoubleneg = false
+		noPan = false
 	--Data Xaldin
 	elseif world == 0x05 and room == 0x0F and battle == 0x61 then
 		noBerserk = true
@@ -172,6 +173,31 @@ function _OnFrame()
         noDoubleneg = true
 		noPan = true
 	----The World That Never Was
+	--Roxas
+	elseif world == 0x12 and room == 0x15 and battle == 0x41 then
+		noBerserk = true
+        noDoubleneg = true
+		noPan = false
+	--Xigbar
+	elseif world == 0x12 and room == 0x0A and battle == 0x39 then
+		noBerserk = true
+        noDoubleneg = false
+		noPan = false
+	--Luxord
+	elseif world == 0x12 and room == 0x0E and battle == 0x3A then
+		noBerserk = true
+        noDoubleneg = false
+		noPan = false
+	--Saix
+	elseif world == 0x12 and room == 0x0F and battle == 0x38 then
+		noBerserk = true
+        noDoubleneg = true
+		noPan = true
+	--Xemnas 1
+	elseif world == 0x12 and room == 0x13 and battle == 0x3B then
+		noBerserk = false
+        noDoubleneg = false
+		noPan = false
 	--Data Xemnas 1
 	elseif world == 0x12 and room == 0x13 and battle == 0x61 then
 		noBerserk = false
@@ -188,8 +214,10 @@ function _OnFrame()
         noDoubleneg = false
 		noPan = false
     end
+	--------Rooms affected
 
-    --------Force unequip All Berserk and Both negative combos if 2 are equipped
+
+    --------Force unequip All Berserk and one negative combo
     local NegativeComboCount = 0
     for Slot = 0,68 do
         local Current = Save + 0x2544 + 2*Slot
@@ -200,7 +228,7 @@ function _OnFrame()
             if Initial > 0 then --Initially equipped
                 NegativeComboCount = NegativeComboCount + 1
             end
-            if NegativeComboCount > 1 then --Unequip all Negative Combo except one
+            if NegativeComboCount > 1 then --Unequip one Negative Combo
 				ConsolePrint("Removing One Negative Combo")
                 WriteShort(Current,Ability)
             end
@@ -208,38 +236,30 @@ function _OnFrame()
         elseif Ability == 0x018B and noBerserk and Initial > 0 then
             WriteShort(Current,Ability)
 			ConsolePrint("Removing Berserk Charge")
-		--Hori Slash w/ Genie Check
-		elseif Ability == 0x010F and noBerserk and false then
-			--if genie is ever summoned, remove hori
-			if ReadByte(Save+0x3525) == 2 then
-				WriteShort(Current,Ability)
-			else
-				--Restore hori immediately
-				if ReadByte(Save+0x35C8) == 1 then
-					WriteShort(Current,Ability+0x8000)
-				end
-
-				--track hori equipped state
-				if Initial > 0 then
-					WriteByte(Save+0x35C8,1) -- hori initially equipped
-				else
-					WriteByte(Save+0x35C8,0)
-				end
-			end
         end
     end
+	--------Force unequip All Berserk and one negative combo
 
-	--------Force Remove Pan from Summon Menu if noPan
+
+	--------Force Remove Pan
+	--if Pan is in Inventory and the custom flag isn't set, set it
+	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3608) == 0 then
+		WriteByte(Save+0x3608,ReadByte(Save+0x3608)+1)
+		--ConsolePrint("Pan in inventory")
+	end
+	--Remove Pan from Inventory if noPan
 	if noPan then
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player should have pan outside a boss
 	elseif ReadByte(Save+0x35C7) > 0 and not noPan then
 		BitOr(Save+0x36C4,0x020)
 	end
+	--------Force Remove Pan
+
 
 	--------Genie Hori "Nerf"
 	--Record every Genie Form Change here
-	if ReadByte(Save+0x3525) == 2 and lastGenieForm == 0 and ReadByte(Save+0x3527) ~= 0 then
+	if usingGenie and lastGenieForm == 0 and ReadByte(Save+0x3527) ~= 0 then
 		realForm = ReadByte(Save+0x3527)
 		--ConsolePrint(realForm)
 	end
@@ -252,7 +272,7 @@ function _OnFrame()
 		--ConsolePrint("Summoned Genie!")
 	end
 	--if genie is out and the form changed, do something
-	if ReadByte(Save+0x3525) == 2 and ReadByte(Save+0x3527) ~= lastGenieForm then
+	if usingGenie and ReadByte(Save+0x3527) ~= lastGenieForm then
 		lastGenieForm = ReadByte(Save+0x3527)
 		if ReadByte(Save+0x3527) ~= 0 then
 			--ignore first swap
@@ -267,25 +287,30 @@ function _OnFrame()
 			--ConsolePrint("Changed forms!")
 		end
 	end
-
-	if ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) ~= 0x00 then
+	--Overwrite the address the form is stored in (doesn't break game)
+	if usingGenie and ReadByte(IsLoaded) ~= 0x00 then
 		WriteByte(Save+0x3527,0)
-	elseif ReadByte(Save+0x3525) == 2 and usingGenie and ReadByte(IsLoaded) == 0x00 then
+	--Write current form during loads to keep it between loads + reset Free Swaps
+	elseif usingGenie and ReadByte(IsLoaded) == 0x00 then
 		WriteByte(Save+0x3527,realForm)
 		ignoreGenie = 1
 		hasLoaded = true
+	--When genie is not out, reset all values
 	else
-		usingGenie = false
-		ignoreGenie = 1
-		hasLoaded = false
-		realForm = 0
-		WriteByte(Save+0x3527,0)
-		--ConsolePrint("Dismissed Genie!")
+		if usingGenie then
+			usingGenie = false
+			ignoreGenie = 1
+			hasLoaded = false
+			realForm = 0
+			WriteByte(Save+0x3527,0)
+			--ConsolePrint("Dismissed Genie!")
+		end
 	end
-	--if genie is out and the drive meter has not gone down
+	--if genie is out and the drive meter has not gone down, you know genie is loading
 	if ReadByte(Save+0x3525) == 2 and lastDriveMeter == ReadFloat(Slot1+0x1B4) then
 		--ConsolePrint(ReadFloat(Slot1+0x1B4))
 		lastDriveMeter = ReadFloat(Slot1+0x1B4)
 		WriteByte(Save+0x3527,realForm)
 	end
+	--------Genie Hori "Nerf"
 end

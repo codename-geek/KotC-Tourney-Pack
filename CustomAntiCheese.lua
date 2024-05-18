@@ -243,8 +243,8 @@ function _OnFrame()
 
 	--------Force Remove Pan
 	--if Pan is in Inventory and the custom flag isn't set, set it
-	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3608) == 0 then
-		WriteByte(Save+0x3608,ReadByte(Save+0x3608)+1)
+	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3609) == 0 then
+		WriteByte(Save+0x3609,ReadByte(Save+0x3609)+1)
 		--ConsolePrint("Pan in inventory")
 	end
 	--Remove Pan from Inventory if noPan

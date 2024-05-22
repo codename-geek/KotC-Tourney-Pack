@@ -418,7 +418,7 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x0001 and ReadShort(CutLen+0x00) == 0x0A8C then
 		WriteByte(CutSkp+0x00, 0x01) --Birth by Sleep
 	end
-    ]]--
+    ]]
     if ReadShort(Now+0x00) == 0x1312 and ReadShort(CutLen+0x00) == 0x00FA then
 		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Xemnas Cutscene
 	end
@@ -769,7 +769,9 @@ function _OnFrame()
 		WriteByte(CutSkp+0x00, 0x01) --Pre-Ballroom Nobodies Cutscene 2
 	end
     if ReadShort(Now+0x00) == 0x0405 and ReadShort(CutLen+0x00) == 0x038E then
-		WriteByte(CutSkp+0x00, 0x01) --Post Ballroom Nobodies Cutscene
+        if ReadShort(CutNow+0x00) == 0x0002 then
+            WriteByte(CutSkp+0x00, 0x01) --Post Ballroom Nobodies Cutscene
+        end
 	end
     if ReadShort(Now+0x00) == 0x0305 and ReadShort(CutLen+0x00) == 0x0F0F then
 		WriteByte(CutSkp+0x00, 0x01) --Before Rumbling Rose Cutscene
@@ -1161,16 +1163,20 @@ function _OnFrame()
         WriteByte(Now+0x08, 0x02)
         WriteInt(Save+0x0C, 0x00181A04)
     end
-    if ReadShort(Now+0x00) == 0x2004 and ReadShort(CutLen+0x00) == 0x0262 then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-AS Vexen Cutscene
+    if ReadShort(Now+0x00) == 0x2004 and ReadByte(Now+0x08) == 0x78 then --Pre-AS Vexen Cutscene
+        WriteByte(Now+0x04, 0x73)
+        WriteByte(Now+0x06, 0x73)
+        WriteByte(Now+0x08, 0x73)
 	end
     if ReadShort(Now+0x00) == 0x2004 and ReadShort(CutLen+0x00) == 0x0140 then
         if ReadShort(CutNow+0x00) == 0x0002 then
             WriteByte(CutSkp+0x00, 0x01) --Post AS Vexen Cutscene
         end
 	end
-    if ReadShort(Now+0x00) == 0x2004 and ReadShort(CutLen+0x00) == 0x00FA then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Vexen Cutscene
+    if ReadShort(Now+0x00) == 0x2004 and ReadByte(Now+0x08) == 0x82 then --Pre-Data Vexen Cutscene
+        WriteByte(Now+0x04, 0x92)
+        WriteByte(Now+0x06, 0x92)
+        WriteByte(Now+0x08, 0x92)
 	end
     if ReadShort(Now+0x00) == 0x2004 and ReadShort(CutLen+0x00) == 0x00DC then
         if ReadShort(CutNow+0x00) == 0x0002 then
@@ -1383,6 +1389,11 @@ function _OnFrame()
         WriteByte(AgrabahFlags+0x22, 0x00)
         BitOr(Save+0x1D77, 0x04)
 	end
+    if ReadShort(Now+0x00) == 0x0507 and ReadByte(Now+0x08) == 0x00 then --Boss/Enemy
+        WriteByte(Now+0x04, 0x3E)
+        WriteByte(Now+0x06, 0x3E)
+        WriteByte(Now+0x08, 0x3E)
+    end
     if ReadShort(Now+0x00) == 0x0507 and ReadShort(CutLen+0x00) == 0x094E then
 		WriteByte(CutSkp+0x00, 0x01) --Post Genie Jafar Cutscene
         WriteByte(AgrabahFlags+0x00, 0x04)
@@ -1420,20 +1431,24 @@ function _OnFrame()
             WriteInt(Save+0x0C, 0x00191A04)
         end
     end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x021D then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-AS Lexaeus Cutscene
+    if ReadShort(Now+0x00) == 0x2104 and ReadByte(Now+0x08) == 0x7A then --Pre-AS Lexaeus Cutscene
+        WriteByte(Now+0x04, 0x8E)
+        WriteByte(Now+0x06, 0x8E)
+        WriteByte(Now+0x08, 0x8E)
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x0139 then
+    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x0139 then --Post AS Lexaeus Cutscene
         if ReadShort(CutNow+0x00) == 0x0002 then
-            WriteByte(CutSkp+0x00, 0x01) --Post AS Lexaeus Cutscene
+            WriteByte(CutSkp+0x00, 0x01)
         end
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x00FA then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Lexaeus & Data Larxene Cutscenes
+    if ReadShort(Now+0x00) == 0x2104 and ReadByte(Now+0x08) == 0x84 then --Pre-Data Lexaeus Cutscene
+        WriteByte(Now+0x04, 0x93)
+        WriteByte(Now+0x06, 0x93)
+        WriteByte(Now+0x08, 0x93)
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x00DC then
+    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x00DC then --Post Data Lexaeus Cutscene
         if ReadShort(CutNow+0x00) == 0x0002 then
-            WriteByte(CutSkp+0x00, 0x01) --Post Data Lexaeus & Data Larxene Cutscene
+            WriteByte(CutSkp+0x00, 0x01)
         end
 	end
     if ReadShort(Now+0x00) == 0x0006 and ReadByte(Now+0x08) == 0x01 then --Olympus Coliseum 1 1st Cutscene
@@ -1783,20 +1798,24 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x0D06 and ReadShort(CutLen+0x00) == 0x028B then
 		WriteByte(CutSkp+0x00, 0x01) --Won The Hades Paradox Cup Cutscene
 	end
-    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x0315 then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-AS Zexion Cutscene
+    if ReadShort(Now+0x00) == 0x2204 and ReadByte(Now+0x08) == 0x7C then --Pre-AS Zexion Cutscene
+        WriteByte(Now+0x04, 0x97)
+        WriteByte(Now+0x06, 0x97)
+        WriteByte(Now+0x08, 0x97)
 	end
-    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x0140 then
+    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x0140 then --Post AS Zexion Cutscene
         if ReadShort(CutNow+0x00) == 0x0002 then
-            WriteByte(CutSkp+0x00, 0x01) --Post AS Zexion Cutscene
+            WriteByte(CutSkp+0x00, 0x01)
         end
 	end
-    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x00FA then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Zexion Cutscene
+    if ReadShort(Now+0x00) == 0x2204 and ReadByte(Now+0x08) == 0x86 then --Pre-Data Zexion Cutscene
+        WriteByte(Now+0x04, 0x98)
+        WriteByte(Now+0x06, 0x98)
+        WriteByte(Now+0x08, 0x98)
 	end
-    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x00DC then
+    if ReadShort(Now+0x00) == 0x2204 and ReadShort(CutLen+0x00) == 0x00DC then --Post Data Zexion Cutscene
         if ReadShort(CutNow+0x00) == 0x0002 then
-            WriteByte(CutSkp+0x00, 0x01) --Post Data Zexion Cutscene
+            WriteByte(CutSkp+0x00, 0x01)
         end
 	end
     if ReadShort(Now+0x00) == 0x100A and ReadByte(Now+0x08) == 0x01 then --Pride Lands 1 1st Cutscene
@@ -2207,10 +2226,29 @@ function _OnFrame()
         WriteByte(Save+0x260A,ReadByte(Save+0x260B))
         WriteByte(Save+0x271C,ReadByte(Save+0x271D))
         WriteByte(Save+0x271E,ReadByte(Save+0x271F))
-        if ReadByte(VisitUnlocks+0xB4) == 0x00 then
+        if ReadByte(VisitUnlocks+0xB4) == 0x00 and ReadByte(Save+0x3607) == 0x00 then --Normal
             BitOr(Save+0x1CE5, 0x30)
             WriteByte(Save+0x1D0D, 0x06)
         elseif ReadByte(VisitUnlocks+0xB4) > 0x00 then
+            WriteByte(TTFlags+0x10, 0x00)
+            WriteByte(TTFlags+0x26, 0x10)
+            WriteByte(TTFlags+0x2C, 0x01)
+            WriteByte(TTFlags+0x34, 0x00)
+            WriteInt(TTFlags+0x38, 0x00000010)
+            WriteInt(TTFlags+0x3C, 0x00160016)
+            WriteByte(TTFlags+0x44, 0x10)
+            WriteByte(TTFlags+0x4A, 0x10)
+            WriteByte(TTFlags+0x50, 0x10)
+            WriteByte(TTFlags+0x56, 0x10)
+            WriteByte(TTFlags+0x5C, 0x10)
+            WriteByte(TTFlags+0x62, 0x00)
+            BitOr(Save+0x1CE5, 0xB0)
+            WriteByte(Save+0x1D0D, 0x07)
+        end
+        if ReadByte(VisitUnlocks+0xB3) == 0x01 and ReadByte(Save+0x3607) > 0x00 then --Archipelago
+            BitOr(Save+0x1CE5, 0x30)
+            WriteByte(Save+0x1D0D, 0x06)
+        elseif ReadByte(VisitUnlocks+0xB3) > 0x01 then
             WriteByte(TTFlags+0x10, 0x00)
             WriteByte(TTFlags+0x26, 0x10)
             WriteByte(TTFlags+0x2C, 0x01)
@@ -2288,11 +2326,19 @@ function _OnFrame()
         WriteShort(Save+0x20F4, 0x0000)
         WriteInt(Save+0x2120, 0x9F619F4E)
     end
-    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 then
-		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene
+    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 and ReadByte(Save+0x3607) == 0x00 then
+		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene (Normal)
         if ReadByte(VisitUnlocks+0xB3) == 0x00 then
             WriteByte(Save+0x1D0D, 0x0A)
         elseif ReadByte(VisitUnlocks+0xB3) > 0x00 then
+            WriteByte(Save+0x1D0D, 0x0B)
+        end
+	end
+    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 and ReadByte(Save+0x3607) > 0x00 then
+		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene (Archipelago)
+        if ReadByte(VisitUnlocks+0xB3) == 0x02 then
+            WriteByte(Save+0x1D0D, 0x0A)
+        elseif ReadByte(VisitUnlocks+0xB3) > 0x02 then
             WriteByte(Save+0x1D0D, 0x0B)
         end
 	end
@@ -2499,11 +2545,23 @@ function _OnFrame()
             WriteByte(Save+0x0D, 0x08)
         end
     end
-    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA then
-		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene
+    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA and ReadByte(Save+0x3607) == 0x00 then
+		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene (Normal)
         if ReadByte(VisitUnlocks+0xAD) == 0x00 then
             WriteByte(Save+0x1D2F, 0x02)
         elseif ReadByte(VisitUnlocks+0xAD) > 0x00 then
+            WriteByte(Save+0x1D2F, 0x03)
+            WriteByte(HBFlags+0x3C, 0x02)
+            WriteByte(HBFlags+0x40, 0x02)
+            BitOr(Save+0x1D11, 0x02)
+            BitOr(Save+0x1D1E, 0x10)
+        end
+	end
+    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA and ReadByte(Save+0x3607) > 0x00 then
+		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene (Archipelago)
+        if ReadByte(VisitUnlocks+0xAD) == 0x01 then
+            WriteByte(Save+0x1D2F, 0x02)
+        elseif ReadByte(VisitUnlocks+0xAD) > 0x01 then
             WriteByte(Save+0x1D2F, 0x03)
             WriteByte(HBFlags+0x3C, 0x02)
             WriteByte(HBFlags+0x40, 0x02)
@@ -3191,6 +3249,7 @@ function _OnFrame()
 	end
     if ReadShort(Now+0x00) == 0x000C and ReadShort(CutLen+0x00) == 0x07C5 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Audience Chamber Minnie Escort Cutscene 1
+        WriteByte(HBFlags+0x62,ReadByte(HBFlags+0x52))
 	end
     if ReadShort(Now+0x00) == 0x040C and ReadShort(CutLen+0x00) == 0x0EC2 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Audience Chamber Minnie Escort Cutscene 2
@@ -3201,7 +3260,11 @@ function _OnFrame()
         BitOr(Save+0x1E11, 0x10)
         BitOr(Save+0x1E12, 0x02)
         WriteByte(Save+0x1E1F, 0x03)
+        WriteByte(HBFlags+0x52,ReadByte(HBFlags+0x62))
 	end
+    if ReadInt(Now+0x00) == 0x0033040C and ReadByte(HBFlags+0x62) > 0 then --Clear Copied Flag for Merlin's House
+        WriteByte(HBFlags+0x62, 0x00)
+    end
     if ReadShort(Now+0x00) == 0x040C and ReadByte(DarkCornerstoneEvent+0x04) == 0x0D then --Normal
         WriteByte(DarkCornerstoneEvent+0x0002, 0x0C)
         WriteByte(DarkCornerstoneEvent+0x0004, 0x04)
@@ -3496,16 +3559,20 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x050C and ReadShort(CutLen+0x00) == 0x15C2 then
 		WriteByte(CutSkp+0x00, 0x01) --End of Disney Castle Cutscene
 	end
-    if ReadShort(Now+0x00) == 0x2604 and ReadShort(CutLen+0x00) == 0x034F then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-AS Marluxia Cutscene
+    if ReadShort(Now+0x00) == 0x2604 and ReadByte(Now+0x08) == 0x7E then --Pre-AS Marluxia Cutscene
+        WriteByte(Now+0x04, 0x91)
+        WriteByte(Now+0x06, 0x91)
+        WriteByte(Now+0x08, 0x91)
 	end
     if ReadShort(Now+0x00) == 0x2604 and ReadShort(CutLen+0x00) == 0x0125 then
         if ReadShort(CutNow+0x00) == 0x0002 then
             WriteByte(CutSkp+0x00, 0x01) --Post AS Marluxia Cutscene
         end
 	end
-    if ReadShort(Now+0x00) == 0x2604 and ReadShort(CutLen+0x00) == 0x00FA then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Marluxia Cutscene
+    if ReadShort(Now+0x00) == 0x2604 and ReadByte(Now+0x08) == 0x88 then --Pre-Data Marluxia Cutscene
+        WriteByte(Now+0x04, 0x96)
+        WriteByte(Now+0x06, 0x96)
+        WriteByte(Now+0x08, 0x96)
 	end
     if ReadShort(Now+0x00) == 0x2604 and ReadShort(CutLen+0x00) == 0x00DC then
         if ReadShort(CutNow+0x00) == 0x0002 then
@@ -3694,16 +3761,23 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x0911 and ReadShort(CutLen+0x00) == 0x01175 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Sark & MCP Cutscene
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x026E then
-		WriteByte(CutSkp+0x00, 0x01) --Pre-AS Larxene Cutscene
+    if ReadShort(Now+0x00) == 0x2104 and ReadByte(Now+0x08) == 0x80 then --Pre-AS Larxene Cutscene
+        WriteByte(Now+0x04, 0x8F)
+        WriteByte(Now+0x06, 0x8F)
+        WriteByte(Now+0x08, 0x8F)
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x0104 then
+    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x0104 then --Post AS Larxene Cutscene
         if ReadShort(CutNow+0x00) == 0x0002 then
-            WriteByte(CutSkp+0x00, 0x01) --Post AS Larxene Cutscene
+            WriteByte(CutSkp+0x00, 0x01)
         end
 	end
-    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x00DB then
-		WriteByte(CutSkp+0x00, 0x01) --Post Data Lexaeus Cutscene
+    if ReadShort(Now+0x00) == 0x2104 and ReadByte(Now+0x08) == 0x8A then --Pre-Data Data Larxene Cutscene
+        WriteByte(Now+0x04, 0x94)
+        WriteByte(Now+0x06, 0x94)
+        WriteByte(Now+0x08, 0x94)
+	end
+    if ReadShort(Now+0x00) == 0x2104 and ReadShort(CutLen+0x00) == 0x00DB then --Post Data Larxene Cutscene
+		WriteByte(CutSkp+0x00, 0x01)
 	end
     if ReadShort(Now+0x00) == 0x0102 and ReadByte(Now+0x08) == 0x34 then --Simulated Twilight Town 1st Cutscene
         WriteInt(Now+0x00, 0x00000702)

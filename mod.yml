@@ -1,5 +1,5 @@
-title: King of the Crown Tourney Mod Pack v1.8
-description: Num's PS2 Duck Flare | Sonic's Cutscene Skipper | Geek's Custom AntiCheese - Lua to unequip Berserk Charge, Double-Negative Combo, and remove Peter Pan in certain fights
+title: King of the Crown Tourney Mod Pack v1.9
+description: 0123456789num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | Geek's Custom AntiCheese - Lua to unequip Berserk Charge, Double-Negative Combo, remove Peter Pan in certain fights, nerf Genie Drive Change
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua

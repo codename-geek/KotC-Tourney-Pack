@@ -296,8 +296,7 @@ function _OnFrame()
 		ignoreGenie = 1
 		hasLoaded = true
 	--When genie is not out, reset all values
-	else
-		if usingGenie then
+	elseif usingGenie then
 			usingGenie = false
 			ignoreGenie = 1
 			hasLoaded = false

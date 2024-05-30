@@ -297,13 +297,12 @@ function _OnFrame()
 		hasLoaded = true
 	--When genie is not out, reset all values
 	elseif usingGenie then
-			usingGenie = false
-			ignoreGenie = 1
-			hasLoaded = false
-			realForm = 0
-			WriteByte(Save+0x3527,0)
-			--ConsolePrint("Dismissed Genie!")
-		end
+		usingGenie = false
+		ignoreGenie = 1
+		hasLoaded = false
+		realForm = 0
+		WriteByte(Save+0x3527,0)
+		--ConsolePrint("Dismissed Genie!")
 	end
 	--if genie is out and the drive meter has not gone down, you know genie is loading
 	if ReadByte(Save+0x3525) == 2 and lastDriveMeter == ReadFloat(Slot1+0x1B4) then

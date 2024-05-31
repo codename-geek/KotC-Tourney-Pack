@@ -251,7 +251,7 @@ function _OnFrame()
 	if noPan then
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player should have pan outside a boss
-	elseif ReadByte(Save+0x35C7) > 0 and not noPan then
+	elseif ReadByte(Save+0x36C4)&0x20 == 0x20 and not noPan then
 		BitOr(Save+0x36C4,0x020)
 	end
 	--------Force Remove Pan

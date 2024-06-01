@@ -258,6 +258,10 @@ function _OnFrame()
 
 
 	--------Genie Hori "Nerf"
+	--Master Ignore Case cause of bugs
+	if ReadByte(Save+0x3525) ~= 2 then
+		return
+	end
 	--Record every Genie Form Change here
 	if usingGenie and lastGenieForm == 0 and ReadByte(Save+0x3527) ~= 0 then
 		realForm = ReadByte(Save+0x3527)

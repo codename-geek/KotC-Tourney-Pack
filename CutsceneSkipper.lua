@@ -126,6 +126,7 @@ WriteByte(Address,ReadByte(Address)&~Bit,Abs and OnPC)
 end
 
 function _OnFrame()
+    return
 	if ReadShort(Now+0x00) == 0x1A04 and ReadShort(CutLen+0x00) == 0x021C then
 		WriteByte(CutSkp+0x00, 0x01) --Garden of Assemblage Intro Cutscene
         WriteByte(Save+0x1D2D, 0x00) --Resets HB BGM Back to Normal in Case

@@ -32,7 +32,7 @@ BrinkOfDespairEvent = 0x29EC548 - 0x56454E
 NothingCallEvent = 0x29EEC68 - 0x56454E
 XigbarFightEvent = 0x29DF278 - 0x56454E
 SaixFightEvent = 0x29E691C - 0x56454E
-XemnasFightEvent = 0x29E25AC - 0x56454E
+XemnasFightEvent = 0x29E25CC - 0x56454E
 ArmorXemnasFightEvent1 = 0x29F074C - 0x56454E
 ArmorXemnasFightEvent2 = 0x29EF5AC - 0x56454E
 FinalXemnasFightEvent = 0x29ED58C - 0x56454E
@@ -89,7 +89,6 @@ InterceptorEvent = 0x29E7A04 - 0x56454E
 BlackPearlEvent = 0x29CD8E4 - 0x56454E
 GamblerFightEvent = 0x29EC3F0 - 0x56454E
 PostGrimReaperEvent = 0x29D7718 - 0x56454E
-DarkCornerstoneEvent = 0x29E5AC0 - 0x56454E
 PierEvent = 0x29EBCF0 - 0x56454E
 BuildingSiteEvent = 0x29EA390 - 0x56454E
 LilliputEvent = 0x29EBA88 - 0x56454E
@@ -126,7 +125,6 @@ WriteByte(Address,ReadByte(Address)&~Bit,Abs and OnPC)
 end
 
 function _OnFrame()
-    return
 	if ReadShort(Now+0x00) == 0x1A04 and ReadShort(CutLen+0x00) == 0x021C then
 		WriteByte(CutSkp+0x00, 0x01) --Garden of Assemblage Intro Cutscene
         WriteByte(Save+0x1D2D, 0x00) --Resets HB BGM Back to Normal in Case
@@ -139,7 +137,7 @@ function _OnFrame()
         WriteShort(GoAFadeOut+0x20, 0x0001)
     end
     if ReadShort(Now+0x00) == 0x0112 and ReadShort(CutLen+0x00) == 0x0591 then
-        if ReadShort(CutNow+0x00) == 0x0002 then
+        if ReadShort(CutNow+0x00) >= 0x0002 then
             WriteByte(CutSkp+0x00, 0x01) --The World That Never Was
         end
 	end
@@ -288,7 +286,12 @@ function _OnFrame()
         WriteByte(Now+0x06, 0x7A)
         WriteByte(Now+0x08, 0x7A)
     end
-    if ReadByte(TWTNWFlags+0x64) == 0x003 then --Pre-Riku Joins Party Cutscene
+    if ReadByte(TWTNWFlags+0x4E) == 0x04 and ReadByte(TWTNWFlags+0x52) == 0x14 then --Path to Xemnas
+        if ReadByte(VisitUnlocks+0x2B) >= 0x02 then
+            WriteByte(TWTNWFlags+0x4E, 0x00)
+        end
+    end
+    if ReadByte(TWTNWFlags+0x64) == 0x03 then --Pre-Riku Joins Party Cutscene
         WriteByte(TWTNWFlags+0x60, 0x02)
         WriteByte(TWTNWFlags+0x64, 0x05)
 	end
@@ -2227,29 +2230,10 @@ function _OnFrame()
         WriteByte(Save+0x260A,ReadByte(Save+0x260B))
         WriteByte(Save+0x271C,ReadByte(Save+0x271D))
         WriteByte(Save+0x271E,ReadByte(Save+0x271F))
-        if ReadByte(VisitUnlocks+0xB4) == 0x00 and ReadByte(Save+0x3607) == 0x00 then --Normal
+        if ReadByte(VisitUnlocks+0xB3) == 0x01 and ReadByte(Save+0x3607) == 0x00 then --Normal
             BitOr(Save+0x1CE5, 0x30)
             WriteByte(Save+0x1D0D, 0x06)
-        elseif ReadByte(VisitUnlocks+0xB4) > 0x00 then
-            WriteByte(TTFlags+0x10, 0x00)
-            WriteByte(TTFlags+0x26, 0x10)
-            WriteByte(TTFlags+0x2C, 0x01)
-            WriteByte(TTFlags+0x34, 0x00)
-            WriteInt(TTFlags+0x38, 0x00000010)
-            WriteInt(TTFlags+0x3C, 0x00160016)
-            WriteByte(TTFlags+0x44, 0x10)
-            WriteByte(TTFlags+0x4A, 0x10)
-            WriteByte(TTFlags+0x50, 0x10)
-            WriteByte(TTFlags+0x56, 0x10)
-            WriteByte(TTFlags+0x5C, 0x10)
-            WriteByte(TTFlags+0x62, 0x00)
-            BitOr(Save+0x1CE5, 0xB0)
-            WriteByte(Save+0x1D0D, 0x07)
-        end
-        if ReadByte(VisitUnlocks+0xB3) == 0x01 and ReadByte(Save+0x3607) > 0x00 then --Archipelago
-            BitOr(Save+0x1CE5, 0x30)
-            WriteByte(Save+0x1D0D, 0x06)
-        elseif ReadByte(VisitUnlocks+0xB3) > 0x01 then
+        elseif ReadByte(VisitUnlocks+0xB3) >= 0x02 then
             WriteByte(TTFlags+0x10, 0x00)
             WriteByte(TTFlags+0x26, 0x10)
             WriteByte(TTFlags+0x2C, 0x01)
@@ -2329,15 +2313,7 @@ function _OnFrame()
     end
     if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 and ReadByte(Save+0x3607) == 0x00 then
 		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene (Normal)
-        if ReadByte(VisitUnlocks+0xB3) == 0x00 then
-            WriteByte(Save+0x1D0D, 0x0A)
-        elseif ReadByte(VisitUnlocks+0xB3) > 0x00 then
-            WriteByte(Save+0x1D0D, 0x0B)
-        end
-	end
-    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 and ReadByte(Save+0x3607) > 0x00 then
-		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene (Archipelago)
-        if ReadByte(VisitUnlocks+0xB3) == 0x02 then
+        if ReadByte(VisitUnlocks+0xB3) <= 0x02 then
             WriteByte(Save+0x1D0D, 0x0A)
         elseif ReadByte(VisitUnlocks+0xB3) > 0x02 then
             WriteByte(Save+0x1D0D, 0x0B)
@@ -2548,21 +2524,9 @@ function _OnFrame()
     end
     if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA and ReadByte(Save+0x3607) == 0x00 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene (Normal)
-        if ReadByte(VisitUnlocks+0xAD) == 0x00 then
-            WriteByte(Save+0x1D2F, 0x02)
-        elseif ReadByte(VisitUnlocks+0xAD) > 0x00 then
-            WriteByte(Save+0x1D2F, 0x03)
-            WriteByte(HBFlags+0x3C, 0x02)
-            WriteByte(HBFlags+0x40, 0x02)
-            BitOr(Save+0x1D11, 0x02)
-            BitOr(Save+0x1D1E, 0x10)
-        end
-	end
-    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA and ReadByte(Save+0x3607) > 0x00 then
-		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene (Archipelago)
         if ReadByte(VisitUnlocks+0xAD) == 0x01 then
             WriteByte(Save+0x1D2F, 0x02)
-        elseif ReadByte(VisitUnlocks+0xAD) > 0x01 then
+        elseif ReadByte(VisitUnlocks+0xAD) >= 0x02 then
             WriteByte(Save+0x1D2F, 0x03)
             WriteByte(HBFlags+0x3C, 0x02)
             WriteByte(HBFlags+0x40, 0x02)
@@ -3243,7 +3207,7 @@ function _OnFrame()
 		WriteByte(CutSkp+0x00, 0x01) --Meeting Queen Minnie Cutscene
 	end
     if ReadShort(Now+0x00) == 0x020C and ReadShort(CutLen+0x00) == 0x0350 then
-		WriteByte(CutSkp+0x00, 0x01) --Post Colonnade Minnie Escort Cutscene
+        WriteByte(CutSkp+0x00, 0x01) --Post Colonnade Minnie Escort Cutscene
 	end
     if ReadShort(Now+0x00) == 0x000C and ReadShort(CutLen+0x00) == 0x0155 then
 		WriteByte(CutSkp+0x00, 0x01) --Pre-Audience Chamber Minnie Escort Cutscene
@@ -3253,7 +3217,18 @@ function _OnFrame()
         WriteByte(HBFlags+0x62,ReadByte(HBFlags+0x52))
 	end
     if ReadShort(Now+0x00) == 0x040C and ReadShort(CutLen+0x00) == 0x0EC2 then
-		WriteByte(CutSkp+0x00, 0x01) --Post Audience Chamber Minnie Escort Cutscene 2
+        WriteByte(CutSkp+0x00, 0x01) --Post Audience Chamber Minnie Escort Cutscene 2
+        if ReadByte(VisitUnlocks+0xC7) == 0x01 then
+            WriteByte(DCFlags+0x18, 0x01)
+            WriteByte(DCFlags+0x1C, 0x16)
+            WriteByte(DCFlags+0x28, 0x14)
+        end
+	end
+    if ReadInt(Now+0x00) == 0x0032040C and ReadByte(Now+0x08) == 0x04 then --Before Start of TR in DC
+        WriteByte(Now+0x02, 0x33)
+        WriteByte(Now+0x04, 0x0002)
+        WriteByte(Now+0x08, 0x0003)
+        WriteInt(Save+0x0E, 0x33)
         WriteByte(DCFlags+0x18, 0x02)
         WriteByte(DCFlags+0x1C, 0x03)
         WriteByte(DCFlags+0x28, 0x13)
@@ -3262,22 +3237,26 @@ function _OnFrame()
         BitOr(Save+0x1E12, 0x02)
         WriteByte(Save+0x1E1F, 0x03)
         WriteByte(HBFlags+0x52,ReadByte(HBFlags+0x62))
-	end
+    end
+    if ReadShort(Now+0x00) == 0x1A04 and ReadByte(DCFlags+0x1C) == 0x04 then --Before Start of TR in GoA
+        if ReadByte(VisitUnlocks+0xC7) >= 0x02 then
+            WriteByte(DCFlags+0x18, 0x02)
+            WriteByte(DCFlags+0x1C, 0x03)
+            WriteByte(DCFlags+0x28, 0x13)
+            WriteByte(DCFlags+0x2A, 0x01)
+            BitOr(Save+0x1D26, 0x01)
+            BitOr(Save+0x1E11, 0x10)
+            BitOr(Save+0x1E12, 0x02)
+            WriteByte(Save+0x1E1F, 0x03)
+            WriteByte(HBFlags+0x52,ReadByte(HBFlags+0x62))
+        end
+    end
+    if ReadInt(Now+0x00) == 0x0063040C and ReadByte(DCFlags+0x2A) == 0x01 then --Correct Spawn from GoA
+        WriteByte(Now+0x02, 0x33)
+        WriteByte(DCFlags+0x2A, 0x00)
+    end
     if ReadInt(Now+0x00) == 0x0033040C and ReadByte(HBFlags+0x62) > 0 then --Clear Copied Flag for Merlin's House
         WriteByte(HBFlags+0x62, 0x00)
-    end
-    if ReadShort(Now+0x00) == 0x040C and ReadByte(DarkCornerstoneEvent+0x04) == 0x0D then --Normal
-        WriteByte(DarkCornerstoneEvent+0x0002, 0x0C)
-        WriteByte(DarkCornerstoneEvent+0x0004, 0x04)
-        WriteByte(DarkCornerstoneEvent+0x0006, 0x33)
-        WriteByte(DarkCornerstoneEvent+0x008A, 0x32)
-    end
-    if ReadShort(Now+0x00) == 0x0D04 and ReadByte(Now+0x38) == 0x33 then --Boss/Enemy
-        if ReadShort(Now+0x30) == 0x000C then
-            WriteInt(Now+0x00, 0x0033040C)
-            WriteByte(Now+0x04, 0x02)
-            WriteInt(Save+0x0C, 0x0033040C)
-        end
     end
     if ReadShort(Now+0x00) == 0x040C and ReadShort(CutLen+0x00) == 0x0187 then
 		WriteByte(CutSkp+0x00, 0x01) --Entering Timeless River Cutscene

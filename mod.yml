@@ -1,5 +1,5 @@
-title: King of the Crown Tourney Mod Pack v1.9
-description: 0123456789num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | Geek's Custom AntiCheese - Lua to unequip Berserk Charge, Double-Negative Combo, remove Peter Pan in certain fights, nerf Genie Drive Change
+title: King of the Crown Tourney Mod Pack v1.11
+description: 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | GoA Door Unlocker for Objective Rando | Geek's Custom AntiCheese - Lua to unequip Berserk Charge, Double-Negative Combo, remove Peter Pan in certain fights, nerf Genie Drive Change
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua
@@ -14,6 +14,10 @@ assets:
   method: copy
   source:
   - name: AccurateGrowthText.lua
+- name: scripts/F266B00B GoA ROM - Door Unlocker.lua
+  method: copy
+  source:
+  - name: F266B00B GoA ROM - Door Unlocker.lua
 # PS2 Duck Flare
 - name: limit/us/donald2.bar
   method: copy

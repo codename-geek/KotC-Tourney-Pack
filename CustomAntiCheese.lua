@@ -249,16 +249,16 @@ function _OnFrame()
 	end
 	--Remove Pan from Inventory if noPan Cheese
 	if noPan then
-		BitNot(Save+0x36C4,0x020)
-		if ReadByte(Save+0x36C4)&0x20 == 0 then
+		if ReadByte(Save+0x36C4)&0x20 == 0x20 then
 			ConsolePrint("Removing Pan")
 		end
+		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player had Pan outside of the boss
 	elseif ReadByte(Save+0x3609) > 0 and not noPan then
-		BitOr(Save+0x36C4,0x020)
-		if ReadByte(Save+0x36C4)&0x20 == 0x20 then
+		if ReadByte(Save+0x36C4)&0x20 == 0 then
 			ConsolePrint("Adding Back Pan")
 		end
+		BitOr(Save+0x36C4,0x020)
 	end
 	--------Force Remove Pan
 

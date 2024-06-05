@@ -7,6 +7,7 @@ function _OnInit()
 			return
         end
 		Slot1    = 0x2A20C58 - 0x56450E
+		Save 	 = 0x09A7070 - 0x56450E
 		Pause 	 = 0xBEBD28 - 0x56454E
 
 		canExecute = true

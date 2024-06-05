@@ -1,5 +1,5 @@
-title: King of the Crown Tourney Mod Pack v1.11
-description: 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | GoA Door Unlocker for Objective Rando | Geek's Custom AntiCheese
+title: King of the Crown Tourney Mod Pack v1.12
+description: 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | GoA Door Unlocker for Objective Rando | Geek's Custom AntiCheese | Geek's Drive Adjustments
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua
@@ -18,6 +18,10 @@ assets:
   method: copy
   source:
   - name: F266B00B GoA ROM - Door Unlocker.lua
+- name: scripts/DrivesChanges.lua
+  method: copy
+  source:
+  - name: DrivesChanges.lua
 # PS2 Duck Flare
 - name: limit/us/donald2.bar
   method: copy

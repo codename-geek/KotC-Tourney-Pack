@@ -1,13 +1,5 @@
---ROM Version
---Last Update: Objective rando compatibility
---Todo: Maybe item-based progress flags
-
-LUAGUI_NAME = 'GoA ROM Randomizer Build'
-LUAGUI_AUTH = 'SonicShadowSilver2 (Ported by Num)'
-LUAGUI_DESC = 'A GoA build for use with the Randomizer. Requires ROM patching.'
-
 function _OnInit()
-print('GoA v1.54 - Codename_Geek GoA Edit')
+print('GoA v1.54 - Codename_Geek Final Fights Unlocker')
 GoAOffset = 0x7C
 if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 	if ENGINE_VERSION < 3.0 then
@@ -106,135 +98,81 @@ Menu2  = Menu1 + NextMenu
 --Menu3  = Menu2 + NextMenu
 end
 
-function Warp(W,R,D,M,B,E) --Warp into the appropriate World, Room, Door, Map, Btl, Evt
-M = M or ReadShort(Save + 0x10 + 0x180*W + 0x6*R)
-B = B or ReadShort(Save + 0x10 + 0x180*W + 0x6*R + 2)
-E = E or ReadShort(Save + 0x10 + 0x180*W + 0x6*R + 4)
-WriteByte(Now+0x00,W)
-WriteByte(Now+0x01,R)
-WriteShort(Now+0x02,D)
-WriteShort(Now+0x04,M)
-WriteShort(Now+0x06,B)
-WriteShort(Now+0x08,E)
---Record Location in Save File
-WriteByte(Save+0x000C,W)
-WriteByte(Save+0x000D,R)
-WriteShort(Save+0x000E,D)
-end
-
-function Events(M,B,E) --Check for Map, Btl, and Evt
-return ((Map == M or not M) and (Btl == B or not B) and (Evt == E or not E))
-end
-
 function BAR(File,Subfile,Offset) --Get address within a BAR file
-local Subpoint = File + 0x08 + 0x10*Subfile
-local Address
---Detect errors
-if ReadInt(File,OnPC) ~= 0x01524142 then --Header mismatch
-	return
-elseif Subfile > ReadInt(File+4,OnPC) then --Subfile over count
-	return
-elseif Offset >= ReadInt(Subpoint+4,OnPC) then --Offset exceed subfile length
-	return
-end
---Get address
-Address = File + (ReadInt(Subpoint,OnPC) - ReadInt(File+8,OnPC)) + Offset
-return Address
-end
-
-function BitOr(Address,Bit,Abs)
-WriteByte(Address, ReadByte(Address, Abs and OnPC)|Bit, Abs and OnPC)
-end
-
-function BitNot(Address,Bit,Abs)
-WriteByte(Address, ReadByte(Address, Abs and OnPC)&~Bit, Abs and OnPC)
-end
-
-function Faster(Toggle)
-if Toggle then
-	WriteFloat(GamSpd,2) --Faster Speed
-elseif ReadFloat(GamSpd) > 1 then
-	WriteFloat(GamSpd,1) --Normal Speed
-end
-end
-
-function RemoveTTBlocks() --Remove All TT & STT Blocks
-WriteShort(Save+0x207C,0) --Sunset Station
-WriteShort(Save+0x2080,0) --Central Station
-WriteShort(Save+0x20E4,0) --Underground Concourse
-WriteShort(Save+0x20E8,0) --The Woods
-WriteShort(Save+0x20EC,0) --Sandlot
-WriteShort(Save+0x20F0,0) --Tram Commons
-WriteShort(Save+0x20F4,0) --The Mysterious Tower
-WriteShort(Save+0x20F8,0) --Tower Wardrobe
-WriteShort(Save+0x20FC,0) --Basement Corridor
-WriteShort(Save+0x2100,0) --Mansion Library
-WriteShort(Save+0x2110,0) --Tunnelway
-WriteShort(Save+0x2114,0) --Station Plaza
-WriteShort(Save+0x211C,0) --The Old Mansion
-WriteShort(Save+0x2120,0) --Mansion Foyer
-end
-
-function VisitLock(ItemAddress, RequiredCount, Address, Bit)
-	local ItemCount = ReadByte(ItemAddress)
-	if ItemCount < RequiredCount then
-		BitNot(Address, Bit)
-	elseif ReadByte(Address) & Bit == 0 then
-		BitOr(Address, Bit)
+	local Subpoint = File + 0x08 + 0x10*Subfile
+	local Address
+	--Detect errors
+	if ReadInt(File,OnPC) ~= 0x01524142 then --Header mismatch
+		return
+	elseif Subfile > ReadInt(File+4,OnPC) then --Subfile over count
+		return
+	elseif Offset >= ReadInt(Subpoint+4,OnPC) then --Offset exceed subfile length
+		return
 	end
+	--Get address
+	Address = File + (ReadInt(Subpoint,OnPC) - ReadInt(File+8,OnPC)) + Offset
+	return Address
 end
 
 function _OnFrame()
-if true then --Define current values for common addresses
-	World  = ReadByte(Now+0x00)
-	Room   = ReadByte(Now+0x01)
-	Place  = ReadShort(Now+0x00)
-	Door   = ReadShort(Now+0x02)
-	Map    = ReadShort(Now+0x04)
-	Btl    = ReadShort(Now+0x06)
-	Evt    = ReadShort(Now+0x08)
-	PrevPlace = ReadShort(Now+0x30)
-	if Place == 0xFFFF or not MSN then
+	if true then --Define current values for common addresses
+		World  = ReadByte(Now+0x00)
+		Room   = ReadByte(Now+0x01)
+		Place  = ReadShort(Now+0x00)
+		Door   = ReadShort(Now+0x02)
+		Map    = ReadShort(Now+0x04)
+		Btl    = ReadShort(Now+0x06)
+		Evt    = ReadShort(Now+0x08)
+		PrevPlace = ReadShort(Now+0x30)
+		if Place == 0xFFFF or not MSN then
+			if not OnPC then
+				Obj0 = ReadInt(Obj0Pointer)
+				Sys3 = ReadInt(Sys3Pointer)
+				Btl0 = ReadInt(Btl0Pointer)
+				MSN = 0x04FA440
+			else
+				Obj0 = ReadLong(Obj0Pointer)
+				Sys3 = ReadLong(Sys3Pointer)
+				Btl0 = ReadLong(Btl0Pointer)
+				MSN = 0x0BF08C0 - 0x56450E
+			end
+		end
 		if not OnPC then
-			Obj0 = ReadInt(Obj0Pointer)
-			Sys3 = ReadInt(Sys3Pointer)
-			Btl0 = ReadInt(Btl0Pointer)
-			MSN = 0x04FA440
+			ARD = ReadInt(ARDPointer)
 		else
-			Obj0 = ReadLong(Obj0Pointer)
-			Sys3 = ReadLong(Sys3Pointer)
-			Btl0 = ReadLong(Btl0Pointer)
-			MSN = 0x0BF08C0 - 0x56450E
+			ARD = ReadLong(ARDPointer)
 		end
 	end
-	if not OnPC then
-		ARD = ReadInt(ARDPointer)
-	else
-		ARD = ReadLong(ARDPointer)
-	end
-end
-GoA()
+	GoA()
+	TWtNW()
 end
 
 function GoA()
---Clear Conditions
-if not SeedCleared then
-	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
-	if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
-		SeedCleared = true
-	elseif ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
-		SeedCleared = true
+	--Clear Conditions
+	if not SeedCleared then
+		local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
+		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
+			SeedCleared = true
+		elseif ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
+			SeedCleared = true
+		end
+	end
+	--Garden of Assemblage Rearrangement
+	if Place == 0x1A04 then
+		--Open Promise Charm Path
+		if SeedCleared and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
+			WriteShort(BAR(ARD,0x06,0x05C),0x77A,OnPC) --Text
+		end
+		--Demyx's Portal Text
+		if ReadByte(Save+0x1D2E) > 0 then --Hollow Bastion Cleared
+			WriteShort(BAR(ARD,0x05,0x25C),0x779,OnPC) --Radiant Garden
+		end
 	end
 end
---Garden of Assemblage Rearrangement
-if Place == 0x1A04 then
-	--Open Promise Charm Path
-	if SeedCleared and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
-		WriteShort(BAR(ARD,0x06,0x05C),0x77A,OnPC) --Text
+
+function TWtNW()
+	--Final Door Requirements
+	if ReadShort(Save+0x1B7C) == 0x04 and SeedCleared then
+		WriteShort(Save+0x1B7C, 0x0D) --The Altar of Naught MAP (Door RC Available)
 	end
-	--Demyx's Portal Text
-	if ReadByte(Save+0x1D2E) > 0 then --Hollow Bastion Cleared
-		WriteShort(BAR(ARD,0x05,0x25C),0x779,OnPC) --Radiant Garden
-	end
-end
 end

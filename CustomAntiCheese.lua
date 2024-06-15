@@ -5,7 +5,9 @@ local canExecute = false
 
 local noBerserk = true
 local noDoubleneg = true
+local noSingleneg = true
 local noPan = true
+
 local usingGenie = true
 local lastGenieForm = 0
 local realForm = 0
@@ -60,158 +62,181 @@ function _OnFrame()
     if world == 0x12 and room == 0x15 and battle == 0x63 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = true
 		noPan = false
 	----Twilight Town
 	--Data Axel
 	elseif world == 0x02 and room == 0x14 and battle == 0xD5 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = false
 	--Hollow Bastion
 	--Sephiroth
 	elseif world == 0x04 and room == 0x01 and battle == 0x4B then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Demyx
 	elseif world == 0x04 and room == 0x04 and battle == 0x72 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = true
 	----Land of Dragons
 	--Data Xigbar
 	elseif world == 0x12 and room == 0x0A and battle == 0x64 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	----Beast's Castle
 	--Xaldin
 	elseif world == 0x05 and room == 0x0F and battle == 0x52 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Xaldin
 	elseif world == 0x05 and room == 0x0F and battle == 0x61 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Olympus Coliseum
 	--AS Zexion
 	elseif world == 0x04 and room == 0x22 and battle == 0x97 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Zexion
 	elseif world == 0x04 and room == 0x22 and battle == 0x98 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	----Disney Castle
 	--AS Marluxia
 	elseif world == 0x04 and room == 0x26 and battle == 0x91 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	--Data Marluxia
 	elseif world == 0x04 and room == 0x26 and battle == 0x96 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	--Terra
 	elseif world == 0x0C and room == 0x07 and battle == 0x43 then
 		noBerserk = true
         noDoubleneg = true
-		noPan = true
-	--Terra Refight
-	elseif world == 0x0C and room == 0x07 and battle == 0x49 then
-		noBerserk = true
-        noDoubleneg = true
+		noSingleneg = true
 		noPan = true
 	----Port Royal
 	--Data Luxord
 	elseif world == 0x12 and room == 0x0E and battle == 0x65 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	----Agrabah
 	--AS Lexaeus
 	elseif world == 0x04 and room == 0x21 and battle == 0x8E then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	--Data Lexaeus
 	elseif world == 0x04 and room == 0x21 and battle == 0x93 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	----Halloween Town
 	--AS Vexen
 	elseif world == 0x04 and room == 0x20 and battle == 0x73 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Vexen
 	elseif world == 0x04 and room == 0x20 and battle == 0x92 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	----Pride Lands
 	--Data Saix
 	elseif world == 0x12 and room == 0x0F and battle == 0x66 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = true
 		noPan = true
 	----Space Paranoids
 	--AS Larxene
 	elseif world == 0x04 and room == 0x21 and battle == 0x8F then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	--Data Larxene
 	elseif world == 0x04 and room == 0x21 and battle == 0x94 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = false
 		noPan = true
 	----The World That Never Was
 	--Roxas
 	elseif world == 0x12 and room == 0x15 and battle == 0x41 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = true
 		noPan = false
 	--Xigbar
 	elseif world == 0x12 and room == 0x0A and battle == 0x39 then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Luxord
 	elseif world == 0x12 and room == 0x0E and battle == 0x3A then
 		noBerserk = true
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Saix
 	elseif world == 0x12 and room == 0x0F and battle == 0x38 then
 		noBerserk = true
         noDoubleneg = true
+		noSingleneg = true
 		noPan = true
 	--Xemnas 1
 	elseif world == 0x12 and room == 0x13 and battle == 0x3B then
 		noBerserk = false
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Xemnas 1
 	elseif world == 0x12 and room == 0x13 and battle == 0x61 then
 		noBerserk = false
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
 	--Data Final Xemnas
 	elseif world == 0x12 and room == 0x14 and battle == 0x62 then
 		noBerserk = false
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
     --Base Case
     else
         noBerserk = false
         noDoubleneg = false
+		noSingleneg = false
 		noPan = false
     end
 	--------Rooms affected
@@ -224,14 +249,18 @@ function _OnFrame()
         local Ability = ReadShort(Current) & 0x0FFF
         local Initial = ReadShort(Current) & 0xF000
 		--Negative Combo Check
-        if Ability == 0x018A and noDoubleneg then
+        if Ability == 0x018A then
             if Initial > 0 then --Initially equipped
                 NegativeComboCount = NegativeComboCount + 1
             end
-            if NegativeComboCount > 1 then --Unequip one Negative Combo
+            if NegativeComboCount > 1 and noDoubleneg then --Unequip one Negative Combo
 				ConsolePrint("Removing One Negative Combo")
                 WriteShort(Current,Ability)
             end
+			if NegativeComboCount > 0 and noSingleneg then --Unequip one Negative Combo
+				ConsolePrint("Removing Both Negative Combos")
+                WriteShort(Current,Ability)
+            end 
 		--Berserk Charge Check
         elseif Ability == 0x018B and noBerserk and Initial > 0 then
             WriteShort(Current,Ability)

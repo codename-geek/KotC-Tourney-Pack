@@ -320,7 +320,7 @@ function _OnFrame()
 				return
 			end
 			--only subtract drive when in Combat
-			if ReadByte(BtlTyp) ~= 0 then
+			if ignoreGenie == 0 and ReadByte(BtlTyp) ~= 0 then
 				WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-600)
 			end
 			--ConsolePrint("Changed forms!")

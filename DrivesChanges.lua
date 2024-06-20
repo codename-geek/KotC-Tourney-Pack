@@ -1,4 +1,5 @@
 local canExecute = false
+local lastDriveVal = 0
 
 function _OnInit()
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
@@ -19,14 +20,20 @@ function _OnFrame()
 		return
 	end
 
-	--Limit
-	if ReadByte(Save+0x3524) == 3 and ReadByte(Pause) ~= 3 then
-		WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
-	--Final
-	elseif ReadByte(Save+0x3524) == 5 and ReadByte(Pause) ~= 3 then
-		WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
-	--Valor
-	elseif ReadByte(Save+0x3524) == 1 and ReadByte(Pause) ~= 3 then
-		WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)+0.1)
+	--Check if Drive is decreasing
+	if ReadFloat(Slot1+0x1B4) ~= lastDriveVal then
+		ConsolePrint("Decreasing")
+		--Limit
+		if ReadByte(Save+0x3524) == 3 and ReadByte(Pause) ~= 3 then
+			--WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
+		--Final
+		elseif ReadByte(Save+0x3524) == 5 and ReadByte(Pause) ~= 3 then
+			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
+		--Valor
+		elseif ReadByte(Save+0x3524) == 1 and ReadByte(Pause) ~= 3 then
+			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)+0.1)
+		end
 	end
+
+	lastDriveVal = ReadFloat(Slot1+0x1B4)
 end

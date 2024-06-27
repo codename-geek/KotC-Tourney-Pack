@@ -24,7 +24,6 @@ function GetVersion() --Define anchor addresses
 	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 		OnPC = false
 		GameVersion = 1
-		print('GoA PS2 Version')
 		Now = 0x032BAE0 --Current Location
 		Save = 0x032BB30 --Save File
 		BtlTyp = 0x1C61958 --Battle Status (Out-of-Battle, Regular, Forced)
@@ -268,17 +267,17 @@ function _OnFrame()
                 NegativeComboCount = NegativeComboCount + 1
             end
             if NegativeComboCount > 1 and noDoubleneg then --Unequip one Negative Combo
-				ConsolePrint("Removing One Negative Combo")
+				Print("Removing One Negative Combo")
                 WriteShort(Current,Ability)
             end
 			if NegativeComboCount > 0 and noSingleneg then --Unequip one Negative Combo
-				ConsolePrint("Removing Both Negative Combos")
+				Print("Removing Both Negative Combos")
                 WriteShort(Current,Ability)
             end 
 		--Berserk Charge Check
         elseif Ability == 0x018B and noBerserk and Initial > 0 then
             WriteShort(Current,Ability)
-			ConsolePrint("Removing Berserk Charge")
+			rint("Removing Berserk Charge")
         end
     end
 	--------Force unequip All Berserk and one negative combo
@@ -293,13 +292,13 @@ function _OnFrame()
 	--Remove Pan from Inventory if noPan Cheese
 	if noPan then
 		if ReadByte(Save+0x36C4)&0x20 == 0x20 then
-			ConsolePrint("Removing Pan")
+			Print("Removing Pan")
 		end
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player had Pan outside of the boss
 	elseif ReadByte(Save+0x3609) > 0 and not noPan then
 		if ReadByte(Save+0x36C4)&0x20 == 0 then
-			ConsolePrint("Adding Back Pan")
+			Print("Adding Back Pan")
 		end
 		BitOr(Save+0x36C4,0x020)
 	end

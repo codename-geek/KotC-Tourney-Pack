@@ -1,6 +1,5 @@
 function _OnInit()
 GameVersion = 0
-print('GoA v1.54 - Codename_Geek Final Fights Unlocker')
 GoAOffset = 0x7C
 SeedCleared = false
 end
@@ -9,7 +8,7 @@ function GetVersion() --Define anchor addresses
 if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 	OnPC = false
 	GameVersion = 1
-	print('GoA PS2 Version')
+	print('GoA v1.54.1 - Codename_Geek Final Fights Unlocker')
 	Now = 0x032BAE0 --Current Location
 	Sve = 0x1D5A970 --Saved Location
 	Save = 0x032BB30 --Save File
@@ -51,7 +50,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 	OnPC = true
 	if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
 		GameVersion = 2
-		print('GoA Epic Version')
+		print('GoA v1.54.1 - Codename_Geek Final Fights Unlocker')
 		Now = 0x0716DF8
 		Sve = 0x2A0BF80
 		Save = 0x09A92F0
@@ -91,7 +90,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF2C40
 	elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 		GameVersion = 3
-		print('GoA Steam Global Version')
+		print('GoA v1.54.1 - Codename_Geek Final Fights Unlocker')
 		Now = 0x0717008
 		Sve = 0x2A0C4C0
 		Save = 0x09A9830
@@ -131,7 +130,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF3340
 	elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 		GameVersion = 4
-		print('GoA Steam JP Version')
+		print('GoA v1.54.1 - Codename_Geek Final Fights Unlocker')
 		Now = 0x0716008
 		Sve = 0x2A0B4C0
 		Save = 0x09A8830

@@ -398,6 +398,7 @@ function _OnFrame()
         WriteByte(Now+0x06, 0x4A)
         WriteByte(Now+0x08, 0x4A)
     end
+    --[[
     if ReadShort(Now+0x00) == 0x1412 and ReadShort(CutLen+0x00) == 0x0C11 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Final Xemnas Cutscene
 	end
@@ -418,6 +419,7 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x0001 and ReadShort(CutLen+0x00) == 0x0A8C then
 		WriteByte(CutSkp+0x00, 0x01) --Birth by Sleep
 	end
+    ]]
     if ReadShort(Now+0x00) == 0x1312 and ReadShort(CutLen+0x00) == 0x00FA then
 		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Xemnas Cutscene
 	end

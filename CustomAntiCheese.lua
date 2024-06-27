@@ -1,7 +1,7 @@
-local CURRENT_LOCATION_ADDRESS = 0x0714DB8
-local Save = 0x09A7070 - 0x56450E
-local LUABACKEND_OFFSET = 0x56454E
-local canExecute = false
+--TO DO LIST
+--find/add new IsLoaded address
+
+--local canExecute = false
 
 local noBerserk = true
 local noDoubleneg = true
@@ -17,33 +17,42 @@ local lastDriveMeter = 0
 
 --Set Initial Values
 function _OnInit()
-	--[[if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
-		if ENGINE_VERSION < 3.0 then
-			print('LuaEngine is Outdated. Things might not work properly.')
-			return
-		end
+	GameVersion = 0
+end
+
+function GetVersion() --Define anchor addresses
+	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 		OnPC = false
+		GameVersion = 1
+		print('GoA PS2 Version')
+		Now = 0x032BAE0 --Current Location
+		Save = 0x032BB30 --Save File
+		BtlTyp = 0x1C61958 --Battle Status (Out-of-Battle, Regular, Forced)
 		Slot1    = 0x1C6C750 --Unit Slot 1
-		BtlTyp 	 = 0x1C61958
-	end]]
-	--Only support PC version for now
-    if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-        if ENGINE_VERSION < 5.0 then
-            ConsolePrint('LuaBackend is outdated', 2)
-			return
-        end
+	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		OnPC = true
-		Slot1    = 0x2A20C58 - 0x56450E
-		BtlTyp   = 0x2A0EAC4 - 0x56450E
-		IsLoaded = 0x9B80D0 - 0x56454E
-
-		canExecute = true
-    end
+		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
+			GameVersion = 2
+			Now = 0x0716DF8
+			Save = 0x09A92F0
+			BtlTyp = 0x2A10E44
+			Slot1    = 0x2A22FD8
+		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
+			GameVersion = 3
+			Now = 0x0717008
+			Save = 0x09A9830
+			BtlTyp = 0x2A11384
+			Slot1    = 0x2A23518
+		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
+			GameVersion = 4
+			Now = 0x0716008
+			Save = 0x09A8830
+			BtlTyp = 0x2A10384
+			Slot1    = 0x2A22518
+		end
+	end
 end
 
-local function read(address)
-    return ReadByte(address - LUABACKEND_OFFSET)
-end
 local function BitOr(Address,Bit,Abs)
 	WriteByte(Address,ReadByte(Address)|Bit,Abs and OnPC)
 end
@@ -52,10 +61,15 @@ local function BitNot(Address,Bit,Abs)
 end
 
 function _OnFrame()
+	if GameVersion == 0 then --Get anchor addresses
+		GetVersion()
+		return
+	end
+
     --------Checks for Current room
-    local world = read(CURRENT_LOCATION_ADDRESS + 0x00)
-    local room = read(CURRENT_LOCATION_ADDRESS + 0x01)
-	local battle = read(CURRENT_LOCATION_ADDRESS + 0x08)
+    local world = ReadByte(Now + 0x00)
+    local room = ReadByte(Now + 0x01)
+	local battle = ReadByte(Now + 0x08)
 	--------Superboss Room Check
 	----Simulated Twilight Town
 	--Data Roxas
@@ -292,6 +306,7 @@ function _OnFrame()
 	--------Force Remove Pan
 
 
+	--[[
 	--------Genie Hori "Nerf"
 	--Master Ignore Case cause of bugs
 	if ReadByte(Save+0x3525) ~= 2 then
@@ -350,4 +365,5 @@ function _OnFrame()
 		WriteByte(Save+0x3527,realForm)
 	end
 	--------Genie Hori "Nerf"
+	]]
 end

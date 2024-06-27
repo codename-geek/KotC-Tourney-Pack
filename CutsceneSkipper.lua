@@ -1,119 +1,116 @@
 function _OnInit()
-Now = 0x0714DB8 - 0x56454E --Current Location
-Sve = 0x2A09C00 - 0x56450E --Saved Location
-Save = 0x09A7070 - 0x56450E --Save File
-CutNow = 0x0B62798 - 0x56454E --Cutscene Timer
-CutLen = 0x0B627B4 - 0x56454E --Cutscene Length
-CutSkp = 0x0B6279C - 0x56454E --Cutscene Skip
-BtlEnd = 0x2A0D3E0 - 0x56454E --End of Battle State
-FullParty = 0x09AA5E4 - 0x56454E
-TWTNWFlags = 0x09A8BC0 - 0x56454E
-LoDFlags = 0x09A7CC0 - 0x56454E
-BCFlags = 0x09A7840 - 0x56454E
-HTFlags = 0x09A85C0 - 0x56454E
-AgrabahFlags = 0x09A7B40 - 0x56454E
-OCFlags = 0x09A79C0 - 0x56454E
-PLFlags = 0x09A7FC0 - 0x56454E
-TTFlags = 0x09A73B0 - 0x56454E
-TTVisit = 0x09AB0A5 - 0x56454E
-HBFlags = 0x09A76C0 - 0x56454E
-PRFlags = 0x09A88C0 - 0x56454E
-DCFlags = 0x09A82C0 - 0x56454E
-TRFlags = 0x09A8440 - 0x56454E
-SPFlags = 0x09A8A40 - 0x56454E
-HAWFlags = 0x09A7E40 - 0x56454E
-AtlanticaFlags = 0x09A8140 - 0x56454E
-GoAFadeOut = 0x29EF136 - 0x56454E
-VisitUnlocks = 0x09AA646 - 0x56454E
-MaxDriveGauge = 0x2A20E4A - 0x56454E
-RoxasFightEvent = 0x29E382C - 0x56454E
-PostRoxasBGM = 0x29D6890 - 0x56454E
-BrinkOfDespairEvent = 0x29EC548 - 0x56454E
-NothingCallEvent = 0x29EEC68 - 0x56454E
-XigbarFightEvent = 0x29DF278 - 0x56454E
-SaixFightEvent = 0x29E691C - 0x56454E
-XemnasFightEvent = 0x29E25CC - 0x56454E
-ArmorXemnasFightEvent1 = 0x29F074C - 0x56454E
-ArmorXemnasFightEvent2 = 0x29EF5AC - 0x56454E
-FinalXemnasFightEvent = 0x29ED58C - 0x56454E
-DataXemnasFightEvent = 0x29EE2D0 - 0x56454E
-EndingEvent = 0x29EA0C4 - 0x56454E
-SummitEvent = 0x29C6140 - 0x56454E
-ImperialSquareEvent = 0x29E1BE4 - 0x56454E
-PalaceGateEvent = 0x29E08AC - 0x56454E
-AntechamberEvent = 0x29EA7BC - 0x56454E
-XaldinFightEvent = 0x29E556C - 0x56454E
-PostXaldinEvent = 0x29EE760 - 0x56454E
-HTSquareEvent = 0x29DF3D0 - 0x56454E
-ToyFactoryLowerEvent = 0x29E0C9C - 0x56454E
-PrisonKeeperFightEvent = 0x29E9C00 - 0x56454E
-HinterlandsEvent = 0x29E7D54 - 0x56454E
-ToyFactoryUpperEvent = 0x29EB608 - 0x56454E
-ExperimentFightEvent = 0x29E4618 - 0x56454E
-PostExperimentEvent = 0x29EA9D0 - 0x56454E
-AgrabahEvent = 0x29D0F6C - 0x56454E
-OldPeddlerShopEvent = 0x29EB218 - 0x56454E
-PalaceEvent = 0x29C6F98 - 0x56454E
-AbuEscortEvent = 0x29EB638 - 0x56454E
-PostGenieJafarEvent = 0x29EAF84 - 0x56454E
-HadesChamberEvent = 0x29DD0F4 - 0x56454E
-PostCerberusEvent = 0x29E3678 - 0x56454E
-PostOCPeteEvent = 0x29E4718 - 0x56454E
-UnderdromeEvent = 0x29EE590 - 0x56454E
-HadesFightEvent = 0x29F063C - 0x56454E
-PostHadesEvent = 0x29C6AB8 - 0x56454E
-PrideRockEvent = 0x29C1A0C - 0x56454E
-JungleEvent = 0x29EAF38 - 0x56454E
-OasisEvent = 0x29DE4A0 - 0x56454E
-PostGroundshakerEvent = 0x29EE4C4 - 0x56454E
-BackAlleyEvent = 0x29E4C74 - 0x56454E
-CentralStationEvent = 0x29E11E0 - 0x56454E
-SorcerersLoftEvent = 0x29E1740 - 0x56454E
-TowerWardrobeEvent = 0x29DF0A8 - 0x56454E
-StationPlazaEvent = 0x29C5848 - 0x56454E
-OldMansionFightEvent = 0x29F0338 - 0x56454E
-BetweenAndBetwixEvent = 0x29E545C - 0x56454E
-NormalBaileyEvent = 0x29DA73C - 0x56454E
-AnsemsStudyEvent = 0x29B6C90 - 0x56454E
-HBBGM1 = 0x2A670BC - 0x56454E
-HBBGM2 = 0x2A67D3C - 0x56454E --This is for the Rando Seed with Chest Cosmetics
-CorridorsFightEvent = 0x29F01D0 - 0x56454E
-RestorationSiteEvent = 0x29ED670 - 0x56454E
-DemyxFightEvent = 0x29E6F80 - 0x56454E
-ThousandHeartlessEvent = 0x29E9140 - 0x56454E
-DarkDepthsEvent = 0x29B8E54 - 0x56454E
-RockFaceEvent = 0x29EE2BC - 0x56454E
-InterceptorHoldEvent = 0x29EB184 - 0x56454E
-MedallionFightEvent = 0x29E2DB0 - 0x56454E
-InterceptorEvent = 0x29E7A04 - 0x56454E
-BlackPearlEvent = 0x29CD8E4 - 0x56454E
-GamblerFightEvent = 0x29EC3F0 - 0x56454E
-PostGrimReaperEvent = 0x29D7718 - 0x56454E
-PierEvent = 0x29EBCF0 - 0x56454E
-BuildingSiteEvent = 0x29EA390 - 0x56454E
-LilliputEvent = 0x29EBA88 - 0x56454E
-FireSceneEvent = 0x29EBF48 - 0x56454E
-MickeysHouseEvent = 0x29ECA38 - 0x56454E
-CornerstoneHillFadeIn = 0x29DF91E - 0x56454E
-TimelessRiverEndEvent = 0x29EB898 - 0x56454E
-LightCornerstoneFadeIn = 0x29E7CB2 - 0x56454E
-PostHostileProgramEvent = 0x29EAE40 - 0x56454E
-SolarSailerFightEvent = 0x29EEFB0 - 0x56454E
-TutorialEvent = 0x29E2704 - 0x56454E
-SandlotEvent = 0x29CBBD8 - 0x56454E
-OldMansionEvent = 0x29D9340 - 0x56454E
-StationHeightsEvent = 0x29E1D88 - 0x56454E
-PostTwilightThornEvent = 0x29EDC50 - 0x56454E
-SandlotTourneyEvent = 0x29BA7C4 - 0x56454E
-SunsetHillEvent = 0x29E5168 - 0x56454E
-WhiteRoomEvent = 0x29E6750 - 0x56454E
-ComputerRoomEvent = 0x29DF85C - 0x56454E
-PodRoomEvent = 0x29E3EC8 - 0x56454E
-PostSpookyCaveEvent = 0x29E6A9C - 0x56454E
-SwimThisWayEvent = 0x29C881C - 0x56454E
-PartOfYourWorldEvent = 0x29E2D8C - 0x56454E
-UnderTheSeaEvent = 0x29DCCB0 - 0x56454E
-PostUrsulaEvent = 0x29E1BD4 - 0x56454E
+Now = 0x0717008 --Current Location
+Save = 0x09A9830 --Save File
+CutNow = 0x0B64F18 --Cutscene Timer
+CutLen = 0x0B64F34 --Cutscene Length
+CutSkp = 0x0B64F1C --Cutscene Skip
+FullParty = 0x09ACD64
+TWTNWFlags = 0x09AB340
+LoDFlags = 0x09AA440
+BCFlags = 0x09A9FC0
+HTFlags = 0x09AAD40
+AgrabahFlags = 0x09AA2C0
+OCFlags = 0x09AA140
+PLFlags = 0x09AA740
+TTFlags = 0x09A9B30
+TTVisit = 0x09AD825
+HBFlags = 0x09A9E40
+PRFlags = 0x09AB040
+DCFlags = 0x09AAA40
+TRFlags = 0x09AABC0
+SPFlags = 0x09AB1C0
+HAWFlags = 0x09AA5C0
+AtlanticaFlags = 0x09AA8C0
+GoAFadeOut = 0x29F19B6
+VisitUnlocks = 0x09ACDC6
+MaxDriveGauge = 0x2A236CA
+RoxasFightEvent = 0x29E60AC
+PostRoxasBGM = 0x29D9110
+BrinkOfDespairEvent = 0x29EEDC8
+NothingCallEvent = 0x29F14E8
+XigbarFightEvent = 0x29E1AF8
+SaixFightEvent = 0x29E919C
+XemnasFightEvent = 0x29E4E4C
+ArmorXemnasFightEvent1 = 0x29F2FCC
+ArmorXemnasFightEvent2 = 0x29F1E2C
+FinalXemnasFightEvent = 0x29EFE0C
+DataXemnasFightEvent = 0x29F0B50
+EndingEvent = 0x29EC944
+SummitEvent = 0x29C89C0
+ImperialSquareEvent = 0x29E4464
+PalaceGateEvent = 0x29E312C
+AntechamberEvent = 0x29ED03C
+XaldinFightEvent = 0x29E7DEC
+PostXaldinEvent = 0x29F0FE0
+HTSquareEvent = 0x29E1C50
+ToyFactoryLowerEvent = 0x29E351C
+PrisonKeeperFightEvent = 0x29EC480
+HinterlandsEvent = 0x29EA5D4
+ToyFactoryUpperEvent = 0x29EDE88
+ExperimentFightEvent = 0x29E6E98
+PostExperimentEvent = 0x29ED250
+AgrabahEvent = 0x29D37EC
+OldPeddlerShopEvent = 0x29EDA98
+PalaceEvent = 0x29C9818
+AbuEscortEvent = 0x29EDEB8
+PostGenieJafarEvent = 0x29ED804
+HadesChamberEvent = 0x29DF974
+PostCerberusEvent = 0x29E5EF8
+PostOCPeteEvent = 0x29E6F98
+UnderdromeEvent = 0x29F0E10
+HadesFightEvent = 0x29F2EBC
+PostHadesEvent = 0x29C9338
+PrideRockEvent = 0x29C428C
+JungleEvent = 0x29ED7B8
+OasisEvent = 0x29E0D20
+PostGroundshakerEvent = 0x29F0D44
+BackAlleyEvent = 0x29E74F4
+CentralStationEvent = 0x29E3A60
+SorcerersLoftEvent = 0x29E3FC0
+TowerWardrobeEvent = 0x29E1928
+StationPlazaEvent = 0x29C80C8
+OldMansionFightEvent = 0x29F2BB8
+BetweenAndBetwixEvent = 0x29E7CDC
+NormalBaileyEvent = 0x29DCFBC
+AnsemsStudyEvent = 0x29B9510
+HBBGM = 0x2A6993C
+CorridorsFightEvent = 0x29F2A50
+RestorationSiteEvent = 0x29EFEF0
+DemyxFightEvent = 0x29E9800
+ThousandHeartlessEvent = 0x29EB9C0
+DarkDepthsEvent = 0x29BB6D4
+RockFaceEvent = 0x29F0B3C
+InterceptorHoldEvent = 0x29EDA04
+MedallionFightEvent = 0x29E5630
+InterceptorEvent = 0x29EA284
+BlackPearlEvent = 0x29D0164
+GamblerFightEvent = 0x29EEC70
+PostGrimReaperEvent = 0x29D9F98
+PierEvent = 0x29EE570
+BuildingSiteEvent = 0x29ECDD0
+LilliputEvent = 0x29EE4C8
+FireSceneEvent = 0x29EE988
+MickeysHouseEvent = 0x29EF2B8
+CornerstoneHillFadeIn = 0x29E235E
+TimelessRiverEndEvent = 0x29EE2D8
+LightCornerstoneFadeIn = 0x29EA532
+PostHostileProgramEvent = 0x29ED6C0
+SolarSailerFightEvent = 0x29F1830
+TutorialEvent = 0x29E4F84
+SandlotEvent = 0x29CE458
+OldMansionEvent = 0x29DBBC0
+StationHeightsEvent = 0x29E4608
+PostTwilightThornEvent = 0x29F04D0
+SandlotTourneyEvent = 0x29BD044
+SunsetHillEvent = 0x29E79E8
+WhiteRoomEvent = 0x29E8FD0
+ComputerRoomEvent = 0x29E20DC
+PodRoomEvent = 0x29E6748
+PostSpookyCaveEvent = 0x29E931C
+SwimThisWayEvent = 0x29CB09C
+PartOfYourWorldEvent = 0x29E560C
+UnderTheSeaEvent = 0x29DF530
+PostUrsulaEvent = 0x29E4454
 end
 
 function BitOr(Address,Bit,Abs)
@@ -401,7 +398,6 @@ function _OnFrame()
         WriteByte(Now+0x06, 0x4A)
         WriteByte(Now+0x08, 0x4A)
     end
-    --[[
     if ReadShort(Now+0x00) == 0x1412 and ReadShort(CutLen+0x00) == 0x0C11 then
 		WriteByte(CutSkp+0x00, 0x01) --Post Final Xemnas Cutscene
 	end
@@ -422,7 +418,6 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x0001 and ReadShort(CutLen+0x00) == 0x0A8C then
 		WriteByte(CutSkp+0x00, 0x01) --Birth by Sleep
 	end
-    ]]
     if ReadShort(Now+0x00) == 0x1312 and ReadShort(CutLen+0x00) == 0x00FA then
 		WriteByte(CutSkp+0x00, 0x01) --Pre-Data Xemnas Cutscene
 	end
@@ -2467,6 +2462,13 @@ function _OnFrame()
             WriteByte(CutSkp+0x00, 0x01) --Post Data Axel Cutscene
         end
 	end
+    if ReadShort(Now+0x00) == 0x1402 and ReadByte(Now+0x08) == 0xD3 then --Data Axel (1 Hour)
+        if ReadShort(Now+0x30) == 0x1A04 then
+            WriteByte(Now+0x04, 0xD5)
+            WriteByte(Now+0x06, 0xD5)
+            WriteByte(Now+0x08, 0xD5)
+        end
+    end
     if ReadShort(Now+0x00) == 0x0004 and ReadByte(Now+0x08) == 0x01 then --Hollow Bastion 1 1st Cutscene
         WriteShort(Now+0x01, 0x320A)
         WriteByte(Now+0x04, 0x01)
@@ -2626,46 +2628,46 @@ function _OnFrame()
     if ReadInt(Now+0x00) == 0x00000504 and ReadByte(Now+0x38) == 0x09 then --Boss/Enemy
         WriteByte(Now+0x02, 0x37)
     end
-    if ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM1+0x00) == 0x98 then --Ansem's Study Music Fix
-        WriteByte(HBBGM1+0x0000, 0x99) --Ansem's Study
-        WriteByte(HBBGM1+0x0040, 0x99) --Postern
-        WriteByte(HBBGM1+0x0100, 0x99) --Borough
-        WriteByte(HBBGM1+0x0140, 0x99) --Marketplace
-        WriteByte(HBBGM1+0x0180, 0x99) --Corridors
-        WriteByte(HBBGM1+0x01C0, 0x99) --Heartless Manufactory
-        WriteByte(HBBGM1+0x0200, 0x99) --Merlin's House
-        WriteByte(HBBGM1+0x0340, 0x99) --Restoration Site
-        WriteByte(HBBGM1+0x0380, 0x99) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM1+0x00) == 0x99 then --Post FF Fights Music Fix
-        WriteByte(HBBGM1+0x0000, 0x98) --Ansem's Study
-        WriteByte(HBBGM1+0x0040, 0x98) --Postern
-        WriteByte(HBBGM1+0x0100, 0x98) --Borough
-        WriteByte(HBBGM1+0x0140, 0x98) --Marketplace
-        WriteByte(HBBGM1+0x0180, 0x98) --Corridors
-        WriteByte(HBBGM1+0x01C0, 0x98) --Heartless Manufactory
-        WriteByte(HBBGM1+0x0200, 0x98) --Merlin's House
-        WriteByte(HBBGM1+0x0340, 0x98) --Restoration Site
-        WriteByte(HBBGM1+0x0380, 0x98) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM2+0x00) == 0x98 then --Ansem's Study Music Fix (randoseed)
-        WriteByte(HBBGM2+0x0000, 0x99) --Ansem's Study
-        WriteByte(HBBGM2+0x0040, 0x99) --Postern
-        WriteByte(HBBGM2+0x0100, 0x99) --Borough
-        WriteByte(HBBGM2+0x0140, 0x99) --Marketplace
-        WriteByte(HBBGM2+0x0180, 0x99) --Corridors
-        WriteByte(HBBGM2+0x01C0, 0x99) --Heartless Manufactory
-        WriteByte(HBBGM2+0x0200, 0x99) --Merlin's House
-        WriteByte(HBBGM2+0x0340, 0x99) --Restoration Site
-        WriteByte(HBBGM2+0x0380, 0x99) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM2+0x00) == 0x99 then --Post FF Fights Music Fix (randoseed)
-        WriteByte(HBBGM2+0x0000, 0x98) --Ansem's Study
-        WriteByte(HBBGM2+0x0040, 0x98) --Postern
-        WriteByte(HBBGM2+0x0100, 0x98) --Borough
-        WriteByte(HBBGM2+0x0140, 0x98) --Marketplace
-        WriteByte(HBBGM2+0x0180, 0x98) --Corridors
-        WriteByte(HBBGM2+0x01C0, 0x98) --Heartless Manufactory
-        WriteByte(HBBGM2+0x0200, 0x98) --Merlin's House
-        WriteByte(HBBGM2+0x0340, 0x98) --Restoration Site
-        WriteByte(HBBGM2+0x0380, 0x98) --Bailey (After Destruction)
+    if ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM+0x00) == 0x98 then --Ansem's Study Music Fix
+        WriteByte(HBBGM+0x0000, 0x99) --Ansem's Study
+        WriteByte(HBBGM+0x0040, 0x99) --Postern
+        WriteByte(HBBGM+0x0100, 0x99) --Borough
+        WriteByte(HBBGM+0x0140, 0x99) --Marketplace
+        WriteByte(HBBGM+0x0180, 0x99) --Corridors
+        WriteByte(HBBGM+0x01C0, 0x99) --Heartless Manufactory
+        WriteByte(HBBGM+0x0200, 0x99) --Merlin's House
+        WriteByte(HBBGM+0x0340, 0x99) --Restoration Site
+        WriteByte(HBBGM+0x0380, 0x99) --Bailey (After Destruction)
+    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x00) == 0x99 then --Post FF Fights Music Fix
+        WriteByte(HBBGM+0x0000, 0x98) --Ansem's Study
+        WriteByte(HBBGM+0x0040, 0x98) --Postern
+        WriteByte(HBBGM+0x0100, 0x98) --Borough
+        WriteByte(HBBGM+0x0140, 0x98) --Marketplace
+        WriteByte(HBBGM+0x0180, 0x98) --Corridors
+        WriteByte(HBBGM+0x01C0, 0x98) --Heartless Manufactory
+        WriteByte(HBBGM+0x0200, 0x98) --Merlin's House
+        WriteByte(HBBGM+0x0340, 0x98) --Restoration Site
+        WriteByte(HBBGM+0x0380, 0x98) --Bailey (After Destruction)
+    elseif ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM+0x0C80) == 0x98 then --Ansem's Study Music Fix (Chest Cosmetics)
+        WriteByte(HBBGM+0x0C80, 0x99) --Ansem's Study
+        WriteByte(HBBGM+0x0CC0, 0x99) --Postern
+        WriteByte(HBBGM+0x0D80, 0x99) --Borough
+        WriteByte(HBBGM+0x0DC0, 0x99) --Marketplace
+        WriteByte(HBBGM+0x0E00, 0x99) --Corridors
+        WriteByte(HBBGM+0x0E40, 0x99) --Heartless Manufactory
+        WriteByte(HBBGM+0x0E80, 0x99) --Merlin's House
+        WriteByte(HBBGM+0x0FC0, 0x99) --Restoration Site
+        WriteByte(HBBGM+0x1000, 0x99) --Bailey (After Destruction)
+    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x00) == 0x99 then --Post FF Fights Music Fix (Chest Cosmetics)
+        WriteByte(HBBGM+0x0C80, 0x98) --Ansem's Study
+        WriteByte(HBBGM+0x0CC0, 0x98) --Postern
+        WriteByte(HBBGM+0x0D80, 0x98) --Borough
+        WriteByte(HBBGM+0x0DC0, 0x98) --Marketplace
+        WriteByte(HBBGM+0x0E00, 0x98) --Corridors
+        WriteByte(HBBGM+0x0E40, 0x98) --Heartless Manufactory
+        WriteByte(HBBGM+0x0E80, 0x98) --Merlin's House
+        WriteByte(HBBGM+0x0FC0, 0x98) --Restoration Site
+        WriteByte(HBBGM+0x1000, 0x98) --Bailey (After Destruction)
 	end
     if ReadShort(Now+0x00) == 0x1304 and ReadShort(Now+0x30) == 0x0504 then --Corridors Fight
         if ReadByte(Now+0x08) == 0x3D then

@@ -52,7 +52,7 @@ function _OnFrame()
 		return
 	end
 
-	if not OnPC then
+	if not onPC then
 		return
 	end
 

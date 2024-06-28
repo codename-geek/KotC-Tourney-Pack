@@ -22,23 +22,30 @@ function GetVersion()
 		Now = 0x032BAE0 --Current Location
 		Save = 0x032BB30 --Save File
 		Sys3Pointer = 0x1C61AF8 --03system.bin Pointer Address
+		Sys3 = ReadInt(Sys3Pointer)
 	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		onPC = true
 		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
+			GameVersion = 2
 			Now = 0x0716DF8
 			Save = 0x09A92F0
 			Sys3Pointer = 0x2AE5890
 			PauseMenu = 0x0ABB2B8
+			Sys3 = ReadLong(Sys3Pointer)
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
+			GameVersion = 3
 			Now = 0x0717008
 			Save = 0x09A9830
 			Sys3Pointer = 0x2AE5DD0
 			PauseMenu = 0x0ABB7F8
+			Sys3 = ReadLong(Sys3Pointer)
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
+			GameVersion = 4
 			Now = 0x0716008
 			Save = 0x09A8830
 			Sys3Pointer = 0x2AE4DD0
 			PauseMenu = 0x0ABA7F8
+			Sys3 = ReadLong(Sys3Pointer)
 		end
 	end
 end
@@ -49,17 +56,6 @@ function _OnFrame()
 		return
 	end
 
-	if true then --Define current values for common addresses
-		Place  = ReadShort(Now+0x00)
-		if Place == 0xFFFF or not MSN then
-			if not onPC then
-				Sys3 = ReadInt(Sys3Pointer)
-			else
-				Sys3 = ReadLong(Sys3Pointer)
-			end
-		end
-	end
-	
 	Slot70 = Save+0x25CE -- High Jump
 	Slot71 = Save+0x25D0 -- Quick Run
 	Slot72 = Save+0x25D2 -- Dodge Roll

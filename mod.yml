@@ -10,10 +10,10 @@ assets:
   method: copy
   source:
   - name: CutsceneSkipper.lua
-- name: scripts/AccurateGrowthText.lua
-  method: copy
-  source:
-  - name: AccurateGrowthText.lua
+#- name: scripts/AccurateGrowthText.lua
+#  method: copy
+#  source:
+#  - name: AccurateGrowthText.lua
 - name: scripts/F266B00B GoA ROM - Door Unlocker.lua
   method: copy
   source:

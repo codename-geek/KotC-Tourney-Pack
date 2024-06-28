@@ -1,4 +1,4 @@
--- hasRevertedGrowthText = false
+hasRevertedGrowthText = false
 -- hasUpdatedGrowthText = false
 
 prevHJ = -1
@@ -19,10 +19,6 @@ function GetVersion()
 			print('LuaEngine is Outdated. Things might not work properly.')
 		end
 		onPC = false
-		Now = 0x032BAE0 --Current Location
-		Save = 0x032BB30 --Save File
-		Sys3Pointer = 0x1C61AF8 --03system.bin Pointer Address
-		Sys3 = ReadInt(Sys3Pointer)
 	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		onPC = true
 		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
@@ -30,21 +26,21 @@ function GetVersion()
 			Now = 0x0716DF8
 			Save = 0x09A92F0
 			Sys3Pointer = 0x2AE5890
-			PauseMenu = 0x0ABB2B8
+			PauseMenu = 0x743350
 			Sys3 = ReadLong(Sys3Pointer)
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Now = 0x0717008
 			Save = 0x09A9830
 			Sys3Pointer = 0x2AE5DD0
-			PauseMenu = 0x0ABB7F8
+			PauseMenu = 0x7435D0
 			Sys3 = ReadLong(Sys3Pointer)
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Now = 0x0716008
 			Save = 0x09A8830
 			Sys3Pointer = 0x2AE4DD0
-			PauseMenu = 0x0ABA7F8
+			PauseMenu = 0x7425D0
 			Sys3 = ReadLong(Sys3Pointer)
 		end
 	end
@@ -56,16 +52,20 @@ function _OnFrame()
 		return
 	end
 
+	if not OnPC then
+		return
+	end
+
 	Slot70 = Save+0x25CE -- High Jump
 	Slot71 = Save+0x25D0 -- Quick Run
 	Slot72 = Save+0x25D2 -- Dodge Roll
 	Slot73 = Save+0x25D4 -- Aerial Dodge
 	Slot74 = Save+0x25D6 -- Glide
-	
-	if ReadByte(PauseMenu) == 3 then
+
+	if ReadByte(PauseMenu) == 10 then
 		-- In Pause Menu, put everything back to normal
 		if not hasRevertedGrowthText then
-			-- print('Reverting Growth Text to original')
+			--print('Reverting Growth Text to original')
 			revertGrowthText(Save+0x25CE, Sys3+0x11754, 0x064C) -- High Jump
 			revertGrowthText(Save+0x25D0, Sys3+0x117B4, 0x0654) -- Quick Run
 			revertGrowthText(Save+0x25D2, Sys3+0x11814, 0x4E83) -- Dodge Roll
@@ -76,7 +76,7 @@ function _OnFrame()
 	else
 		-- In the field, fuck shit up
 		if hasRevertedGrowthText then
-			-- print('In the field, updating custom text')
+			--print('In the field, updating custom text')
 		end
 		updateGrowthText(Save+0x25CE, 0x05E, Sys3+0x11754, 0x064C, prevHJ) -- High Jump
 		prevHJ = ReadShort(Save+0x25CE) & 0x0FFF

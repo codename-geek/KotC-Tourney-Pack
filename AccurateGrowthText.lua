@@ -8,7 +8,11 @@ prevAD = -1
 prevG = -1
 
 function _OnInit()
-	print('Accurate Growth Levels v1.0.0')
+	GameVersion = 0
+end
+
+function GetVersion()
+	print('Accurate Growth Levels v2.0.0')
 	GoAOffset = 0x7C
 	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 		if ENGINE_VERSION < 3.0 then
@@ -19,18 +23,32 @@ function _OnInit()
 		Save = 0x032BB30 --Save File
 		Sys3Pointer = 0x1C61AF8 --03system.bin Pointer Address
 	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-		if ENGINE_VERSION < 5.0 then
-			ConsolePrint('LuaBackend is Outdated. Things might not work properly.',2)
-		end
 		onPC = true
-		Now = 0x0714DB8 - 0x56454E
-		Save = 0x09A7070 - 0x56450E
-		Sys3Pointer = 0x2AE3550 - 0x56454E
-		PauseMenu = 0xBEBD28-0x56454E
+		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
+			Now = 0x0716DF8
+			Save = 0x09A92F0
+			Sys3Pointer = 0x2AE5890
+			PauseMenu = 0x0ABB2B8
+		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
+			Now = 0x0717008
+			Save = 0x09A9830
+			Sys3Pointer = 0x2AE5DD0
+			PauseMenu = 0x0ABB7F8
+		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
+			Now = 0x0716008
+			Save = 0x09A8830
+			Sys3Pointer = 0x2AE4DD0
+			PauseMenu = 0x0ABA7F8
+		end
 	end
 end
 
 function _OnFrame()
+	if GameVersion == 0 then --Get anchor addresses
+		GetVersion()
+		return
+	end
+
 	if true then --Define current values for common addresses
 		Place  = ReadShort(Now+0x00)
 		if Place == 0xFFFF or not MSN then

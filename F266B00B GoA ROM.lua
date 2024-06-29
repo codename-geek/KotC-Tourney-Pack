@@ -352,6 +352,7 @@ if not SeedCleared then
 	if ObjectiveCount == 0 then
 		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
 			SeedCleared = true
+		end
 		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
 			SeedCleared = true
 		end

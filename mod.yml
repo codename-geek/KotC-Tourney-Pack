@@ -14,10 +14,10 @@ assets:
   method: copy
   source:
   - name: AccurateGrowthText.lua
-- name: scripts/F266B00B GoA ROM - Door Unlocker.lua
+- name: scripts/F266B00B GoA ROM.lua
   method: copy
   source:
-  - name: F266B00B GoA ROM - Door Unlocker.lua
+  - name: F266B00B GoA ROM.lua
 - name: scripts/DrivesChanges.lua
   method: copy
   source:

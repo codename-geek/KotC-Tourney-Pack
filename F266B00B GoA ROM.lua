@@ -352,7 +352,7 @@ if not SeedCleared then
 
 	--For Normal 3 Proof
 	if ObjectiveCount == 0 then
-		ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
+		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
 			SeedCleared = true
 		end
 	--For Objectives or Proofs Win Con

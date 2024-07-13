@@ -46,9 +46,7 @@ local world = 0x00
 local room = 0x00
 local prev_World = 0x00
 local prev_Room = 0x00
-local hadNoExpOn = false
 local equip = false
-local forceEquipped = false
 function _OnFrame()
 	if GameVersion == 0 then --Get anchor addresses
 		GetVersion()
@@ -79,22 +77,15 @@ function _OnFrame()
     for Slot = 0,68 do
         local Current = Save + 0x2544 + 2*Slot
         local Ability = ReadShort(Current) & 0x0FFF
-        local Initial = ReadShort(Current) & 0xF000 --initial increases when equipped
 		--No Exp Check
         if Ability == 0x0194 then
 			--if not equipped and supposed to equip
-			if Initial == 0 and equip then
+			if equip then
                 WriteShort(Current,Ability+0x8000)
 				--print("equipping")
-				forceEquipped = true
-            end
-			--if already equipped not by code, do nothing
-			if Initial > 0 and forceEquipped and
-				prev_World == 0x02 and prev_Room == 0x21 and
-				((world == 0x12 and room == 0x1B) or (world == 0x04 and room == 0x1A)) then
+            else
 				WriteShort(Current,Ability)
 				--print("Unequipping")
-				forceEquipped = false
 			end
 		end
     end

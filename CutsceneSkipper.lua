@@ -217,12 +217,15 @@ function _OnFrame()
     if ReadShort(Now+0x00) == 0x1112 and ReadShort(CutLen) == 0x0C9F then --Pete & Maleficent Helps Cutscene
 		WriteByte(CutSkp, 0x01)
 	end
-    if ReadShort(Now+0x00) == 0x1212 and ReadShort(ARDEvent+0x1EFCC) == 0xFFFF then
+    if ReadShort(Now+0x00) == 0x1212 and ReadShort(ARDEvent+0x1EFCC) == 0xFFFF then --Normal & Boss/Enemy
         WriteByte(ARDEvent+0x1F8EE, 0x02)
         WriteInt(ARDEvent+0x1F8F6, 0x0001003B)
         WriteByte(ARDEvent+0x1F938, 0x02)
         WriteByte(ARDEvent+0x1F9EE, 0x4B)
         WriteShort(ARDEvent+0x1EFCC, 0x01)
+    end
+    if ReadShort(Now+0x00) == 0x1212 and ReadShort(ARDEvent+0x1EF0C) == 0xFFFF then --Boss/Enemy
+        WriteShort(ARDEvent+0x1EF0C, 0x01)
     end
     if ReadShort(Now+0x00) == 0x1212 and ReadShort(CutLen) == 0x0FDD then --Pre-Xemnas Cutscene
 		WriteByte(CutSkp, 0x01)
@@ -285,8 +288,7 @@ function _OnFrame()
         WriteInt(Now+0x04, 0x004A004A)
         WriteByte(Now+0x08, 0x4A)
     end
-    --[[
-    if ReadShort(Now+0x00) == 0x1412 and ReadShort(CutLen) == 0x0C11 then --Post Final Xemnas Cutscene
+    --[[if ReadShort(Now+0x00) == 0x1412 and ReadShort(CutLen) == 0x0C11 then --Post Final Xemnas Cutscene
 		WriteByte(CutSkp, 0x01)
 	end
     if ReadShort(Now+0x00) == 0x0001 then --Ending
@@ -297,8 +299,7 @@ function _OnFrame()
         if ReadShort(CutLen) == 0x7814 or ReadShort(CutLen) == 0x0A8C then --Ending FMVs
             WriteByte(CutSkp, 0x01)
         end
-    end
-    ]]
+    end]]
     if ReadShort(Now+0x00) == 0x2102 then --Station of Calling Paths
         if ReadShort(ARDEvent+0x29874) == 0xFFFF then --Normal
             WriteShort(ARDEvent+0x29874, 0x01) --TWTNW Path
@@ -328,33 +329,33 @@ function _OnFrame()
             WriteShort(ARDEvent+0x29B84, 0x01) --PC Path
             WriteShort(ARDEvent+0x29BA4, 0x01)
         end
-        if ReadShort(ARDEvent+0x298B4) == 0xFFFF then --Boss/Enemy
-            WriteShort(ARDEvent+0x298B4, 0x01) --TWTNW Path
-            WriteShort(ARDEvent+0x298D6, 0x61)
-            WriteShort(ARDEvent+0x298D8, 0x01)
-            WriteShort(ARDEvent+0x29918, 0x01) --LoD Path
-            WriteShort(ARDEvent+0x29936, 0x64)
-            WriteShort(ARDEvent+0x29938, 0x01)
-            WriteShort(ARDEvent+0x29978, 0x01) --BC Path
-            WriteShort(ARDEvent+0x29996, 0x61)
-            WriteShort(ARDEvent+0x29998, 0x01)
-            WriteShort(ARDEvent+0x299D8, 0x01) --PL Path
-            WriteShort(ARDEvent+0x299F6, 0x66)
-            WriteShort(ARDEvent+0x299F8, 0x01)
-            WriteShort(ARDEvent+0x29A38, 0x01) --TT Path
-            WriteShort(ARDEvent+0x29A7A, 0xD5)
-            WriteShort(ARDEvent+0x29A7C, 0x01)
-            WriteShort(ARDEvent+0x29ABC, 0x01) --HB Path
-            WriteShort(ARDEvent+0x29ADA, 0x72)
-            WriteShort(ARDEvent+0x29ADC, 0x01)
-            WriteShort(ARDEvent+0x29B1C, 0x01) --PR Path
-            WriteShort(ARDEvent+0x29B3A, 0x65)
-            WriteShort(ARDEvent+0x29B3C, 0x01)
-            WriteShort(ARDEvent+0x29B84, 0x01) --STT Path
-            WriteShort(ARDEvent+0x29BA2, 0x63)
-            WriteShort(ARDEvent+0x29BA4, 0x01)
-            WriteShort(ARDEvent+0x29BE4, 0x01) --PC Path
-            WriteShort(ARDEvent+0x29C04, 0x01)
+        if ReadShort(ARDEvent+0x29884) == 0xFFFF then --Boss/Enemy
+            WriteShort(ARDEvent+0x29884, 0x01) --TWTNW Path
+            WriteShort(ARDEvent+0x298A6, 0x61)
+            WriteShort(ARDEvent+0x298A8, 0x01)
+            WriteShort(ARDEvent+0x298E8, 0x01) --LoD Path
+            WriteShort(ARDEvent+0x29906, 0x64)
+            WriteShort(ARDEvent+0x29908, 0x01)
+            WriteShort(ARDEvent+0x29948, 0x01) --BC Path
+            WriteShort(ARDEvent+0x29966, 0x61)
+            WriteShort(ARDEvent+0x29968, 0x01)
+            WriteShort(ARDEvent+0x299A8, 0x01) --PL Path
+            WriteShort(ARDEvent+0x299C6, 0x66)
+            WriteShort(ARDEvent+0x299C8, 0x01)
+            WriteShort(ARDEvent+0x29A08, 0x01) --TT Path
+            WriteShort(ARDEvent+0x29A2A, 0xD5)
+            WriteShort(ARDEvent+0x29A2C, 0x01)
+            WriteShort(ARDEvent+0x29A6C, 0x01) --HB Path
+            WriteShort(ARDEvent+0x29A8A, 0x72)
+            WriteShort(ARDEvent+0x29A8C, 0x01)
+            WriteShort(ARDEvent+0x29ACC, 0x01) --PR Path
+            WriteShort(ARDEvent+0x29AEA, 0x65)
+            WriteShort(ARDEvent+0x29AEC, 0x01)
+            WriteShort(ARDEvent+0x29B34, 0x01) --STT Path
+            WriteShort(ARDEvent+0x29B52, 0x63)
+            WriteShort(ARDEvent+0x29B54, 0x01)
+            WriteShort(ARDEvent+0x29B94, 0x01) --PC Path
+            WriteShort(ARDEvent+0x29BB4, 0x01)
         end
     end
     if ReadShort(Now+0x00) == 0x1312 and ReadShort(CutLen) == 0x00DC then --Post Data Xemnas Cutscene
@@ -433,10 +434,15 @@ function _OnFrame()
             BitOr(Save+0x1D98, 0x04)
             WriteByte(Save+0x1D9F, 0x06)
         end
-        if ReadShort(ARDEvent+0x0000) == 0xFFFF then
+        if ReadByte(ARDEvent+0x3466) == 0x06 then --Normal
             WriteShort(ARDEvent+0x0000, 0x01)
             WriteByte(ARDEvent+0x3466, 0x0C)
             WriteByte(ARDEvent+0x3468, 0x02)
+        end
+        if ReadByte(ARDEvent+0x34E6) == 0x06 then --Boss/Enemy
+            WriteShort(ARDEvent+0x0000, 0x01)
+            WriteByte(ARDEvent+0x34E6, 0x0C)
+            WriteByte(ARDEvent+0x34E8, 0x02)
         end
 	end
     if ReadShort(Now+0x00) == 0x0608 then  --Ridge Cutscenes
@@ -624,7 +630,7 @@ function _OnFrame()
                 WriteByte(CutSkp, 0x01)
             end
         end
-        if ReadShort(ARDEvent+0x21EF0) == 0xFFFF then
+        if ReadShort(ARDEvent+0x21EF0) == 0xFFFF then --Normal & Boss/Enemy
             WriteShort(ARDEvent+0x21EF0, 0x01)
         end
 	end
@@ -829,10 +835,15 @@ function _OnFrame()
             WriteByte(Save+0x1E5F, 0x05)
             WriteInt(Save+0x2010, 0x858D858C)
         end
-        if ReadByte(ARDEvent+0x26F2A) == 0x3A then
+        if ReadByte(ARDEvent+0x26F2A) == 0x3A then --Normal
             WriteByte(ARDEvent+0x26F22, 0x01)
             WriteInt(ARDEvent+0x26F26, 0x00340002)
             WriteInt(ARDEvent+0x26F2A, 0x00010000)
+        end
+        if ReadByte(ARDEvent+0x26ADE) == 0x3A then --Boss/Enemy
+            WriteByte(ARDEvent+0x26AD6, 0x01)
+            WriteInt(ARDEvent+0x26ADA, 0x00340002)
+            WriteInt(ARDEvent+0x26ADE, 0x00010000)
         end
 	end
     if ReadShort(Now+0x00) == 0x050E and ReadShort(Now+0x38) == 0x04 then --Before Oogie Boogie Cutscene 2
@@ -1563,7 +1574,7 @@ function _OnFrame()
         if ReadShort(CutLen) == 0x0967 then --Pre-Scar Cutscene
             WriteByte(CutSkp, 0x01)
         end
-        if ReadShort(ARDEvent+0x2758C) == 0xFFFF then
+        if ReadShort(ARDEvent+0x2758C) == 0xFFFF then --Normal & Boss/Enemy
             WriteShort(ARDEvent+0x2758C, 0x01)
         end
 	end
@@ -1695,9 +1706,13 @@ function _OnFrame()
             BitOr(Save+0x1CD8, 0x80)
             BitOr(Save+0x1CD9, 0x01)
         end
-        if ReadByte(ARDEvent+0x93C6) == 0x9C then --Pre-Station of Serenity Dusks Cutscene
+        if ReadByte(ARDEvent+0x93C6) == 0x9C then --Normal
             WriteByte(ARDEvent+0x93C6, 0x9A)
             WriteByte(ARDEvent+0x93C8, 0x01)
+        end
+        if ReadByte(ARDEvent+0x9B5A) == 0x9C then --Boss/Enemy
+            WriteByte(ARDEvent+0x9B5A, 0x9A)
+            WriteByte(ARDEvent+0x9B5C, 0x01)
         end
 	end
     if ReadShort(Now+0x00) == 0x0802 then --Station Plaza Cutscenes
@@ -2089,8 +2104,11 @@ function _OnFrame()
                 WriteInt(Save+0x0C, 0x001C1A04)
             end
         end
-        if ReadShort(ARDEvent+0x216B4) == 0xFFFF then
+        if ReadShort(ARDEvent+0x216B4) == 0xFFFF then --Normal
             WriteShort(ARDEvent+0x216B4, 0x01)
+        end
+        if ReadShort(ARDEvent+0x20EB4) == 0xFFFF then --Boss/Enemy
+            WriteShort(ARDEvent+0x20EB4, 0x01)
         end
     end
     if ReadShort(Now+0x00) == 0x1402 and ReadShort(CutLen) == 0x00DC then --Post Data Axel Cutscene
@@ -2329,7 +2347,7 @@ function _OnFrame()
         WriteByte(HBBGM+0x0E80, 0x99) --Merlin's House
         WriteByte(HBBGM+0x0FC0, 0x99) --Restoration Site
         WriteByte(HBBGM+0x1000, 0x99) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x00) == 0x99 then --Post FF Fights Music Fix (Chest Cosmetics)
+    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x0C80) == 0x99 then --Post FF Fights Music Fix (Chest Cosmetics)
         WriteByte(HBBGM+0x0C80, 0x98) --Ansem's Study
         WriteByte(HBBGM+0x0CC0, 0x98) --Postern
         WriteByte(HBBGM+0x0D80, 0x98) --Borough
@@ -2380,7 +2398,7 @@ function _OnFrame()
             BitOr(Save+0x1D14, 0x02)
             WriteShort(Save+0x2040, 0x0000)
         end
-        if ReadShort(ARDEvent+0x27890) == 0xFFFF then
+        if ReadShort(ARDEvent+0x27890) == 0xFFFF then --Normal & Boss Enemy
             WriteShort(ARDEvent+0x27890, 0x01)
         end
     end
@@ -2607,7 +2625,7 @@ function _OnFrame()
             WriteByte(Save+0x1E9F, 0x07)
             WriteInt(Save+0x20A0, 0x85528551)
         end
-        if ReadShort(ARDEvent+0x13F10) == 0xFFFF then
+        if ReadShort(ARDEvent+0x13F10) == 0xFFFF then --Normal & Boss/Enemy
             WriteShort(ARDEvent+0x13F10, 0x01)
         end
 	end
@@ -2850,11 +2868,18 @@ function _OnFrame()
         end
 	end
     if ReadShort(Now+0x00) == 0x050D then --Post Building Site Heartless Cutscene 2
-        if ReadByte(ARDEvent+0x276B6) == 0x08 then
+        if ReadByte(ARDEvent+0x276B6) == 0x08 then --Normal
             WriteByte(ARDEvent+0x276B6, 0x00)
             WriteByte(ARDEvent+0x276BC, 0x01)
             if ReadByte(Save+0x1E32) <= 0x0E then
                 WriteByte(ARDEvent+0x276B8, 0x35)
+            end
+        end
+        if ReadByte(ARDEvent+0x27672) == 0x08 then
+            WriteByte(ARDEvent+0x27672, 0x00)
+            WriteByte(ARDEvent+0x27678, 0x01)
+            if ReadByte(Save+0x1E32) <= 0x0E then
+                WriteByte(ARDEvent+0x27674, 0x35)
             end
         end
     end
@@ -2891,11 +2916,18 @@ function _OnFrame()
         end
 	end
     if ReadShort(Now+0x00) == 0x040D then --Post Lilliput Heartless Cutscene 2
-        if ReadByte(ARDEvent+0x28DAE) == 0x08 then
+        if ReadByte(ARDEvent+0x28DAE) == 0x08 then --Normal
             WriteByte(ARDEvent+0x28DAE, 0x00)
             WriteByte(ARDEvent+0x28DB4, 0x01)
             if ReadByte(Save+0x1E32) <= 0x0E then
                 WriteByte(ARDEvent+0x28DB0, 0x35)
+            end
+        end
+        if ReadByte(ARDEvent+0x28D3E) == 0x08 then --Boss/Enemy
+            WriteByte(ARDEvent+0x28D3E, 0x00)
+            WriteByte(ARDEvent+0x28D44, 0x01)
+            if ReadByte(Save+0x1E32) <= 0x0E then
+                WriteByte(ARDEvent+0x28D40, 0x35)
             end
         end
     end
@@ -2932,11 +2964,18 @@ function _OnFrame()
         end
 	end
     if ReadShort(Now+0x00) == 0x060D then --Post Scene of the Fire Heartless Cutscene 2
-        if ReadByte(ARDEvent+0x2926E) == 0x08 then
+        if ReadByte(ARDEvent+0x2926E) == 0x08 then --Normal
             WriteByte(ARDEvent+0x2926E, 0x00)
             WriteByte(ARDEvent+0x29274, 0x01)
             if ReadByte(Save+0x1E32) <= 0x0E then
                 WriteByte(ARDEvent+0x29270, 0x35)
+            end
+        end
+        if ReadByte(ARDEvent+0x29212) == 0x08 then --Boss/Enemy
+            WriteByte(ARDEvent+0x29212, 0x00)
+            WriteByte(ARDEvent+0x29218, 0x01)
+            if ReadByte(Save+0x1E32) <= 0x0E then
+                WriteByte(ARDEvent+0x29214, 0x35)
             end
         end
     end
@@ -2972,17 +3011,27 @@ function _OnFrame()
         end
 	end
     if ReadShort(Now+0x00) == 0x070D then --Post Mickey's House Heartless Cutscene 2
-        if ReadByte(ARDEvent+0x29D5E) == 0x08 then
+        if ReadByte(ARDEvent+0x29D5E) == 0x08 then --Normal
             WriteByte(ARDEvent+0x29D5E, 0x00)
             WriteByte(ARDEvent+0x29D64, 0x01)
             if ReadByte(Save+0x1E32) < 0x0E then
                 WriteByte(ARDEvent+0x29D60, 0x35)
             end
         end
+        if ReadByte(ARDEvent+0x29D32) == 0x08 then --Boss/Enemy
+            WriteByte(ARDEvent+0x29D32, 0x00)
+            WriteByte(ARDEvent+0x29D38, 0x01)
+            if ReadByte(Save+0x1E32) < 0x0E then
+                WriteByte(ARDEvent+0x29D34, 0x35)
+            end
+        end
     end
     if ReadShort(Now+0x00) == 0x000D then --Cornerstone Hill Cutscenes
-        if ReadByte(ARDEvent+0x1CC40) == 0x03 then
+        if ReadByte(ARDEvent+0x1CC40) == 0x03 then --Normal
             WriteByte(ARDEvent+0x1CC40, 0x02)
+        end
+        if ReadByte(ARDEvent+0x1D364) == 0x03 then --Boss/Enemy
+            WriteByte(ARDEvent+0x1D364, 0x02)
         end
         if ReadShort(CutLen) == 0x0752 then --Post Windows of Time Cutscene
             WriteByte(CutSkp, 0x01)
@@ -3017,7 +3066,7 @@ function _OnFrame()
         WriteShort(Save+0x0C, 0x050C)
     end
     if ReadShort(Now+0x00) == 0x050C then --Hall of the Cornerstone (Light) Cutscenes
-        if ReadByte(ARDEvent+0x24FD4) == 0x43 then
+        if ReadByte(ARDEvent+0x24FD4) == 0x43 then --Normal & Boss/Enemy
             WriteByte(ARDEvent+0x24FD4, 0x02)
         end
         if ReadShort(CutLen) == 0x15C2 then --End of Disney Castle Cutscene

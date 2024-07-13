@@ -267,17 +267,17 @@ function _OnFrame()
                 NegativeComboCount = NegativeComboCount + 1
             end
             if NegativeComboCount > 1 and noDoubleneg then --Unequip one Negative Combo
-				Print("Removing One Negative Combo")
+				print("Removing One Negative Combo")
                 WriteShort(Current,Ability)
             end
 			if NegativeComboCount > 0 and noSingleneg then --Unequip one Negative Combo
-				Print("Removing Both Negative Combos")
+				print("Removing Both Negative Combos")
                 WriteShort(Current,Ability)
             end 
 		--Berserk Charge Check
         elseif Ability == 0x018B and noBerserk and Initial > 0 then
             WriteShort(Current,Ability)
-			rint("Removing Berserk Charge")
+			print("Removing Berserk Charge")
         end
     end
 	--------Force unequip All Berserk and one negative combo
@@ -287,18 +287,18 @@ function _OnFrame()
 	--if Pan is in Inventory and the custom flag isn't set, set it
 	if ReadByte(Save+0x36C4)&0x20 == 0x20 and ReadByte(Save+0x3609) == 0 then
 		WriteByte(Save+0x3609,ReadByte(Save+0x3609)+1)
-		--ConsolePrint("Pan in inventory")
+		--print("Pan in inventory")
 	end
 	--Remove Pan from Inventory if noPan Cheese
 	if noPan then
 		if ReadByte(Save+0x36C4)&0x20 == 0x20 then
-			Print("Removing Pan")
+			print("Removing Pan")
 		end
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player had Pan outside of the boss
 	elseif ReadByte(Save+0x3609) > 0 and not noPan then
 		if ReadByte(Save+0x36C4)&0x20 == 0 then
-			Print("Adding Back Pan")
+			print("Adding Back Pan")
 		end
 		BitOr(Save+0x36C4,0x020)
 	end
@@ -314,7 +314,7 @@ function _OnFrame()
 	--Record every Genie Form Change here
 	if usingGenie and lastGenieForm == 0 and ReadByte(Save+0x3527) ~= 0 then
 		realForm = ReadByte(Save+0x3527)
-		--ConsolePrint(realForm)
+		--print(realForm)
 	end
 	--if genie is summoned for the first time, record initial form
 	if ReadByte(Save+0x3525) == 2 and not usingGenie then
@@ -322,7 +322,7 @@ function _OnFrame()
 		realForm = ReadByte(Save+0x3527)
 		lastGenieForm = ReadByte(Save+0x3527)
 		lastDriveMeter = ReadFloat(Slot1+0x1B4)
-		--ConsolePrint("Summoned Genie!")
+		--print("Summoned Genie!")
 	end
 	--if genie is out and the form changed, do something
 	if usingGenie and ReadByte(Save+0x3527) ~= lastGenieForm then
@@ -337,7 +337,7 @@ function _OnFrame()
 			if ignoreGenie == 0 and ReadByte(BtlTyp) ~= 0 then
 				WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-600)
 			end
-			--ConsolePrint("Changed forms!")
+			--print("Changed forms!")
 		end
 	end
 	--Overwrite the address the form is stored in (doesn't break game)
@@ -355,11 +355,11 @@ function _OnFrame()
 		hasLoaded = false
 		realForm = 0
 		WriteByte(Save+0x3527,0)
-		--ConsolePrint("Dismissed Genie!")
+		--print("Dismissed Genie!")
 	end
 	--if genie is out and the drive meter has not gone down, you know genie is loading
 	if ReadByte(Save+0x3525) == 2 and lastDriveMeter == ReadFloat(Slot1+0x1B4) then
-		--ConsolePrint(ReadFloat(Slot1+0x1B4))
+		--print(ReadFloat(Slot1+0x1B4))
 		lastDriveMeter = ReadFloat(Slot1+0x1B4)
 		WriteByte(Save+0x3527,realForm)
 	end

@@ -7,6 +7,9 @@ This means that when you defeat Final Xemnas, cutscene skipper will be disabled.
 PS2 Duck Flare by Num
 Modifies Duck Flare to be the shorter Emulator version.
 
+Accurate Growth Text by GhostTheBoo
+Makes it where picking up growth will give you the accurate growth name instead of the randomly placed name.
+
 Custom Anti-Cheese by Codename_Geek
 Disables specific cheese strats in certain boss rooms like
 Double Negative Combo, Single Negative Combo, Berserk + Hori/Final, and Pan.
@@ -93,3 +96,14 @@ List of boss fights changed:
     N/A
 - Data Final Xemnas
     N/A
+
+Custom GoA Edit by Codename_Geek
+Allows access to Final Fights via Proofs or Objectives.
+
+Drives Changes by Codename_Geek
+Limit Form and Final form will constantly have their drive gauge go down 25% faster.
+Valor Form will have its drive gauge go down 10% slower.
+
+NoBulkys by Codename_Geek
+No Experience will be forcefully equipped during the Promise Charm bulky room.
+No Experience will be forcefully unequipped elsewhere.

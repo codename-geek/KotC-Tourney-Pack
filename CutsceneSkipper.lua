@@ -7,45 +7,57 @@ end
 
 function GetVersion() --Define anchor addresses
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-      if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
-              GameVersion = 2
-              print('Epic Version Detected - CutsceneSkipper')
-              Now = 0x0716DF8 --Current Location
-              Save = 0x09A92F0 --Save File
-              CutNow = 0x0B649D8 --Cutscene Timer
-              CutLen = 0x0B649F4 --Cutscene Length
-              CutSkp = 0x0B649DC --Cutscene Skip
-              MaxDriveGauge = 0x2A2318A
-              HBBGM = 0x2A693FC
-              ARDEvent = 0x29C501E
-              canExecute = true
-          elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
-              GameVersion = 3
-              print('Steam Global Version Detected - CutsceneSkipper')
-              Now = 0x0717008 --Current Location
-              Save = 0x09A9830 --Save File
-              CutNow = 0x0B64F18 --Cutscene Timer
-              CutLen = 0x0B64F34 --Cutscene Length
-              CutSkp = 0x0B64F1C --Cutscene Skip
-              MaxDriveGauge = 0x2A236CA
-              HBBGM = 0x2A6993C
-              ARDEvent = 0x29C571E
-              canExecute = true
-          elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP (Needs Testing)
-              GameVersion = 4
-              print('Steam JP Version Detected - CutsceneSkipper')
-              Now = 0x0716008 --Current Location
-              Save = 0x09A8830 --Save File
-              CutNow = 0x0B63F18 --Cutscene Timer
-              CutLen = 0x0B63F34 --Cutscene Length
-              CutSkp = 0x0B63F1C --Cutscene Skip
-              MaxDriveGauge = 0x2A226CA
-              HBBGM = 0x2A6893C
-              ARDEvent = 0x29C471E
-              canExecute = true
-          end
-      end
-  end
+        if ReadString(0x09A70B0 - 0x56454E,4) == 'KH2J' then --EGS 1.0.0.8
+            GameVersion = 1
+            print('Epic Version 1.0.0.8_WW Detected - CutsceneSkipper')
+            Now = 0x0714DB8 - 0x56454E --Current Location
+            Save = 0x09A70B0 - 0x56454E --Save File
+            CutNow = 0x0B62798 - 0x56454E --Cutscene Timer
+            CutLen = 0x0B627B4 - 0x56454E --Cutscene Length
+            CutSkp = 0x0B6279C - 0x56454E --Cutscene Skip
+            MaxDriveGauge = 0x2A20E4A - 0x56454E
+            HBBGM = 0x2A66B3C - 0x56454E
+            ARDEvent = 0x29C2CDE - 0x56454E
+            canExecute = true
+        elseif ReadString(0x09A92F0,4) == 'KH2J' then --EGS 1.0.0.9
+            GameVersion = 2
+            print('Epic Version 1.0.0.9_WW Detected - CutsceneSkipper')
+            Now = 0x0716DF8 --Current Location
+            Save = 0x09A92F0 --Save File
+            CutNow = 0x0B649D8 --Cutscene Timer
+            CutLen = 0x0B649F4 --Cutscene Length
+            CutSkp = 0x0B649DC --Cutscene Skip
+            MaxDriveGauge = 0x2A2318A
+            HBBGM = 0x2A693FC
+            ARDEvent = 0x29C501E
+            canExecute = true
+        elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
+            GameVersion = 3
+            print('Steam Global Version Detected - CutsceneSkipper')
+            Now = 0x0717008 --Current Location
+            Save = 0x09A9830 --Save File
+            CutNow = 0x0B64F18 --Cutscene Timer
+            CutLen = 0x0B64F34 --Cutscene Length
+            CutSkp = 0x0B64F1C --Cutscene Skip
+            MaxDriveGauge = 0x2A236CA
+            HBBGM = 0x2A6993C
+            ARDEvent = 0x29C571E
+            canExecute = true
+        elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP (Needs Testing)
+            GameVersion = 4
+            print('Steam JP Version Detected - CutsceneSkipper')
+            Now = 0x0716008 --Current Location
+            Save = 0x09A8830 --Save File
+            CutNow = 0x0B63F18 --Cutscene Timer
+            CutLen = 0x0B63F34 --Cutscene Length
+            CutSkp = 0x0B63F1C --Cutscene Skip
+            MaxDriveGauge = 0x2A226CA
+            HBBGM = 0x2A6893C
+            ARDEvent = 0x29C471E
+            canExecute = true
+        end
+    end
+end
 
 function BitOr(Address,Bit,Abs)
 WriteByte(Address,ReadByte(Address)|Bit,Abs and OnPC)

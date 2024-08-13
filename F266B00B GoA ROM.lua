@@ -349,15 +349,28 @@ function GoA()
 --Clear Conditions
 if not SeedCleared then
 	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
+	local ProofCount = 0
+	if ReadByte(Save+0x36B2) > 0 then
+		ProofCount = ProofCount + 1
+	end
+	if ReadByte(Save+0x36B3) > 0 then
+		ProofCount = ProofCount + 1
+	end
+	if ReadByte(Save+0x36B4) > 0 then
+		ProofCount = ProofCount + 1
+	end
 
 	--For Normal 3 Proof
 	if ObjectiveCount == 0 then
-		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
+		if ProofCount >= 3 then --All Proofs Obtained
 			SeedCleared = true
 		end
-	--For Objectives or Proofs Win Con
+	--For Objectives and/or Proofs Win Con
 	else
-		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 and ReadByte(Save+0x363D) >= 1 then --All Proofs Obtained + 1 Objective
+		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1 then --All Proofs Obtained + 1 Objective
+			SeedCleared = true
+		end
+		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = true
 		end
 		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved

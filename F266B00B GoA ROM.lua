@@ -10,6 +10,7 @@ GameVersion = 0
 print('GoA v1.54.1')
 GoAOffset = 0x7C
 SeedCleared = false
+CheckCount = 0
 end
 
 function GetVersion() --Define anchor addresses
@@ -315,6 +316,8 @@ STT()
 AW()
 At()
 Data()
+
+ABN()
 end
 
 function NewGame()
@@ -1003,6 +1006,11 @@ end
 --Final Door Requirements
 if ReadShort(Save+0x1B7C) == 0x04 and SeedCleared then
 	WriteShort(Save+0x1B7C, 0x0D) --The Altar of Naught MAP (Door RC Available)
+end
+--Warp Sora to Final Xem if ABN
+if Place == 6930 and CheckCount == 63 then
+	--Warp into the appropriate World, Room, Door, Map, Btl, Evt
+	Warp(18,20,0,74,74,74)
 end
 end
 
@@ -2622,6 +2630,139 @@ if ReadShort(Save+0x03D6) == 0x02 then
 		WriteShort(BAR(ARD,0x03,0x012),0x09C,OnPC)
 	end
 end
+end
+
+function ABN()
+--Magic
+local fireCount = ReadByte(Save+0x3594)
+local blizzardCount = ReadByte(Save+0x3595)
+local thunderCount = ReadByte(Save+0x3596)
+local cureCount = ReadByte(Save+0x3597)
+local magnetCount = ReadByte(Save+0x35CF)
+local reflectCount = ReadByte(Save+0x35D0)
+local magicCount = fireCount + blizzardCount + thunderCount + cureCount + magnetCount + reflectCount
+
+--Torn Pages
+local truePageCount = 0
+--Used first page
+if ReadByte(Save+0x1DB1) > 1 then
+	truePageCount = 1
+end
+--Used second page
+if ReadByte(Save+0x1DB2) > 1 then
+	truePageCount = 2
+end
+--Used third page
+if ReadByte(Save+0x1DB3) > 1 then
+	truePageCount = 3
+end
+--Used fourth page
+if ReadByte(Save+0x1DB4) > 1 then
+	truePageCount = 4
+end
+--Used fifth page
+if ReadByte(Save+0x1DB5) > 0 then
+	truePageCount = 5
+end
+truePageCount = truePageCount + ReadByte(Save+0x3598)
+
+--Forms
+local formCount = 0
+--Valor
+if ReadByte(Save+0x36C0)&0x2 == 0x2 then
+	formCount = formCount + 1
+end
+--Wisdom
+if ReadByte(Save+0x36C0)&0x4 == 0x4 then
+	formCount = formCount + 1
+end
+--Limit
+if ReadByte(Save+0x36CA)&0x8 == 0x8 then
+	formCount = formCount + 1
+end
+--Master
+if ReadByte(Save+0x36C0)&0x10 == 0x10 then
+	formCount = formCount + 1
+end
+--Final
+if ReadByte(Save+0x36C0)&0x40 == 0x40 then
+	formCount = formCount + 1
+end
+
+--Summons
+local summonCount = 0
+--Chicken
+if ReadByte(Save+0x36C0)&0x8 == 0x8 then
+	summonCount = summonCount + 1
+end
+--Genie
+if ReadByte(Save+0x36C4)&0x10 == 0x10 then
+	summonCount = summonCount + 1
+end
+--Stitch
+if ReadByte(Save+0x36C0)&0x1 == 0x1 then
+	summonCount = summonCount + 1
+end
+--Pan
+if ReadByte(Save+0x36C4)&0x20 == 0x20 then
+	summonCount = summonCount + 1
+end
+
+--SC/OM
+local abilityCount = 0
+for Slot = 0,68 do
+	local Current = Save + 0x2544 + 2*Slot
+	local Ability = ReadShort(Current) & 0x0FFF
+	--Negative Combo Check
+	if Ability == 0x019F then
+		abilityCount = abilityCount + 1
+	elseif Ability == 0x1A0 then
+		abilityCount = abilityCount + 1
+	end
+end
+
+--Proofs
+local proofCount = 0
+	if ReadByte(Save+0x36B2) > 0 then
+		proofCount = proofCount + 1
+	end
+	if ReadByte(Save+0x36B3) > 0 then
+		proofCount = proofCount + 1
+	end
+	if ReadByte(Save+0x36B4) > 0 then
+		proofCount = proofCount + 1
+	end
+
+--Visit Unlocks
+local unlockCount = 0
+--Namine's Sketches
+unlockCount = unlockCount + ReadByte(Save+0x3642)
+--Ice Cream
+unlockCount = unlockCount + ReadByte(Save+0x3649)
+--Membership Card
+unlockCount = unlockCount + ReadByte(Save+0x3643)
+--Beast's Claw
+unlockCount = unlockCount + ReadByte(Save+0x35B3)
+--Battlefields of War
+unlockCount = unlockCount + ReadByte(Save+0x35AE)
+--Scimitar
+unlockCount = unlockCount + ReadByte(Save+0x35C0)
+--Sword of the Ancestors
+unlockCount = unlockCount + ReadByte(Save+0x35AF)
+--Proud Fang
+unlockCount = unlockCount + ReadByte(Save+0x35B5)
+--Royal Summons (DUMMY 13)
+unlockCount = unlockCount + ReadByte(Save+0x365D)
+--Bone Fist
+unlockCount = unlockCount + ReadByte(Save+0x35B4)
+--Skill and Crossbones
+unlockCount = unlockCount + ReadByte(Save+0x35B6)
+--Identity Disk
+unlockCount = unlockCount + ReadByte(Save+0x35C2)
+--Way to the Dawn
+unlockCount = unlockCount + ReadByte(Save+0x35C1)
+
+CheckCount = magicCount + truePageCount + formCount + summonCount + abilityCount + proofCount + unlockCount
 end
 
 --[[Unused Bytes Repurposed:

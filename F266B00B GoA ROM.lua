@@ -17,7 +17,7 @@ function GetVersion() --Define anchor addresses
 if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 	OnPC = false
 	GameVersion = 1
-	print('GoA PS2 Version')
+	print('GoA PS2 Version - Custom Win Con Edits')
 	Now = 0x032BAE0 --Current Location
 	Sve = 0x1D5A970 --Saved Location
 	Save = 0x032BB30 --Save File
@@ -59,7 +59,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 	OnPC = true
 	if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
 		GameVersion = 2
-		print('GoA Epic Version')
+		print('GoA Epic Version - Custom Win Con Edits')
 		Now = 0x0716DF8
 		Sve = 0x2A0BF80
 		Save = 0x09A92F0
@@ -99,7 +99,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF2C40
 	elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 		GameVersion = 3
-		print('GoA Steam Global Version')
+		print('GoA Steam Global Version - Custom Win Con Edits')
 		Now = 0x0717008
 		Sve = 0x2A0C4C0
 		Save = 0x09A9830
@@ -139,7 +139,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF3340
 	elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 		GameVersion = 4
-		print('GoA Steam JP Version')
+		print('GoA Steam JP Version - Custom Win Con Edits')
 		Now = 0x0716008
 		Sve = 0x2A0B4C0
 		Save = 0x09A8830
@@ -318,6 +318,7 @@ At()
 Data()
 
 ABN()
+ObjFix()
 end
 
 function NewGame()
@@ -376,7 +377,7 @@ if not SeedCleared then
 		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = true
 		end
-		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
+		if ReadByte(Save+0x363D) >= ObjectiveCount + ReadByte(Save+0x360C) then --Requisite Objective Count Achieved (+"ignored" first-visit bosses)
 			SeedCleared = true
 		end
 	end
@@ -1007,7 +1008,7 @@ end
 if ReadShort(Save+0x1B7C) == 0x04 and SeedCleared then
 	WriteShort(Save+0x1B7C, 0x0D) --The Altar of Naught MAP (Door RC Available)
 end
---Warp Sora to Final Xem if ABN
+--Warp Sora to Final Xem if ABN, custom edit code
 if Place == 6930 and CheckCount == 63 then
 	--Warp into the appropriate World, Room, Door, Map, Btl, Evt
 	Warp(18,20,0,74,74,74)
@@ -2763,6 +2764,74 @@ unlockCount = unlockCount + ReadByte(Save+0x35C2)
 unlockCount = unlockCount + ReadByte(Save+0x35C1)
 
 CheckCount = magicCount + truePageCount + formCount + summonCount + abilityCount + proofCount + unlockCount
+end
+
+function ObjFix()
+--Track if Objective comes from a first visit boss
+--Remove a completion mark if a 4th (or more) completion mark is received from a first visit boss
+--0x360A - count how many objectives have been completed
+--0x360B - count how many first visit bosses with objectives have been completed
+--0x360C - count how many first visit bosses with objectives have been completed that were ignored
+while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
+	WriteByte(Save+0x360A,ReadByte(Save+0x360A)+1)
+	--If boss is a first visit boss, increment the counters
+	local FVB = false
+	--STT
+	if World == 0x02 and Room == 0x22 and Btl == 0x9D then --Twilight Thorn
+		FVB = true
+	elseif World == 0x02 and Room == 0x14 and Btl == 0x89 then --Axel 2
+		FVB = true
+	--BC
+	elseif World == 0x05 and Room == 0x0B and Btl == 0x48 then --Thresholder
+		FVB = true
+	elseif World == 0x05 and Room == 0x05 and Btl == 0x4F then --Dark Thorn
+		FVB = true
+	--OC
+	elseif World == 0x06 and Room == 0x07 and Btl == 0x72 then --Cerberus
+		FVB = true
+	elseif World == 0x06 and Room == 0x12 and Btl == 0xAB then --Hydra
+		FVB = true
+	--AG
+	elseif World == 0x07 and Room == 0x03 and Btl == 0x3B then --Twin Lords
+		FVB = true
+	--LoD
+	elseif World == 0x08 and Room == 0x09 and Btl == 0x4B then --Shan Yu
+		FVB = true
+	--PL
+	elseif World == 0x0A and Room == 0x02 and Btl == 0x33 then --Scar
+		FVB = true
+	--HT
+	elseif World == 0x0E and Room == 0x03 and Btl == 0x34 then --Prison Keeper
+		FVB = true
+	elseif World == 0x0E and Room == 0x09 and Btl == 0x37 then --Oogie Boogie
+		FVB = true
+	--PR
+	elseif World == 0x10 and Room == 0x0A and Btl == 0x3C then --Barbossa
+		FVB = true
+	--SP
+	elseif World == 0x11 and Room == 0x04 and Btl == 0x37 then --Hostile Program
+		FVB = true
+	--TWTNW
+	elseif World == 0x12 and Room == 0x15 and Btl == 0x41 then --Roxas
+		FVB = true
+	elseif World == 0x12 and Room == 0x0A and Btl == 0x39 then --Xigbar
+		FVB = true
+	elseif World == 0x12 and Room == 0x0E and Btl == 0x3A then --Luxord
+		FVB = true
+	elseif World == 0x12 and Room == 0x0F and Btl == 0x38 then --Saix
+		FVB = true
+	end
+	if FVB then
+		--WriteByte(Save+0x360A,ReadByte(Save+0x360A)+1)
+		WriteByte(Save+0x360B,ReadByte(Save+0x360B)+1)
+	end
+	--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss
+	if ReadByte(Save+0x360B) > 3 then
+		WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
+		WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
+		WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
+	end
+end
 end
 
 --[[Unused Bytes Repurposed:

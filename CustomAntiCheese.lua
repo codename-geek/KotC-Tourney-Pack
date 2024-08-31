@@ -293,16 +293,12 @@ function RemovePan()
 		--print("Pan in inventory")
 	end
 	--Remove Pan from Inventory if noPan Cheese
-	if noPan then
-		if ReadByte(Save+0x36C4)&0x20 == 0x20 then
-			print("Removing Pan")
-		end
+	if noPan and ReadByte(Save+0x36C4)&0x20 == 0x2 then
+		print("Removing Pan")
 		BitNot(Save+0x36C4,0x020)
 	--Give Pan back if the player had Pan outside of the boss
-	elseif ReadByte(Save+0x3609) > 0 and not noPan then
-		if ReadByte(Save+0x36C4)&0x20 == 0 then
-			print("Adding Back Pan")
-		end
+	elseif ReadByte(Save+0x3609) > 0 and not noPan and ReadByte(Save+0x36C4)&0x20 == 0 then
+		print("Adding Back Pan")
 		BitOr(Save+0x36C4,0x020)
 	end
 end

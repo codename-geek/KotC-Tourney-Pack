@@ -377,7 +377,7 @@ if not SeedCleared then
 		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = true
 		end
-		if ReadByte(Save+0x363D) >= ObjectiveCount + ReadByte(Save+0x360C) then --Requisite Objective Count Achieved (+"ignored" first-visit bosses)
+		if (ReadByte(Save+0x363D) + ReadByte(Save+0x360C)) >= ObjectiveCount then --Requisite Objective Count Achieved (+"ignored" first-visit bosses)
 			SeedCleared = true
 		end
 	end
@@ -2824,7 +2824,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	if FVB then
 		--WriteByte(Save+0x360A,ReadByte(Save+0x360A)+1)
 		WriteByte(Save+0x360B,ReadByte(Save+0x360B)+1)
-		--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss
+		--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss, add 1 to skipped bosses
 		if ReadByte(Save+0x360B) > 3 then
 			WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
 			WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)

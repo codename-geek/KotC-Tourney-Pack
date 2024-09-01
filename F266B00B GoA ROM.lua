@@ -2824,12 +2824,12 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	if FVB then
 		--WriteByte(Save+0x360A,ReadByte(Save+0x360A)+1)
 		WriteByte(Save+0x360B,ReadByte(Save+0x360B)+1)
-	end
-	--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss
-	if ReadByte(Save+0x360B) > 3 then
-		WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
-		WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
-		WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
+		--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss
+		if ReadByte(Save+0x360B) > 3 then
+			WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
+			WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
+			WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
+		end
 	end
 end
 end

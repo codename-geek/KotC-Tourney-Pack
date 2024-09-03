@@ -2772,6 +2772,11 @@ function ObjFix()
 --0x360A - count how many objectives have been completed
 --0x360B - count how many first visit bosses with objectives have been completed
 --0x360C - count how many first visit bosses with objectives have been completed that were ignored
+--0x360D - STT1/STT2/HB1/HB2/BC1/BC2/OC1/OC2
+--0x360E - AG1/AG2/LoD1/LoD2/PL1/PL2/HT1/HT2
+--0x3613 - PR1/PR2/SP1/SP2/TWTNW1/TWTNW2
+
+local hasRemoved = false
 while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	WriteByte(Save+0x360A,ReadByte(Save+0x360A)+1)
 	--If boss is a first visit boss, increment the counters
@@ -2812,13 +2817,13 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	elseif World == 0x11 and Room == 0x04 and Btl == 0x37 then --Hostile Program
 		FVB = true
 	--TWTNW
-	elseif World == 0x12 and Room == 0x15 and Btl == 0x41 then --Roxas
+	elseif World == 0x12 and Room == 0x15 and Btl == 0x41 then --Story Roxas
 		FVB = true
-	elseif World == 0x12 and Room == 0x0A and Btl == 0x39 then --Xigbar
+	elseif World == 0x12 and Room == 0x0A and Btl == 0x39 then --Story Xigbar
 		FVB = true
-	elseif World == 0x12 and Room == 0x0E and Btl == 0x3A then --Luxord
+	elseif World == 0x12 and Room == 0x0E and Btl == 0x3A then --Story Luxord
 		FVB = true
-	elseif World == 0x12 and Room == 0x0F and Btl == 0x38 then --Saix
+	elseif World == 0x12 and Room == 0x0F and Btl == 0x38 then --Story Saix
 		FVB = true
 	end
 	if FVB then
@@ -2826,12 +2831,214 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 		WriteByte(Save+0x360B,ReadByte(Save+0x360B)+1)
 		--If you have done 3 first visit bosses already, remove 1 completion mark and 1 boss, add 1 to skipped bosses
 		if ReadByte(Save+0x360B) > 3 then
-			WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
-			WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
-			WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
+			DropCounter()
+			hasRemoved = true
+		end
+	end
+
+	--Check what bosses are done
+	--0x360D - STT1/STT2/HB1/HB2/BC1/BC2/OC1/OC2
+	--0x360E - AG1/AG2/LoD1/LoD2/PL1/PL2/HT1/HT2
+	--0x3613 - PR1/PR2/SP1/SP2/TWTNW1/TWTNW2
+	--STT
+	if World == 0x02 and Room == 0x22 and Btl == 0x9D then --Twilight Thorn
+		BitOr(Save+0x360D,0x1)
+	elseif World == 0x02 and Room == 0x14 and Btl == 0x89 then --Axel 2
+		if ReadByte(Save+0x360D)&0x1 == 0x1 then
+			BitOr(Save+0x360D,0x2)
+		end
+	elseif World == 0x12 and Room == 0x15 and Btl == 0x72 then --Data Roxas
+		if ReadByte(Save+0x360D)&0x1 == 0x1 and ReadByte(Save+0x360D)&0x2 == 0x2 then
+			DropCounter()
+		end
+	--HB
+	elseif World == 0x04 and Room == 0x04 and Btl == 0x37 then --Demyx
+		BitOr(Save+0x360D,0x4)
+	elseif World == 0x04 and Room == 0x01 and Btl == 0x4B then --Sephiroth
+		if ReadByte(Save+0x360D)&0x4 == 0x4 and ReadByte(Save+0x360D)&0x8 == 0x8 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x360D)&0x4 == 0x4 then
+			BitOr(Save+0x360D,0x8)
+		end
+	elseif World == 0x12 and Room == 0x15 and Btl == 0x8D then --Data Demyx
+		if ReadByte(Save+0x360D)&0x4 == 0x4 and ReadByte(Save+0x360D)&0x8 == 0x8 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x360D)&0x4 == 0x4 then
+			BitOr(Save+0x360D,0x8)
+		end
+	--BC
+	elseif World == 0x05 and Room == 0x0B and Btl == 0x48 then --Thresholder
+		BitOr(Save+0x360D,0x10)
+	elseif World == 0x05 and Room == 0x05 and Btl == 0x4F then --Dark Thorn
+		if ReadByte(Save+0x360D)&0x10 == 0x10 then
+			BitOr(Save+0x360D,0x20)
+		else
+			BitOr(Save+0x360D,0x10)
+		end
+	elseif World == 0x05 and Room == 0x0F and Btl == 0x52 then --Xaldin
+		if ReadByte(Save+0x360D)&0x10 == 0x10 and ReadByte(Save+0x360D)&0x20 == 0x20 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x360D)&0x10 == 0x10 then
+			BitOr(Save+0x360D,0x20)
+		end
+	elseif World == 0x05 and Room == 0x0F and Btl == 0x63 then --Data Xaldin
+		if ReadByte(Save+0x360D)&0x10 == 0x10 and ReadByte(Save+0x360D)&0x20 == 0x20 then
+			DropCounter()
+		end
+	--OC
+	elseif World == 0x06 and Room == 0x07 and Btl == 0x72 then --Cerberus
+		BitOr(Save+0x360D,0x40)
+	elseif World == 0x06 and Room == 0x12 and Btl == 0xAB then --Hydra
+		if ReadByte(Save+0x360D)&0x40 == 0x40 then
+			BitOr(Save+0x360D,0x80)
+		else
+			BitOr(Save+0x360D,0x40)
+		end
+	elseif World == 0x06 and Room == 0x13 and Btl == 0xCA then --Hades
+		if ReadByte(Save+0x360D)&0x40 == 0x40 and ReadByte(Save+0x360D)&0x80 == 0x80 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x360D)&0x40 == 0x40 then
+			BitOr(Save+0x360D,0x80)
+		end
+	elseif World == 0x04 and Room == 0x22 and Btl == 0x98 then --AS Zexion
+		if ReadByte(Save+0x360D)&0x40 == 0x40 and ReadByte(Save+0x360D)&0x80 == 0x80 then
+			DropCounter()
+		end
+	--0x360E
+	--AG
+	elseif World == 0x07 and Room == 0x03 and Btl == 0x3B then --Twin Lords
+		BitOr(Save+0x360E,0x1)
+	elseif World == 0x07 and Room == 0x05 and Btl == 0x3E then --Genie Jafar
+		if ReadByte(Save+0x360E)&0x1 == 0x1 then
+			BitOr(Save+0x360E,0x2)
+		end
+	elseif World == 0x04 and Room == 0x21 and Btl == 0x93 then --AS Lexaeus
+		if ReadByte(Save+0x360E)&0x1 == 0x1 and ReadByte(Save+0x360E)&0x2 == 0x2 then
+			DropCounter()
+		end
+	--LoD
+	elseif World == 0x08 and Room == 0x09 and Btl == 0x4B then --Shan Yu
+		BitOr(Save+0x360E,0x4)
+	elseif World == 0x08 and Room == 0x08 and Btl == 0x4F then --Storm Rider
+		if ReadByte(Save+0x360E)&0x4 == 0x4 then
+			BitOr(Save+0x360E,0x8)
+		end
+	elseif World == 0x12 and Room == 0x0A and Btl == 0x6C then --Data Xigbar
+		if ReadByte(Save+0x360E)&0x4 == 0x4 and ReadByte(Save+0x360E)&0x8 == 0x8 then
+			DropCounter()
+		end
+	--PL
+	elseif World == 0x0A and Room == 0x02 and Btl == 0x33 then --Scar
+		BitOr(Save+0x360E,0x10)
+	elseif World == 0x0A and Room == 0x0F and Btl == 0x3B then --Groundshaker
+		if ReadByte(Save+0x360E)&0x10 == 0x10 then
+			BitOr(Save+0x360E,0x20)
+		end
+	elseif World == 0x12 and Room == 0x0F and Btl == 0x6E then --Data Saix
+		if ReadByte(Save+0x360E)&0x10 == 0x10 and ReadByte(Save+0x360E)&0x20 == 0x20 then
+			DropCounter()
+		end
+	--HT
+	elseif World == 0x0E and Room == 0x03 and Btl == 0x34 then --Prison Keeper
+		BitOr(Save+0x360E,0x40)
+	elseif World == 0x0E and Room == 0x09 and Btl == 0x37 then --Oogie Boogie
+		if ReadByte(Save+0x360E)&0x4 == 0x4 then
+			BitOr(Save+0x360E,0x8)
+		else
+			BitOr(Save+0x360E,0x40)
+		end
+	elseif World == 0x0E and Room == 0x07 and Btl == 0x40 then --Experiment
+		if ReadByte(Save+0x360E)&0x40 == 0x40 and ReadByte(Save+0x360E)&0x80 == 0x80 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x360E)&0x40 == 0x40 then
+			BitOr(Save+0x360E,0x80)
+		end
+	elseif World == 0x04 and Room == 0x20 and Btl == 0x73 then --AS Vexen
+		if ReadByte(Save+0x360E)&0x40 == 0x40 and ReadByte(Save+0x360E)&0x80 == 0x80 then
+			DropCounter()
+		end
+	--0x3613
+	--PR
+	elseif World == 0x10 and Room == 0x0A and Btl == 0x3C then --Barbossa
+		BitOr(Save+0x3613,0x1)
+	elseif World == 0x10 and Room == 0x12 and Btl == 0x55 then --Grim Reaper 1
+		if ReadByte(Save+0x3613)&0x1 == 0x1 then
+			BitOr(Save+0x3613,0x2)
+		else
+			BitOr(Save+0x3613,0x1)
+		end
+	elseif World == 0x10 and Room == 0x01 and Btl == 0x36 then --Grim Reaper 2
+		if ReadByte(Save+0x3613)&0x1 == 0x1 and ReadByte(Save+0x3613)&0x2 == 0x2 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x3613)&0x1 == 0x1 then
+			BitOr(Save+0x3613,0x2)
+		end
+	elseif World == 0x12 and Room == 0x0E and Btl == 0x70 then --Data Luxord
+		if ReadByte(Save+0x3613)&0x1 == 0x1 and ReadByte(Save+0x3613)&0x2 == 0x2 then
+			DropCounter()
+		end
+	--SP
+	elseif World == 0x11 and Room == 0x04 and Btl == 0x37 then --Hostile Program
+		BitOr(Save+0x3613,0x4)
+	elseif World == 0x11 and Room == 0x09 and Btl == 0x3B then --MCP
+		if ReadByte(Save+0x3613)&0x4 == 0x4 then
+			BitOr(Save+0x3613,0x8)
+		end
+	elseif World == 0x04 and Room == 0x21 and Btl == 0x8F then --AS Larxene
+		if ReadByte(Save+0x3613)&0x4 == 0x4 and ReadByte(Save+0x3613)&0x8 == 0x8 then
+			DropCounter()
+		end
+	--TWTNW
+	elseif World == 0x12 and Room == 0x15 and Btl == 0x41 then --Story Roxas
+		BitOr(Save+0x3613,0x10)
+	elseif World == 0x12 and Room == 0x0A and Btl == 0x39 then --Story Xigbar
+		if ReadByte(Save+0x3613)&0x10 == 0x10 then
+			BitOr(Save+0x3613,0x20)
+		else
+			BitOr(Save+0x3613,0x10)
+		end
+	elseif World == 0x12 and Room == 0x0E and Btl == 0x3A then --Story Luxord
+		if ReadByte(Save+0x3613)&0x10 == 0x10 and ReadByte(Save+0x3613)&0x20 == 0x20 and not hasRemoved then
+			DropCounter()
+		end
+		if ReadByte(Save+0x3613)&0x10 == 0x10 then
+			BitOr(Save+0x3613,0x20)
+		else
+			BitOr(Save+0x3613,0x10)
+		end
+	elseif World == 0x12 and Room == 0x0F and Btl == 0x38 then --Story Saix
+		if ReadByte(Save+0x3613)&0x10 == 0x10 and ReadByte(Save+0x3613)&0x20 == 0x20 and not hasRemoved then
+			DropCounter()
+		end
+		if ReadByte(Save+0x3613)&0x10 == 0x10 then
+			BitOr(Save+0x3613,0x20)
+		else
+			BitOr(Save+0x3613,0x10)
+		end
+	elseif World == 0x12 and Room == 0x13 and Btl == 0x3B then --Story Xemnas
+		if ReadByte(Save+0x3613)&0x10 == 0x10 and ReadByte(Save+0x3613)&0x20 == 0x20 then
+			DropCounter()
+		end
+		if ReadByte(Save+0x3613)&0x10 == 0x10 then
+			BitOr(Save+0x3613,0x20)
+		end
+	elseif World == 0x12 and Room == 0x14 and Btl == 0x6A then --Story Xemnas
+		if ReadByte(Save+0x3613)&0x10 == 0x10 and ReadByte(Save+0x3613)&0x20 == 0x20 then
+			DropCounter()
 		end
 	end
 end
+end
+function DropCounter()
+	WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
+	WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
+	WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
 end
 
 --[[Unused Bytes Repurposed:

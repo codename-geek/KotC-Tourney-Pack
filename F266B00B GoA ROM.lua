@@ -2817,13 +2817,13 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	elseif World == 0x11 and Room == 0x04 and Btl == 0x37 then --Hostile Program
 		FVB = true
 	--TWTNW
-	elseif World == 0x12 and Room == 0x15 and Btl == 0x41 then --Story Roxas
+	elseif World == 0x12 and Room == 0x15 then --Story Roxas
 		FVB = true
-	elseif World == 0x12 and Room == 0x0A and Btl == 0x39 then --Story Xigbar
+	elseif World == 0x12 and Room == 0x0A then --Story Xigbar
 		FVB = true
-	elseif World == 0x12 and Room == 0x0E and Btl == 0x3A then --Story Luxord
+	elseif World == 0x12 and Room == 0x0E then --Story Luxord
 		FVB = true
-	elseif World == 0x12 and Room == 0x0F and Btl == 0x38 then --Story Saix
+	elseif World == 0x12 and Room == 0x0F then --Story Saix
 		FVB = true
 	end
 	if FVB then

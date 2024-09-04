@@ -2932,7 +2932,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 			DropCounter()
 		end
 	--PL
-	elseif World == 0x0A and Room == 0x02 and Btl == 0x33 then --Scar
+	elseif World == 0x0A and Room == 0x0E and Btl == 0x37 then --Scar
 		BitOr(Save+0x360E,0x10)
 	elseif World == 0x0A and Room == 0x0F and Btl == 0x3B then --Groundshaker
 		if ReadByte(Save+0x360E)&0x10 == 0x10 then

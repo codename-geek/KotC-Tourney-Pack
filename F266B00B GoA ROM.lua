@@ -2803,7 +2803,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 	elseif World == 0x08 and Room == 0x09 and Btl == 0x4B then --Shan Yu
 		FVB = true
 	--PL
-	elseif World == 0x0A and Room == 0x02 and Btl == 0x33 then --Scar
+	elseif World == 0x0A and Room == 0x0E and Btl == 0x37 then --Scar
 		FVB = true
 	--HT
 	elseif World == 0x0E and Room == 0x03 and Btl == 0x34 then --Prison Keeper

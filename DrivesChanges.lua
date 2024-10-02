@@ -47,10 +47,10 @@ function _OnFrame()
 		--ConsolePrint("Decreasing")
 		--Limit
 		if ReadByte(Save+0x3524) == 3 and ReadByte(Pause) ~= 3 then
-			--WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
+			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.20)
 		--Final
 		elseif ReadByte(Save+0x3524) == 5 and ReadByte(Pause) ~= 3 then
-			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.25)
+			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)-0.20)
 		--Valor
 		elseif ReadByte(Save+0x3524) == 1 and ReadByte(Pause) ~= 3 then
 			WriteFloat(Slot1+0x1B4,ReadFloat(Slot1+0x1B4)+0.1)

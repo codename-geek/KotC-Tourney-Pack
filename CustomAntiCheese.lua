@@ -34,18 +34,21 @@ function GetVersion() --Define anchor addresses
 			Save = 0x09A92F0
 			BtlTyp = 0x2A10E44
 			Slot1 = 0x2A22FD8
+			IsLoaded = 0x09BA310
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Now = 0x0717008
 			Save = 0x09A9830
 			BtlTyp = 0x2A11384
 			Slot1 = 0x2A23518
+			IsLoaded = 0x09BA850
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Now = 0x0716008
 			Save = 0x09A8830
 			BtlTyp = 0x2A10384
 			Slot1 = 0x2A22518
+			IsLoaded = 0x09B9850
 		end
 	end
 end
@@ -347,8 +350,11 @@ function GenieNerf()
 		end
 	end
 	--Overwrite the address the form is stored in (doesn't break game)
-	if usingGenie then
-		WriteByte(Save+0x3527,lastGenieForm)
+	if ReadByte(IsLoaded) ~= 0x00 then
+		WriteByte(Save+0x3527,0)
+	elseif ReadByte(IsLoaded) == 0x00 then
+		WriteByte(Save+0x3527,realForm)
+		ignoreGenie = 1
 	end
 	--Reset Freebie Swaps when not in combat
 	if usingGenie and ReadByte(BtlTyp) == 0 then

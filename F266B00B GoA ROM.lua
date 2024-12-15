@@ -523,7 +523,7 @@ if World == 4 and (lastWorld == 17) then -- Space Paranoids
 		print("Converted Completion Mark to Visit Unlock - Identity Disk")
 	end
 elseif World == 4 and (lastWorld == 9) then -- 100 Acre Wood
-	if (lastInput2 == 33557504 or lastInput1 == 0) and ReadByte(Save+0x363D) > 1 and (ReadByte(Save+0x3598) >= 1 or ReadByte(Save+0x3598) <= 4) then
+	if (lastInput2 == 33557504 and lastInput1 == 0) and ReadByte(Save+0x363D) > 1 and (ReadByte(Save+0x3598) >= 1 or ReadByte(Save+0x3598) <= 4) then
 		WriteByte(Save+0x3598,ReadByte(Save+0x3598)+1)
 		WriteByte(Save+0x363D,ReadByte(Save+0x363D)-2)
 		print("Converted Completion Mark to Visit Unlock - Torn Pages")

@@ -18,6 +18,11 @@ lastInput1 = 0
 lastInput2 = 0
 lastRoom = 0
 lastWorld = 0
+
+bulky_Room = 0x00
+bulky_lastRoom = 0x00
+bulky_World = 0x00
+bulky_lastWorld = 0x00
 end
 
 function GetVersion() --Define anchor addresses
@@ -376,11 +381,13 @@ if true then
 
 	--For Normal 3 Proof
 	if ObjectiveCount == 0 then
+		NoExp()
 		if ProofCount >= 3 then --All Proofs Obtained
 			SeedCleared = 1
 		end
 	--For Objectives and/or Proofs Win Con
-	else
+	elseif ObjectiveCount == 8 then
+		NoExp()
 		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1
@@ -408,6 +415,56 @@ if true then
 				ConsolePrint("Multiple win cons achieved - Skip to Final Xemnas Active")
 			end
 		end
+	--For Emblem Hitlist
+	else
+		--Increase stats based on Emblems
+		local emblemCount = ReadByte(Save+0x363D)
+		local str = 0
+		local mag = 0
+		local def = math.floor(emblemCount / 4) --Sora
+		local def_p = math.floor(emblemCount / 2) --Party Members
+		local app = emblemCount * 3
+
+		for em = 0, emblemCount do
+			if em <= 15 then
+				str = str + 1
+				mag = mag + 1
+			elseif em > 15 and em <= 35 then
+				str = str + 2
+				mag = mag + 2
+			else
+				str = str + 3
+				mag = mag + 3
+			end
+		end
+		WriteByte(Save+0x24F9,str)
+		WriteByte(Save+0x24FA,mag)
+		WriteByte(Save+0x24FB,def)
+		WriteByte(Save+0x24F8,50 + app)
+		----party members, add defense
+		WriteByte(Save+0x260F,def_p)
+		WriteByte(Save+0x2723,def_p)
+		WriteByte(Save+0x294B,def_p)
+		WriteByte(Save+0x2A5F,def_p)
+		WriteByte(Save+0x2B73,def_p)
+		WriteByte(Save+0x2C87,def_p)
+		WriteByte(Save+0x2D9B,def_p)
+		WriteByte(Save+0x2EAF,def_p)
+		WriteByte(Save+0x2FC3,def_p)
+		WriteByte(Save+0x30D7,def_p)
+		WriteByte(Save+0x31EB,def_p)
+		----party members, add defense
+		--------Force equip no exp
+		local NoExpCount = 0 --no exps equipped
+		for Slot = 0,68 do
+			local Current = Save + 0x2544 + 2*Slot
+			local Ability = ReadShort(Current) & 0x0FFF
+			--No Exp Check
+			if Ability == 0x0194 then
+				WriteShort(Current,Ability+0x8000)
+			end
+		end
+		--------Force equip no exp
 	end
 end
 --Garden of Assemblage Rearrangement
@@ -3131,6 +3188,45 @@ function DropCounter()
 	WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)
 	WriteByte(Save+0x360A,ReadByte(Save+0x360A)-1)
 	WriteByte(Save+0x360C,ReadByte(Save+0x360C)+1)
+end
+
+function NoExp()
+	--------Checks for Current room
+	--if going to a new room
+    if bulky_World ~= ReadByte(Now + 0x00) or bulky_Room ~= ReadByte(Now + 0x01) then
+		bulky_lastWorld = bulky_World
+		bulky_lastRoom = bulky_Room
+	end
+	bulky_World = ReadByte(Now + 0x00)
+	bulky_Room = ReadByte(Now + 0x01)
+
+	local equip = false
+	if bulky_World == 0x02 and bulky_Room == 0x21 and --in Station of Calling
+	    ((bulky_lastWorld == 0x04 and bulky_lastRoom == 0x1A) or --GoA
+	    (bulky_lastWorld == 0x12 and bulky_lastRoom == 0x1B) or --Buildings
+		(bulky_lastWorld == 0x12 and bulky_lastRoom == 0x1C)) then --Other Buildings
+		--print("In promise charm room")
+		equip = true
+	end
+
+	--------Force equip no exp
+    local NoExpCount = 0 --no exps equipped
+    for Slot = 0,68 do
+        local Current = Save + 0x2544 + 2*Slot
+        local Ability = ReadShort(Current) & 0x0FFF
+		--No Exp Check
+        if Ability == 0x0194 then
+			--if not equipped and supposed to equip
+			if equip then
+                WriteShort(Current,Ability+0x8000)
+				--print("equipping")
+            else
+				WriteShort(Current,Ability)
+				--print("Unequipping")
+			end
+		end
+    end
+	--------Force equip no exp
 end
 
 --[[Unused Bytes Repurposed:

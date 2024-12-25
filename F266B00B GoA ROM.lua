@@ -460,8 +460,9 @@ if true then
 			local Current = Save + 0x2544 + 2*Slot
 			local Ability = ReadShort(Current) & 0x0FFF
 			--No Exp Check
-			if Ability == 0x0194 then
+			if Ability == 0x0194 and NoExpCount == 0 then
 				WriteShort(Current,Ability+0x8000)
+				NoExpCount = NoExpCount + 1
 			end
 		end
 		--------Force equip no exp

@@ -20,16 +20,19 @@ function GetVersion()
 			Save = 0x09A92F0
 			Pause = 0x0ABB2B8
 			Slot1    = 0x2A22FD8
+			print('GoA Epic Version - Drive Changes')
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Save = 0x09A9830
 			Pause = 0x0ABB7F8
 			Slot1    = 0x2A23518
+			print('GoA Steam Global Version - Drive Changes')
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Save = 0x09A8830
 			Pause = 0x0ABA7F8
 			Slot1    = 0x2A22518
+			print('GoA Steam JP Version - Drive Changes')
 		end
 
 		canExecute = true

@@ -35,6 +35,7 @@ function GetVersion() --Define anchor addresses
 			BtlTyp = 0x2A10E44
 			Slot1 = 0x2A22FD8
 			IsLoaded = 0x09BA310
+			print('GoA Epic Version - Geek Anti-Cheese')
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Now = 0x0717008
@@ -42,6 +43,7 @@ function GetVersion() --Define anchor addresses
 			BtlTyp = 0x2A11384
 			Slot1 = 0x2A23518
 			IsLoaded = 0x09BA850
+			print('GoA Steam Global Version - Geek Anti-Cheese')
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Now = 0x0716008
@@ -49,6 +51,7 @@ function GetVersion() --Define anchor addresses
 			BtlTyp = 0x2A10384
 			Slot1 = 0x2A22518
 			IsLoaded = 0x09B9850
+			print('GoA Steam JP Version - Geek Anti-Cheese')
 		end
 	end
 end

@@ -392,27 +392,27 @@ if true then
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1
 			WinCon1 = true
-			ConsolePrint("Win con 1 achieved - 3 Proofs + 1 Objective")
+			print("Win con 1 achieved - 3 Proofs + 1 Objective")
 			if WinCon2 or WinCon3 then
-				ConsolePrint("Multiple win cons achieved - Skip to Final Xemnas Active")
+				print("Multiple win cons achieved - Skip to Final Xemnas Active")
 			end
 		end
 		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2
 		   and not WinCon2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = SeedCleared + 1
 			WinCon2 = true
-			ConsolePrint("Win con 2 achieved - 1 Proofs + 6 Objectives")
+			print("Win con 2 achieved - 1 Proofs + 6 Objectives")
 			if WinCon1 or WinCon3 then
-				ConsolePrint("Multiple win cons achieved - Skip to Final Xemnas Active")
+				print("Multiple win cons achieved - Skip to Final Xemnas Active")
 			end
 		end
 		if (ReadByte(Save+0x363D) + ReadByte(Save+0x360C)) >= ObjectiveCount
 		   and not WinCon3 then --Requisite Objective Count Achieved (+"ignored" first-visit bosses)
 			SeedCleared = SeedCleared + 1
 			WinCon3 = true
-			ConsolePrint("Win con 3 achieved - 8 Objectives")
+			print("Win con 3 achieved - 8 Objectives")
 			if WinCon1 or WinCon2 then
-				ConsolePrint("Multiple win cons achieved - Skip to Final Xemnas Active")
+				print("Multiple win cons achieved - Skip to Final Xemnas Active")
 			end
 		end
 	--For Emblem Hitlist
@@ -421,7 +421,7 @@ if true then
 		local emblemCount = ReadByte(Save+0x363D)
 		local str = 0
 		local mag = 0
-		local def = math.floor(emblemCount / 4) --Sora
+		local def = math.floor(emblemCount / 3) --Sora
 		local def_p = math.floor(emblemCount / 2) --Party Members
 		local app = emblemCount * 3
 

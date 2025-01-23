@@ -28,7 +28,7 @@ function GetVersion()
 			Sys3Pointer = 0x2AE5890
 			PauseMenu = 0x743350
 			Sys3 = ReadLong(Sys3Pointer)
-			print('GoA Epic Version - Accurate Growth Text')
+			print('GoA Epic Version (v.9) - Accurate Growth Text')
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Now = 0x0717008
@@ -36,7 +36,7 @@ function GetVersion()
 			Sys3Pointer = 0x2AE5DD0
 			PauseMenu = 0x7435D0
 			Sys3 = ReadLong(Sys3Pointer)
-			print('GoA Steam Global Version - Accurate Growth Text')
+			print('GoA Steam Global Version (Downpatch) - Accurate Growth Text')
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Now = 0x0716008
@@ -44,7 +44,31 @@ function GetVersion()
 			Sys3Pointer = 0x2AE4DD0
 			PauseMenu = 0x7425D0
 			Sys3 = ReadLong(Sys3Pointer)
-			print('GoA Steam JP Version - Accurate Growth Text')
+			print('GoA Steam JP Version (Downpatch) - Accurate Growth Text')
+		elseif ReadString(0x9A9330,4) == 'KH2J' then --EGS
+			GameVersion = 2
+			Now = 0x0716DF8
+			Save = 0x09A9330
+			Sys3Pointer = 0x2AE58D0
+			PauseMenu = 0x743350
+			Sys3 = ReadLong(Sys3Pointer)
+			print('GoA Epic Version (v.10) - Accurate Growth Text')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
+			GameVersion = 3
+			Now = 0x0717008
+			Save = 0x09A98B0
+			Sys3Pointer = 0x2AE5E50
+			PauseMenu = 0x7435D0
+			Sys3 = ReadLong(Sys3Pointer)
+			print('GoA Steam Global Version (Updated) - Accurate Growth Text')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
+			GameVersion = 4
+			Now = 0x0717008
+			Save = 0x09A98B0
+			Sys3Pointer = 0x2AE5E50
+			PauseMenu = 0x7435D0
+			Sys3 = ReadLong(Sys3Pointer)
+			print('GoA Steam JP Version (Updated) - Accurate Growth Text')
 		end
 	end
 end

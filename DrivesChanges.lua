@@ -1,41 +1,54 @@
-local canExecute = false
-local lastDriveVal = 0
-
 function _OnInit()
 	GameVersion = 0
+	lastDriveVal = 0
 end
 
 function GetVersion()
-	if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-        --[[if ENGINE_VERSION < 5.0 then
-            ConsolePrint('LuaBackend is outdated', 2)
-			return
-        end
-		Slot1    = 0x2A20C58 - 0x56450E
-		Save 	 = 0x09A7070 - 0x56450E
-		Pause 	 = 0xBEBD28 - 0x56454E]]
-
-		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
+	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
+		OnPC = false
+		GameVersion = 1
+		Save = 0x032BB30
+		Pause = 0x0347E08
+		Slot1    = 0x1C6C750
+		print('GoA PS2 Version - Drive Changes')
+	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
+        if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
 			GameVersion = 2
 			Save = 0x09A92F0
 			Pause = 0x0ABB2B8
 			Slot1    = 0x2A22FD8
-			print('GoA Epic Version - Drive Changes')
+			print('GoA Epic Version (v.9) - Drive Changes')
 		elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 			GameVersion = 3
 			Save = 0x09A9830
 			Pause = 0x0ABB7F8
 			Slot1    = 0x2A23518
-			print('GoA Steam Global Version - Drive Changes')
+			print('GoA Steam Global Version (Downpatch) - Drive Changes')
 		elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 			GameVersion = 4
 			Save = 0x09A8830
 			Pause = 0x0ABA7F8
 			Slot1    = 0x2A22518
-			print('GoA Steam JP Version - Drive Changes')
+			print('GoA Steam JP Version (Downpatch) - Drive Changes')
+		elseif ReadString(0x9A9330,4) == 'KH2J' then --EGS
+			GameVersion = 2
+			Save = 0x09A9330
+			Pause = 0x0ABB2F8
+			Slot1    = 0x2A23018
+			print('GoA Epic Version (v.10) - Drive Changes')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
+			GameVersion = 3
+			Save = 0x09A98B0
+			Pause = 0x0ABB878
+			Slot1    = 0x2A23598
+			print('GoA Steam Global Version (Updated) - Drive Changes')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
+			GameVersion = 4
+			Save = 0x09A98B0
+			Pause = 0x0ABB878
+			Slot1    = 0x2A23598
+			print('GoA Steam JP Version (Updated) - Drive Changes')
 		end
-
-		canExecute = true
     end
 end
 

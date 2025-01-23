@@ -21,11 +21,7 @@ end
 function GetVersion() --Define anchor addresses
 	if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 		OnPC = false
-		GameVersion = 1
-		Now = 0x032BAE0 --Current Location
-		Save = 0x032BB30 --Save File
-		BtlTyp = 0x1C61958 --Battle Status (Out-of-Battle, Regular, Forced)
-		Slot1 = 0x1C6C750 --Unit Slot 1
+		print('GoA PS2 Version - Geek Anti-Cheese not loading')
 	elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		OnPC = true
 		if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
@@ -52,6 +48,30 @@ function GetVersion() --Define anchor addresses
 			Slot1 = 0x2A22518
 			IsLoaded = 0x09B9850
 			print('GoA Steam JP Version - Geek Anti-Cheese')
+		elseif ReadString(0x9A9330,4) == 'KH2J' then --EGS
+			GameVersion = 2
+			Now = 0x0716DF8
+			Save = 0x09A9330
+			BtlTyp = 0x2A10E84
+			Slot1    = 0x2A23018
+			IsLoaded = 0x9BA350
+			print('GoA Epic Version (v.10) - Geek Anti-Cheese')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
+			GameVersion = 3
+			Now = 0x0717008
+			Save = 0x09A98B0
+			BtlTyp = 0x2A11404
+			Slot1    = 0x2A23598
+			IsLoaded = 0x9BA8D0
+			print('GoA Steam Global Version (Updated) - Geek Anti-Cheese')
+		elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
+			GameVersion = 4
+			Now = 0x0717008
+			Save = 0x09A98B0
+			BtlTyp = 0x2A11404
+			Slot1    = 0x2A23598
+			IsLoaded = 0x9BA8D0
+			print('GoA Steam JP Version (Updated) - Geek Anti-Cheese')
 		end
 	end
 end

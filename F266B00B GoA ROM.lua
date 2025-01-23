@@ -14,8 +14,6 @@ WinCon1 = false
 WinCon2 = false
 WinCon3 = false
 CheckCount = 0
-lastInput1 = 0
-lastInput2 = 0
 
 bulky_Room = 0x00
 bulky_lastRoom = 0x00
@@ -69,7 +67,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 	OnPC = true
 	if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
 		GameVersion = 2
-		print('GoA Epic Version - KotC GoA')
+		print('GoA Epic Version (v.9) - KotC GoA')
 		Now = 0x0716DF8
 		Sve = 0x2A0BF80
 		Save = 0x09A92F0
@@ -107,10 +105,9 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF2C40
-		inputAddr = 0x29FAD30
 	elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 		GameVersion = 3
-		print('GoA Steam Global Version - KotC GoA')
+		print('GoA Steam Global Version (Downpatch) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C4C0
 		Save = 0x09A9830
@@ -148,10 +145,9 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF3340
-		inputAddr = 0xBF3120
 	elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 		GameVersion = 4
-		print('GoA Steam JP Version - KotC GoA')
+		print('GoA Steam JP Version (Downpatch) - KotC GoA')
 		Now = 0x0716008
 		Sve = 0x2A0B4C0
 		Save = 0x09A8830
@@ -189,7 +185,126 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF2340
-		inputAddr = 0xBF2120
+	elseif ReadString(0x9A9330,4) == 'KH2J' then --EGS
+		GameVersion = 2
+		print('GoA Epic Version (v.10) - KotC GoA')
+		Now = 0x0716DF8
+		Sve = 0x2A0BFC0
+		Save = 0x09A9330
+		Obj0Pointer = 0x2A24AB0
+		Sys3Pointer = 0x2AE58D0
+		Btl0Pointer = 0x2AE58D8
+		ARDPointer = 0x2A0F2A8
+		Music = 0x0ABA7C4
+		Pause = 0x0ABB2F8
+		React = 0x2A10BE2
+		Cntrl = 0x2A16C68
+		Timer = 0x0ABB2D0
+		Songs = 0x0B657F4
+		GScre = 0x072AEB0
+		GMdal = 0x072B044
+		GKill = 0x0AF6BC6
+		CamTyp = 0x0718A98
+		GamSpd = 0x0717214
+		CutNow = 0x0B64A18
+		CutLen = 0x0B64A34
+		CutSkp = 0x0B64A1C
+		BtlTyp = 0x2A10E84
+		BtlEnd = 0x2A0F760
+		TxtBox = 0x074DCB0
+		DemCln = 0x2A0F334
+		Slot1    = 0x2A23018
+		NextSlot = 0x278
+		Point1   = 0x2A0F4C8
+		NxtPoint = 0x50
+		Gauge1   = 0x2A0F5B8
+		NxtGauge = 0x48
+		Menu1    = 0x2A10B90
+		NextMenu = 0x8
+		Obj0 = ReadLong(Obj0Pointer)
+		Sys3 = ReadLong(Sys3Pointer)
+		Btl0 = ReadLong(Btl0Pointer)
+		MSN = 0x0BF2C80
+	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
+		GameVersion = 3
+		print('GoA Steam Global Version (Updated) - KotC GoA')
+		Now = 0x0717008
+		Sve = 0x2A0C540
+		Save = 0x09A98B0
+		Obj0Pointer = 0x2A25030
+		Sys3Pointer = 0x2AE5E50
+		Btl0Pointer = 0x2AE5E58
+		ARDPointer = 0x2A0F828
+		Music = 0x0ABAD44
+		Pause = 0x0ABB878
+		React = 0x2A11162
+		Cntrl = 0x2A171E8
+		Timer = 0x0ABB850
+		Songs = 0x0B65D44
+		GScre = 0x072B130
+		GMdal = 0x072B2C4
+		GKill = 0x0AF7146
+		CamTyp = 0x0718CA8
+		GamSpd = 0x0717424
+		CutNow = 0x0B64F98
+		CutLen = 0x0B64FB4
+		CutSkp = 0x0B64F9C
+		BtlTyp = 0x2A11404
+		BtlEnd = 0x2A0FCE0
+		TxtBox = 0x074DF20
+		DemCln = 0x2A0F8B4
+		Slot1    = 0x2A23598
+		NextSlot = 0x278
+		Point1   = 0x2A0FA48
+		NxtPoint = 0x50
+		Gauge1   = 0x2A0FB38
+		NxtGauge = 0x48
+		Menu1    = 0x2A11110
+		NextMenu = 0x8
+		Obj0 = ReadLong(Obj0Pointer)
+		Sys3 = ReadLong(Sys3Pointer)
+		Btl0 = ReadLong(Btl0Pointer)
+		MSN = 0x0BF33C0
+	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
+		GameVersion = 4
+		print('GoA Steam JP Version (Updated) - KotC GoA')
+		Now = 0x0717008
+		Sve = 0x2A0C540
+		Save = 0x09A98B0
+		Obj0Pointer = 0x2A25030
+		Sys3Pointer = 0x2AE5E50
+		Btl0Pointer = 0x2AE5E58
+		ARDPointer = 0x2A0F828
+		Music = 0x0ABAD44
+		Pause = 0x0ABB878
+		React = 0x2A11162
+		Cntrl = 0x2A171E8
+		Timer = 0x0ABB850
+		Songs = 0x0B65D74
+		GScre = 0x072B130
+		GMdal = 0x072B2C4
+		GKill = 0x0AF7146
+		CamTyp = 0x0718CA8
+		GamSpd = 0x0717424
+		CutNow = 0x0B64F98
+		CutLen = 0x0B64FB4
+		CutSkp = 0x0B64F9C
+		BtlTyp = 0x2A11404
+		BtlEnd = 0x2A0FCE0
+		TxtBox = 0x074DF20
+		DemCln = 0x2A0F8B4
+		Slot1    = 0x2A23598
+		NextSlot = 0x278
+		Point1   = 0x2A0FA48
+		NxtPoint = 0x50
+		Gauge1   = 0x2A0FB38
+		NxtGauge = 0x48
+		Menu1    = 0x2A11110
+		NextMenu = 0x8
+		Obj0 = ReadLong(Obj0Pointer)
+		Sys3 = ReadLong(Sys3Pointer)
+		Btl0 = ReadLong(Btl0Pointer)
+		MSN = 0x0BF33C0
 	end
 end
 if GameVersion ~= 0 then
@@ -476,10 +591,6 @@ if Place == 0x1A04 then
 	if ReadByte(Save+0x1D2E) > 0 then --Hollow Bastion Cleared
 		WriteShort(BAR(ARD,0x05,0x25C),0x779,OnPC) --Radiant Garden
 	end
-end
-if ReadInt(inputAddr) ~= lastInput1 then
-	lastInput2 = lastInput1
-	lastInput1 = ReadInt(inputAddr)
 end
 --World Map -> Garden of Assemblage
 if Place == 0x000F then
@@ -985,14 +1096,22 @@ end
 --Show all items in shops (ASSEMBLY edit)
 if not OnPC then
 	WriteInt(0x264250,0)
-elseif ReadLong(0x2FAA22) == 0x43B70F0D74D68541 then --Epic Global
+elseif ReadLong(0x2FAA22) == 0x43B70F0D74D68541 then --Epic Global v.9
 	WriteByte(0x2FAA26,0)
-elseif ReadLong(0x2FA682) == 0x43B70F0D74D68541 then --Epic JP
+elseif ReadLong(0x2FA682) == 0x43B70F0D74D68541 then --Epic JP v.9
 	WriteByte(0x2FA686,0)
-elseif ReadLong(0x2FB562) == 0x43B70F0D74D68541 then --Steam Global
+elseif ReadLong(0x2FB562) == 0x43B70F0D74D68541 then --Steam Global Downpatch
 	WriteByte(0x2FB566,0)
-elseif ReadLong(0x2FB2E2) == 0x43B70F0D74D68541 then --Steam JP
+elseif ReadLong(0x2FB2E2) == 0x43B70F0D74D68541 then --Steam JP Downpatch
 	WriteByte(0x2FB2E6,0)
+elseif ReadLong(0x2FAD62) == 0x43B70F0D74D68541 then --Epic Global v.10
+	WriteByte(0x2FAD66,0)
+elseif ReadLong(0x2FABA2) == 0x43B70F0D74D68541 then --Epic JP v.10
+	WriteByte(0x2FABA6,0)
+elseif ReadLong(0x2FB8A2) == 0x43B70F0D74D68541 then --Steam Global Updated
+	WriteByte(0x2FB8A6,0)
+elseif ReadLong(0x2FB622) == 0x43B70F0D74D68541 then --Steam JP Updated
+	WriteByte(0x2FB626,0)
 end
 --Alternate Party Models (adding new UCM using MEMT causes problems when shopping)
 if World == 0x0C and Place ~= 0x070C then --Mage & Knight (KH I)

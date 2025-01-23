@@ -1,11 +1,3 @@
-local GameVersion = 0
-local canExecute = false
-local prevBlack = 0
-local prevContinue = 0
-local blacklist = {"es01", "bb05", "eh20", "eh22", "eh23", "eh24", "eh25", "eh26", "eh27", "eh28", "eh29"}
-local blacklisted = false
-local loadCount = 0
-
 function _OnInit()
 	GameVersion = 0
 end

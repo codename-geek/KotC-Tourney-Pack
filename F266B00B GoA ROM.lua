@@ -514,7 +514,7 @@ if true then
 		   and not WinCon2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = SeedCleared + 1
 			WinCon2 = true
-			print("Win con 2 achieved - 1 Proofs + 6 Objectives")
+			print("Win con 2 achieved - 1 Proof + 6 Objectives")
 			if WinCon1 or WinCon3 then
 				print("Multiple win cons achieved - Skip to Final Xemnas Active")
 			end

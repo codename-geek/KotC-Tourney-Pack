@@ -7,7 +7,7 @@ LUAGUI_DESC = 'A GoA build for use with the Randomizer. Requires ROM patching.'
 
 function _OnInit()
 GameVersion = 0
-print('GoA v1.54.2')
+print('GoA v1.54.3')
 GoAOffset = 0x7C
 SeedCleared = 0
 WinCon1 = false
@@ -107,7 +107,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF2C40
 	elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
 		GameVersion = 3
-		print('GoA Steam Global Version (Downpatch) - KotC GoA')
+		print('GoA Steam Global Version (v.1) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C4C0
 		Save = 0x09A9830
@@ -147,7 +147,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF3340
 	elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
 		GameVersion = 4
-		print('GoA Steam JP Version (Downpatch) - KotC GoA')
+		print('GoA Steam JP Version (v.1) - KotC GoA')
 		Now = 0x0716008
 		Sve = 0x2A0B4C0
 		Save = 0x09A8830
@@ -227,7 +227,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF2C80
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
 		GameVersion = 3
-		print('GoA Steam Global Version (Updated) - KotC GoA')
+		print('GoA Steam Global Version (v.2) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C540
 		Save = 0x09A98B0
@@ -267,7 +267,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		MSN = 0x0BF33C0
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
 		GameVersion = 4
-		print('GoA Steam JP Version (Updated) - KotC GoA')
+		print('GoA Steam JP Version (v.2) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C540
 		Save = 0x09A98B0
@@ -447,6 +447,7 @@ Data()
 
 ABN()
 ObjFix()
+NoExp()
 end
 
 function NewGame()
@@ -474,6 +475,15 @@ if Place == 0x2002 and Events(0x01,Null,0x01) then --Station of Serenity Weapons
 	WriteShort(Save+0x4270,0x1FF) --Pause Menu Tutorial Prompts Seen Flags
 	WriteShort(Save+0x4274,0x1FF) --Status Form & Summon Seen Flags
 	BitOr(Save+0x49F0,0x03) --Shop Tutorial Prompt Flags (1=Big Shops, 2=Small Shops)
+	--Fix for a softlock added on purpose for debugging purposes
+	--It'll warp you to Wedding Ship if Lua isn't running; this code will warp you properly to GoA)
+	if ReadShort(BAR(ARD,0x0A,0xD6),OnPC) == 0x0B and ReadShort(BAR(ARD,0x0A,0xD8),OnPC) == 0x0A then
+		WriteShort(BAR(ARD,0x0A,0xD6),0x04,OnPC)
+		WriteShort(BAR(ARD,0x0A,0xD8),0x1A,OnPC)
+	elseif ReadShort(BAR(ARD,0x0A,0xDE),OnPC) == 0x0B and ReadShort(BAR(ARD,0x0A,0xE0),OnPC) == 0x0A then
+		WriteShort(BAR(ARD,0x0A,0xDE),0x04,OnPC)
+		WriteShort(BAR(ARD,0x0A,0xE0),0x1A,OnPC)
+	end
 end
 end
 
@@ -494,13 +504,11 @@ if true then
 
 	--For Normal 3 Proof
 	if ObjectiveCount == 0 then
-		NoExp()
 		if ProofCount >= 3 then --All Proofs Obtained
 			SeedCleared = 1
 		end
 	--For Objectives and/or Proofs Win Con
 	elseif ObjectiveCount == 8 then
-		NoExp()
 		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1

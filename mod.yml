@@ -118,6 +118,7 @@ assets:
   - name: remastered/limit/us/donald2_wi.bar/US_donald2_wi_bar7.dds
     type: internal
 # Cutscene Skipper
+#ARD Editing
 - method: binarc
   name: ard/al00.ard #Agrabah Cutscenes
   multi:

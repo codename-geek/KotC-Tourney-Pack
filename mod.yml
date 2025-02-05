@@ -26,6 +26,26 @@ assets:
   method: copy
   source:
   - name: BonusSpeedUp.lua
+#Orichalcum Text -> Broken Mark
+- name: msg/us/sys.bar
+  multi:
+  - name: msg/fr/sys.bar
+  - name: msg/gr/sys.bar
+  - name: msg/it/sys.bar
+  - name: msg/sp/sys.bar
+  method: binarc
+  source:
+  - name: sys
+    type: list
+    method: kh2msg
+    source:
+    - name: msg/sys.yml
+      language: en
+#Orichalcum+ icon replacement
+- name: remastered/itempic/item-281.imd/-0.dds
+  method: copy
+  source:
+  - name: imgs/brokenmark.dds
 # PS2 Duck Flare
 - name: limit/us/donald2.bar
   method: copy

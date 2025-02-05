@@ -3239,6 +3239,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 		end
 	end
 end
+WriteByte(Save+0x363B,ReadByte(Save+0x360C))
 end
 function DropCounter()
 	WriteByte(Save+0x363D,ReadByte(Save+0x363D)-1)

@@ -1,25 +1,14 @@
-- id: 0x3B0C
-  en: 'An Objective Completion Mark.
-
-    Awarded to those who complete given tasks.
-
-    Some of these are required to open the door...'
-  jp: 'An Objective Completion Mark.
-
-    Awarded to those who complete given tasks.
-
-    Some of these are required to open the door...'
 - id: 0x3B07
   en: Broken Mark
   jp: Broken Mark
 - id: 0x3B08
-  en: 'A Broken Objective Completion Mark.
+  en: 'A Broken Completion Mark. Replaces some
 
-    Given when completing specific tasks.
+    Completion marks after certain conditions.
 
-    I hear these still have a use...'
-  jp: 'A Broken Objective Completion Mark.
+    I heard that these still have a use...'
+  jp: 'A Broken Completion Mark. Replaces some
 
-    Given when completing specific tasks.
+    Completion marks after certain conditions.
 
-    I hear these still have a use...'
+    I heard that these still have a use...'

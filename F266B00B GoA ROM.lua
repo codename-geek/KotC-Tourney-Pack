@@ -3239,6 +3239,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 		end
 	end
 end
+--Show skipped count by number of (reskinned) Orichalcum+'s
 WriteByte(Save+0x363B,ReadByte(Save+0x360C))
 end
 function DropCounter()

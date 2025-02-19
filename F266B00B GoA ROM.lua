@@ -19,6 +19,9 @@ bulky_Room = 0x00
 bulky_lastRoom = 0x00
 bulky_World = 0x00
 bulky_lastWorld = 0x00
+
+infoBoxText = "oops"
+doInfoBox = false
 end
 
 function GetVersion() --Define anchor addresses
@@ -186,7 +189,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF2340
 	elseif ReadString(0x9A9330,4) == 'KH2J' then --EGS
-		GameVersion = 2
+		GameVersion = 5
 		print('GoA Epic Version (v.10) - KotC GoA')
 		Now = 0x0716DF8
 		Sve = 0x2A0BFC0
@@ -226,7 +229,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF2C80
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
-		GameVersion = 3
+		GameVersion = 6
 		print('GoA Steam Global Version (v.2) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C540
@@ -266,7 +269,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Btl0 = ReadLong(Btl0Pointer)
 		MSN = 0x0BF33C0
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
-		GameVersion = 4
+		GameVersion = 7
 		print('GoA Steam JP Version (v.2) - KotC GoA')
 		Now = 0x0717008
 		Sve = 0x2A0C540
@@ -448,6 +451,7 @@ Data()
 ABN()
 ObjFix()
 NoExp()
+WinConInfoBox()
 end
 
 function NewGame()
@@ -513,27 +517,30 @@ if true then
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1
 			WinCon1 = true
-			print("Win con 1 achieved - 3 Proofs + 1 Objective")
 			if WinCon2 or WinCon3 then
-				print("Multiple win cons achieved - Skip to Final Xemnas Active")
+				WriteInfoBox('Win con 1 achieved - 3 Proofs + 1 Objective - Skip to Final Xemnas Active')
+			else
+				WriteInfoBox('Win con 1 achieved - 3 Proofs + 1 Objective')
 			end
 		end
 		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2
 		   and not WinCon2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
 			SeedCleared = SeedCleared + 1
 			WinCon2 = true
-			print("Win con 2 achieved - 1 Proof + 6 Objectives")
 			if WinCon1 or WinCon3 then
-				print("Multiple win cons achieved - Skip to Final Xemnas Active")
+				WriteInfoBox('Win con 2 achieved - 1 Proof + 6 Objectives - Skip to Final Xemnas Active')
+			else
+				WriteInfoBox('Win con 2 achieved - 1 Proof + 6 Objectives')
 			end
 		end
 		if (ReadByte(Save+0x363D) + ReadByte(Save+0x360C)) >= ObjectiveCount
 		   and not WinCon3 then --Requisite Objective Count Achieved (+"ignored" first-visit bosses)
 			SeedCleared = SeedCleared + 1
 			WinCon3 = true
-			print("Win con 3 achieved - 8 Objectives")
 			if WinCon1 or WinCon2 then
-				print("Multiple win cons achieved - Skip to Final Xemnas Active")
+				WriteInfoBox('Win con 3 achieved - 8 Objectives - Skip to Final Xemnas Active')
+			else
+				WriteInfoBox('Win con 3 achieved - 8 Objectives')
 			end
 		end
 	--For Emblem Hitlist
@@ -3326,3 +3333,89 @@ Save+0x1EDF TWtNW Progress
 Save+0x35C4 Ollete's Munny Pouch
 Save+0x35C5 Mickey's Munny Pouch
 --]]
+
+--still missing icon support and special things like color/size/ect.
+CharSet = {['０'] = 0x21, ['１'] = 0x22, ['２'] = 0x23, ['３'] = 0x24, ['４'] = 0x25, ['５'] = 0x26, ['６'] = 0x27, 
+['７'] = 0x28, ['８'] = 0x29, ['９'] = 0x2a, ['+'] = 0x2b, ['−'] = 0x2c, ['ₓ'] = 0x2d, ['A'] = 0x2e, ['B'] = 0x2f, 
+['C'] = 0x30, ['D'] = 0x31, ['E'] = 0x32, ['F'] = 0x33, ['G'] = 0x34, ['H'] = 0x35, ['I'] = 0x36, ['J'] = 0x37, 
+['K'] = 0x38, ['L'] = 0x39, ['M'] = 0x3a, ['N'] = 0x3b, ['O'] = 0x3c, ['P'] = 0x3d, ['Q'] = 0x3e, ['R'] = 0x3f, 
+['S'] = 0x40, ['T'] = 0x41, ['U'] = 0x42, ['V'] = 0x43, ['W'] = 0x44, ['X'] = 0x45, ['Y'] = 0x46, ['Z'] = 0x47, 
+['!'] = 0x48, ['?'] = 0x49, ['%'] = 0x4a, ['/'] = 0x4b, ['※'] = 0x4c, ['、'] = 0x4d, ['。'] = 0x4e, ['.'] = 0x4f, 
+[','] = 0x50, [';'] = 0x51, [':'] = 0x52, ['…'] = 0x53, ["-"] = 0x54, ['–'] = 0x55, ['〜'] = 0x56, ["'"] = 0x57, 
+['('] = 0x5a, [')'] = 0x5b, ['「'] = 0x5c, ['」'] = 0x5d, ['『'] = 0x5e, ['』'] = 0x5f, ['“'] = 0x60, ['”'] = 0x61, 
+['['] = 0x62, [']'] = 0x63, ['<'] = 0x64, ['>'] = 0x65, ['-'] = 0x66, ["–"] = 0x67, ['◯'] = 0x6c, ['✕'] = 0x6d, 
+--these kinda don't exactly work as single character searches, huh?
+--["I"] = 0x74, ["II"] = 0x75, ["III"] = 0x76, ["IV"] = 0x77, ["V"] = 0x78, ["VI"] = 0x79, ["VII"] = 0x7a, ["VIII"] = 0x7b, 
+--["IX"] = 0x7c, ["X"] = 0x7d, ["XIII"] = 0x7e, ["XI"] = 0x84, ["XII"] = 0x85,
+['α'] = 0x7f,['β'] = 0x80, ['γ'] = 0x81, 
+['&'] = 0x86, ['#'] = 0x87, ['®'] = 0x88, ['▴'] = 0x89, ['▾'] = 0x8a, ['▸'] = 0x8b, ['◂'] = 0x8c, ['°'] = 0x8d, 
+["♪"] = 0x8e, ['0'] = 0x90, ['1'] = 0x91, ['2'] = 0x92, ['3'] = 0x93, ['4'] = 0x94, ['5'] = 0x95, ['6'] = 0x96, 
+['7'] = 0x97, ['8'] = 0x98, ['9'] = 0x99, ['a'] = 0x9a, ['b'] = 0x9b, ['c'] = 0x9c, ['d'] = 0x9d, ['e'] = 0x9e, 
+['f'] = 0x9f, ['g'] = 0xa0, ['h'] = 0xa1, ['i'] = 0xa2, ['j'] = 0xa3, ['k'] = 0xa4, ['l'] = 0xa5, ['m'] = 0xa6, 
+['n'] = 0xa7, ['o'] = 0xa8, ['p'] = 0xa9, ['q'] = 0xaa, ['r'] = 0xab, ['s'] = 0xac, ['t'] = 0xad, ['u'] = 0xae, 
+['v'] = 0xaf, ['w'] = 0xb0, ['x'] = 0xb1, ['y'] = 0xb2, ['z'] = 0xb3, ['Æ'] = 0xb4, ['æ'] = 0xb5, ['ß'] = 0xb6, 
+['à'] = 0xb7, ['á'] = 0xb8, ['â'] = 0xb9, ['ä'] = 0xba, ['è'] = 0xbb, ['é'] = 0xbc, ['ê'] = 0xbd, ['ë'] = 0xbe, 
+['ì'] = 0xbf, ['í'] = 0xc0, ['î'] = 0xc1, ['ï'] = 0xc2, ['ñ'] = 0xc3, ['ò'] = 0xc4, ['ó'] = 0xc5, ['ô'] = 0xc6, 
+['ö'] = 0xc7, ['ù'] = 0xc8, ['ú'] = 0xc9, ['û'] = 0xca, ['ü'] = 0xcb, ['º'] = 0xcc, ['—'] = 0xcd, ['»'] = 0xce, 
+['«'] = 0xcf, ['À'] = 0xd0, ['Á'] = 0xd1, ['Â'] = 0xd2, ['Ä'] = 0xd3, ['È'] = 0xd4, ['É'] = 0xd5, ['Ê'] = 0xd6, 
+['Ë'] = 0xd7, ['Ì'] = 0xd8, ['Í'] = 0xd9, ['Î'] = 0xda, ['Ï'] = 0xdb, ['Ñ'] = 0xdc, ['Ò'] = 0xdd, ['Ó'] = 0xde, 
+['Ô'] = 0xdf, ['Ö'] = 0xe0, ['Ù'] = 0xe1, ['Ú'] = 0xe2, ['Û'] = 0xe3, ['Ü'] = 0xe4, ['¡'] = 0xe5, ['¿'] = 0xe6, 
+['Ç'] = 0xe7, ['ç'] = 0xe8, ['‛'] = 0xe9, ['’'] = 0xea, ['`'] = 0xeb, ['´'] = 0xec, ['"'] = 0xed, ['★'] = 0xef, 
+['☆'] = 0xf0, ['■'] = 0xf1, ['□'] = 0xf2, ['▲'] = 0xf3, ['△'] = 0xf4, ['●'] = 0xf5, ['○'] = 0xf6, ['♪'] = 0xf7, 
+['♫'] = 0xf8, ['→'] = 0xf9, ['←'] = 0xfa, ['↑'] = 0xfb, ['↓'] = 0xfc, ['・'] = 0xfd, ['❤'] = 0xfe}
+
+function Text2khscii(item_name)
+	out_list = {}
+	char_count = 0
+	
+
+	--Throughout the text, do:
+	while char_count < utf8.len(item_name) do
+		--get character
+		char = utf8.sub(item_name, char_count+1, char_count+1)
+		--check if exists in dict, then grab khscii value if it does
+		if CharSet[char] ~= nil then
+			table.insert(out_list, CharSet[char])
+		else --can't find, so use 0x01 (a blank space)
+			table.insert(out_list, 0x01)
+		end
+		
+		--incrament char count num for next
+		char_count = char_count + 1
+	end
+	
+	--null terminator at end
+	table.insert(out_list, 0x00)
+	
+    return out_list
+end
+
+--I HATE UTF8 ALL MY HOMIES HATE LUA TOO
+--thank ouy mr ihf from stackoverflow. my hero
+function utf8.sub(s,i,j)
+    i=utf8.offset(s,i)
+    j=utf8.offset(s,j+1)-1
+    return string.sub(s,i,j)
+end
+
+function WriteInfoBox(text)
+	if GameVersion == 5 or GameVersion == 6 or GameVersion == 7 then
+		infoBoxText = text
+		txt = Text2khscii(text)
+		WriteArray(0x800004, txt)
+		doInfoBox = true
+	end
+end
+function ShowInfoBox()
+	if GameVersion == 5 or GameVersion == 6 or GameVersion == 7 then
+		WriteByte(0x800000, 0x01)
+	end
+end
+
+function WinConInfoBox() --Used to check when the wincon is achieved at when to display it
+	if ReadByte(Cntrl) == 0 and doInfoBox then
+		print(infoBoxText)
+		ShowInfoBox()
+		doInfoBox = false
+	end
+end

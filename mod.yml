@@ -1,5 +1,5 @@
-title: King of the Crown Tourney Mod Pack v6.2
-description: ------------------------------------------------------ Place above the GoA | For Steam/Epic Version ------------------------------------------------------ 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | Geek's Custom GoA | Geek's Custom AntiCheese | Geek's Drive Adjustments | Geek's Bonus Speed Up
+title: King of the Crown Tourney Mod Pack v6.3
+description: ------------------------------------------------------ Place above the GoA | For Steam/Epic Version ------------------------------------------------------ 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | Topaz's Information Box | Geek's Custom GoA | Geek's Custom AntiCheese | Geek's Drive Adjustments | Geek's Bonus Speed Up
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua
@@ -26,6 +26,10 @@ assets:
   method: copy
   source:
   - name: BonusSpeedUp.lua
+- name: scripts/EnablersAP.lua
+  method: copy
+  source:
+  - name: EnablersAP.lua
 #Orichalcum Text -> Broken Mark
 - name: msg/us/sys.bar
   multi:

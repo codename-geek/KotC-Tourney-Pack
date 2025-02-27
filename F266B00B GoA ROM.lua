@@ -3413,7 +3413,7 @@ function ShowInfoBox()
 end
 
 function WinConInfoBox() --Used to check when the wincon is achieved at when to display it
-	if ReadByte(Cntrl) == 0 and doInfoBox then
+	if ReadByte(Cntrl) == 0 and ReadByte(BtlTyp) == 0 and doInfoBox then
 		print(infoBoxText)
 		ShowInfoBox()
 		doInfoBox = false

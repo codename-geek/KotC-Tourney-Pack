@@ -450,7 +450,6 @@ Data()
 
 ABN()
 ObjFix()
-NoExp()
 WinConInfoBox()
 end
 
@@ -508,11 +507,13 @@ if true then
 
 	--For Normal 3 Proof
 	if ObjectiveCount == 0 then
+		NoExp()
 		if ProofCount >= 3 then --All Proofs Obtained
 			SeedCleared = 1
 		end
 	--For Objectives and/or Proofs Win Con
 	elseif ObjectiveCount == 8 then
+		NoExp()
 		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1

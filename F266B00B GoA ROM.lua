@@ -13,6 +13,7 @@ SeedCleared = 0
 WinCon1 = false
 WinCon2 = false
 WinCon3 = false
+WinCon4 = false --fake win con cause it's just Win Con 1 + ABN
 CheckCount = 0
 
 bulky_Room = 0x00
@@ -22,6 +23,7 @@ bulky_lastWorld = 0x00
 
 infoBoxText = "oops"
 doInfoBox = false
+infoBoxCntrl = 0
 end
 
 function GetVersion() --Define anchor addresses
@@ -429,6 +431,9 @@ if true then --Define current values for common addresses
 		ARD = ReadLong(ARDPointer)
 	end
 end
+
+ABN()
+
 NewGame()
 GoA()
 TWtNW()
@@ -448,7 +453,6 @@ AW()
 At()
 Data()
 
-ABN()
 ObjFix()
 WinConInfoBox()
 end
@@ -523,6 +527,11 @@ if true then
 			else
 				WriteInfoBox('Win con 1 achieved - 3 Proofs + 1 Objective')
 			end
+		end
+		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1 and CheckCount == 63
+		   and not WinCon4 then --Win Con 1 + ABN
+			WinCon4 = true
+			WriteInfoBox('Alternate win con 1 achieved - ABN - Skip to Final Xemnas Active')
 		end
 		if ProofCount >= 1 and ReadByte(Save+0x363D) >= ObjectiveCount - 2
 		   and not WinCon2 then --At least 1 Proof + Requisite Objective Count Achieved - 2
@@ -3414,9 +3423,11 @@ function ShowInfoBox()
 end
 
 function WinConInfoBox() --Used to check when the wincon is achieved at when to display it
-	if ReadByte(Cntrl) == 0 and ReadByte(BtlTyp) == 0 and doInfoBox then
+	if ReadByte(Cntrl) == 0 and ReadByte(Cntrl) == infoBoxCntrl
+	   and (ReadByte(BtlTyp) == 0 or ReadByte(BtlTyp) == 1) and doInfoBox then
 		print(infoBoxText)
 		ShowInfoBox()
 		doInfoBox = false
 	end
+	infoBoxCntrl = ReadByte(Cntrl)
 end

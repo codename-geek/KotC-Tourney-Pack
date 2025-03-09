@@ -149,6 +149,12 @@ function RoomCheck()
 		noSingleneg = false
 		noPan = false
 	--Olympus Coliseum
+	--Hades
+	elseif world == 0x06 and room == 0x13 and battle == 0xCA then
+		noBerserk = true
+		noDoubleneg = false
+		noSingleneg = false
+		noPan = false
 	--AS Zexion
 	elseif world == 0x04 and room == 0x22 and battle == 0x97 then
 		noBerserk = true
@@ -181,6 +187,18 @@ function RoomCheck()
 		noSingleneg = true
 		noPan = true
 	----Port Royal
+	--Grim Reaper 1
+	elseif world == 0x10 and room == 0x12 and battle == 0x55 then
+		noBerserk = true
+		noDoubleneg = false
+		noSingleneg = false
+		noPan = false
+	--Grim Reaper 2
+	elseif world == 0x10 and room == 0x01 and battle == 0x36 then
+		noBerserk = true
+		noDoubleneg = false
+		noSingleneg = false
+		noPan = false
 	--Data Luxord
 	elseif world == 0x12 and room == 0x0E and battle == 0x65 then
 		noBerserk = true

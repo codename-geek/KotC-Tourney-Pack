@@ -3134,7 +3134,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 		if ReadByte(Save+0x360D)&0x40 == 0x40 then
 			BitOr(Save+0x360D,0x80)
 		end
-	elseif World == 0x04 and Room == 0x22 and Btl == 0x98 then --AS Zexion
+	elseif World == 0x04 and Room == 0x22 and Btl == 0x97 then --AS Zexion
 		if ReadByte(Save+0x360D)&0x40 == 0x40 and ReadByte(Save+0x360D)&0x80 == 0x80 then
 			DropCounter()
 		end
@@ -3144,7 +3144,7 @@ while ReadByte(Save+0x363D) > ReadByte(Save+0x360A) do
 		BitOr(Save+0x360E,0x1)
 	elseif World == 0x07 and Room == 0x05 and Btl == 0x3E then --Genie Jafar
 		BitOr(Save+0x360E,0x2)
-	elseif World == 0x04 and Room == 0x21 and Btl == 0x93 then --AS Lexaeus
+	elseif World == 0x04 and Room == 0x21 and Btl == 0x8E then --AS Lexaeus
 		if ReadByte(Save+0x360E)&0x1 == 0x1 and ReadByte(Save+0x360E)&0x2 == 0x2 then
 			DropCounter()
 		end

@@ -6,22 +6,9 @@ function _OnInit()
 end
 
 function GetVersion() --Define anchor addresses
-    if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
-        OnPC = false
-        GameVersion = 1
-        print('PS2 Version Detected - Cutscene Skipper')
-        Now = 0x032BAE0 --Current Location
-        Save = 0x032BB30 --Save File
-        CutNow = 0x035DE20 --Cutscene Timer
-        CutLen = 0x035DE28 --Cutscene Length
-        CutSkp = 0x035DE08 --Cutscene Skip
-        Cntrl = 0x1D48DB8 --Sora Controllable
-        Load = 0x0349A50
-        canExecute = true
-    elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-        OnPC = true
+    if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
         if ReadString(0x09A70B0 - 0x56454E,4) == 'KH2J' then --EGS v1.0.0.8
-            GameVersion = 2
+            GameVersion = 1
             print('Epic Version 1.0.0.8_WW Detected - Cutscene Skipper')
             Now = 0x0714DB8 - 0x56454E --Current Location
             Save = 0x09A70B0 - 0x56454E --Save File
@@ -32,7 +19,7 @@ function GetVersion() --Define anchor addresses
             Load = 0xAB8C78 - 0x56450E
             canExecute = true
         elseif ReadString(0x09A92F0,4) == 'KH2J' then --EGS v1.0.0.9
-            GameVersion = 3
+            GameVersion = 2
             print('Epic Version 1.0.0.9_WW Detected - Cutscene Skipper')
             Now = 0x0716DF8 --Current Location
             Save = 0x09A92F0 --Save File
@@ -43,7 +30,7 @@ function GetVersion() --Define anchor addresses
             Load = 0x0ABAEF8
             canExecute = true
         elseif ReadString(0x09A9330,4) == 'KH2J' then --EGS v1.0.0.10
-            GameVersion = 4
+            GameVersion = 3
             print('Epic Version 1.0.0.10_WW Detected - Cutscene Skipper')
             Now = 0x0716DF8 --Current Location
             Save = 0x09A9330 --Save File
@@ -54,7 +41,7 @@ function GetVersion() --Define anchor addresses
             Load = 0x0ABAF38
             canExecute = true
         elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam GL v1.0.0.1
-            GameVersion = 5
+            GameVersion = 4
             print('Steam GL v1.0.0.1 Detected - Cutscene Skipper')
             Now = 0x0717008 --Current Location
             Save = 0x09A9830 --Save File
@@ -65,7 +52,7 @@ function GetVersion() --Define anchor addresses
             Load = 0x0ABB438
             canExecute = true
         elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP v1.0.0.1
-            GameVersion = 6
+            GameVersion = 5
             print('Steam JP v1.0.0.1 Detected - Cutscene Skipper')
             Now = 0x0716008 --Current Location
             Save = 0x09A8830 --Save File
@@ -76,7 +63,7 @@ function GetVersion() --Define anchor addresses
             Load = 0x0ABA438
             canExecute = true
         elseif ReadString(0x09A98B0,4) == 'KH2J' then --Steam v1.0.0.2
-            GameVersion = 7
+            GameVersion = 6
             print('Steam v1.0.0.2 Detected - Cutscene Skipper')
             Now  = 0x0717008 --Current Location
             Save = 0x09A98B0 --Save File
@@ -200,23 +187,8 @@ function _OnFrame()
         BitOr(Save+0x1ED4, 0x80)
         WriteByte(Save+0x1B8C, 0x00)
 	end
-    if ReadShort(Now+0x00) == 0x2102 then --Station of Calling
-        if ReadByte(Now+0x06) == 0x0A then --Promise Charm Route A
-            if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --Proofs
-                if ReadByte(Save+0x1ED4) > 0x7F then
-                    WriteShort(Now+0x00, 0x1B12)
-                end
-            else
-                WriteByte(Now+0x06, 0x0B)
-                WriteByte(Save+0x3D8, 0x0B)
-            end
-        end
-        if ReadByte(Now+0x06) == 0x0B then --Promise Charm Route B
-            if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --Proofs
-                WriteByte(Now+0x06, 0x0A)
-                WriteByte(Save+0x3D8, 0x0A)
-            end
-        end
+    if ReadShort(Now+0x00) == 0x2102 and ReadByte(Save+0x1ED4) > 0x7F then --Entering Final Battles Cutscene (Promise Charm)
+        WriteShort(Now+0x00, 0x1B12)
 	end
     if ReadShort(Now+0x00) == 0x1712 and ReadByte(Now+0x08) == 0x49 then --Armor Xemnas II Auto-Revert/Refill
         if ReadShort(Now+0x30) == 0x1812 and ReadByte(Now+0x38) == 0x47 then

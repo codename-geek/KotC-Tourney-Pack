@@ -23,7 +23,7 @@ bulky_lastWorld = 0x00
 
 infoBoxText = "oops"
 doInfoBox = false
-infoBoxCntrl = 0
+infoBoxTick = 0
 end
 
 function GetVersion() --Define anchor addresses
@@ -3423,11 +3423,13 @@ function ShowInfoBox()
 end
 
 function WinConInfoBox() --Used to check when the wincon is achieved at when to display it
-	if ReadByte(Cntrl) == 0 and ReadByte(Cntrl) == infoBoxCntrl
-	   and (ReadByte(BtlTyp) == 0 or ReadByte(BtlTyp) == 1) and doInfoBox then
-		print(infoBoxText)
-		ShowInfoBox()
-		doInfoBox = false
+	if ReadByte(Cntrl) == 0 and (ReadByte(BtlTyp) == 0 or ReadByte(BtlTyp) == 1) and doInfoBox then
+		infoBoxTick = infoBoxTick + 1
+		if infoBoxTick > 10 then --after 10 frames?
+			print(infoBoxText)
+			ShowInfoBox()
+			doInfoBox = false
+			infoBoxTick = 0
+		end
 	end
-	infoBoxCntrl = ReadByte(Cntrl)
 end

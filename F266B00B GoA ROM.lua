@@ -2902,7 +2902,6 @@ truePageCount = truePageCount + ReadByte(Save+0x3598)
 --Forms
 local formCount = 0
 --Valor
-if ReadByte(Save+0x36C0)&0x2 == 0x2 then
 if ReadByte(Save+0x36C0)&0x80 == 0x80 then
 	formCount = formCount + 1
 end

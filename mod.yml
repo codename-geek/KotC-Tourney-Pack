@@ -46,7 +46,7 @@ assets:
     - name: msg/sys.yml
       language: en
 #Orichalcum+ icon replacement
-- name: remastered/itempic/item-281.imd/-0.dds
+- name: remastered/itempic/item-230.imd/-0.dds
   method: copy
   source:
   - name: imgs/brokenmark.dds

@@ -456,7 +456,6 @@ AW()
 At()
 Data()
 
-ObjFix()
 WinConInfoBox()
 end
 
@@ -520,6 +519,7 @@ if true then
 		end
 	--For Objectives and/or Proofs Win Con
 	elseif ObjectiveCount == 8 then
+		ObjFix()
 		NoExp()
 		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective

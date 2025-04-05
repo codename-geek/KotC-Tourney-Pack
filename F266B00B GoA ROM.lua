@@ -435,8 +435,6 @@ if true then --Define current values for common addresses
 	end
 end
 
-ABN()
-
 NewGame()
 GoA()
 TWtNW()
@@ -521,6 +519,7 @@ if true then
 	elseif ObjectiveCount == 8 then
 		ObjFix()
 		NoExp()
+		ABN()
 		if ProofCount >= 3 and ReadByte(Save+0x363D) >= 1
 		   and not WinCon1 then --All Proofs Obtained + 1 Objective
 			SeedCleared = SeedCleared + 1
@@ -978,12 +977,12 @@ while ReadByte(Save+0x3695) > ReadByte(Save+0x35C5) do
 end
 --DUMMY 23 = Maximum HP Increased!
 while ReadByte(Save+0x3671) > 0 do
-	local Bonus
-	if ReadByte(Save+0x2498) < 3 then --Non-Critical
-		Bonus = 5
-	else --Critical
-		Bonus = 2
-	end
+	local Bonus = 2
+	--if ReadByte(Save+0x2498) < 3 then --Non-Critical
+	--	Bonus = 5
+	--else --Critical
+	--	Bonus = 2
+	--end
 	WriteInt(Slot1+0x000,ReadInt(Slot1+0x000)+Bonus)
 	WriteInt(Slot1+0x004,ReadInt(Slot1+0x004)+Bonus)
 	WriteByte(Save+0x3671,ReadByte(Save+0x3671)-1)

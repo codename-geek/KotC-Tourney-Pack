@@ -607,6 +607,9 @@ if true then
 			end
 		end
 		--------Force equip no exp
+		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
+			SeedCleared = 1
+		end
 	end
 end
 --Garden of Assemblage Rearrangement

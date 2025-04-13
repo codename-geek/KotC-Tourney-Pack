@@ -7,7 +7,7 @@ LUAGUI_DESC = 'A GoA build for use with the Randomizer. Requires ROM patching.'
 
 function _OnInit()
 GameVersion = 0
-print('GoA v1.54.3')
+print('GoA v1.54.4')
 GoAOffset = 0x7C
 SeedCleared = 0
 WinCon1 = false
@@ -229,7 +229,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Obj0 = ReadLong(Obj0Pointer)
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
-		MSN = 0x0BF2C80
+		MSN = BASE_ADDR + 0x0BF2C80
 		IsLoaded = 0x09BA310
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam Global
 		GameVersion = 6
@@ -270,7 +270,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Obj0 = ReadLong(Obj0Pointer)
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
-		MSN = 0x0BF33C0
+		MSN = BASE_ADDR + 0x0BF33C0
 		IsLoaded = 0x09BA850
 	elseif ReadString(0x9A98B0,4) == 'KH2J' then --Steam JP (same as Global for now)
 		GameVersion = 7
@@ -311,7 +311,7 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 		Obj0 = ReadLong(Obj0Pointer)
 		Sys3 = ReadLong(Sys3Pointer)
 		Btl0 = ReadLong(Btl0Pointer)
-		MSN = 0x0BF33C0
+		MSN = BASE_ADDR + 0x0BF33C0
 		IsLoaded = 0x09B9850
 	end
 end

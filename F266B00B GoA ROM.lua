@@ -557,13 +557,14 @@ if true then
 		end
 	--For Emblem Hitlist
 	else
+		NoExp()
 		--Increase stats based on Emblems
 		local emblemCount = ReadByte(Save+0x363D)
 		local str = 0
 		local mag = 0
-		local def = math.floor(emblemCount / 3) --Sora
+		--local def = math.floor(emblemCount / 3) --Sora
 		local def_p = math.floor(emblemCount / 2) --Party Members
-		local app = emblemCount * 3
+		--local app = emblemCount * 3
 
 		for em = 0, emblemCount do
 			if em <= 15 then
@@ -579,8 +580,8 @@ if true then
 		end
 		WriteByte(Save+0x24F9,str)
 		WriteByte(Save+0x24FA,mag)
-		WriteByte(Save+0x24FB,def)
-		WriteByte(Save+0x24F8,50 + app)
+		--WriteByte(Save+0x24FB,def)
+		--WriteByte(Save+0x24F8,50 + app)
 		----party members, add defense
 		WriteByte(Save+0x260F,def_p)
 		WriteByte(Save+0x2723,def_p)
@@ -595,16 +596,16 @@ if true then
 		WriteByte(Save+0x31EB,def_p)
 		----party members, add defense
 		--------Force equip no exp
-		local NoExpCount = 0 --no exps equipped
-		for Slot = 0,68 do
-			local Current = Save + 0x2544 + 2*Slot
-			local Ability = ReadShort(Current) & 0x0FFF
-			--No Exp Check
-			if Ability == 0x0194 and NoExpCount == 0 then
-				WriteShort(Current,Ability+0x8000)
-				NoExpCount = NoExpCount + 1
-			end
-		end
+		--local NoExpCount = 0 --no exps equipped
+		--for Slot = 0,68 do
+		--	local Current = Save + 0x2544 + 2*Slot
+		--	local Ability = ReadShort(Current) & 0x0FFF
+		--	--No Exp Check
+		--	if Ability == 0x0194 and NoExpCount == 0 then
+		--		WriteShort(Current,Ability+0x8000)
+		--		NoExpCount = NoExpCount + 1
+		--	end
+		--end
 		--------Force equip no exp
 		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
 			SeedCleared = 1

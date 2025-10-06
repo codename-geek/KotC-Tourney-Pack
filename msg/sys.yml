@@ -1,3 +1,42 @@
+- id: 20239
+  en: '3 Proof + 1 Gold
+
+    1 Proof + 4 Gold + 2 Silver
+
+    8 Objectives'
+  jp: '3 Proof + 1 Gold
+
+    1 Proof + 4 Gold + 2 Silver
+
+    8 Objectives'
+- id: 0x3B0B
+  en: Silver Completion Mark
+  jp: Silver Completion Mark
+- id: 0x3B0C
+  en: 'A Silver Completion Mark.
+
+    Awarded for beating First-Visit bosses.
+
+    Only 2 of these can be obtained.'
+  jp: 'A Silver Completion Mark.
+
+    Awarded for beating First-Visit bosses.
+
+    Only 2 of these can be obtained.'
+- id: 0x3B0F
+  en: Gold Completion Mark
+  jp: Gold Completion Mark
+- id: 0x3B10
+  en: 'A Gold Completion Mark. Awarded for
+
+    beating Second-Visit, AS, or Data bosses.
+
+    Only 2 can be obtained per each world.'
+  jp: 'A Gold Completion Mark. Awarded for
+
+    beating Second-Visit, AS, or Data bosses.
+
+    Only 2 can be obtained per each world.'
 - id: 0x3B13
   en: Broken Mark
   jp: Broken Mark

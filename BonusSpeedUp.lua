@@ -60,19 +60,36 @@ end
 
 prevBtlEnd = 0
 speedingUp = false
-inFinalXem = false
 function _OnFrame()
 	if GameVersion == 0 then --Get anchor addresses
 		GetVersion()
 		return
 	end
+	ignore = false
 
+	--Final Xemnas
 	if ReadByte(Now+0x00) == 0x12 and ReadByte(Now+0x01) == 0x14 and ReadShort(Now+0x08) == 0x4A then
-		inFinalXem = true
+		ignore = true
+	end
+	--OC Urns
+	if ReadByte(Now+0x00) == 0x06 and ReadByte(Now+0x01) == 0x00 and ReadShort(Now+0x08) == 0x00 then
+		ignore = true
+	end
+	--STT Struggle Fights
+	if ReadByte(Now+0x00) == 0x02 and ReadByte(Now+0x01) == 0x04 and
+	   (ReadShort(Now+0x08) == 0xB6 or ReadShort(Now+0x08) == 0xB7 or ReadShort(Now+0x08) == 0xB8) then
+		ignore = true
+	end
+	--HT Presents 1 and Presents 2
+	if ReadByte(Now+0x00) == 0x0E and ReadByte(Now+0x01) == 0x00 and ReadShort(Now+0x08) == 0x3C then
+		ignore = true
+	end
+	if ReadByte(Now+0x00) == 0x0E and ReadByte(Now+0x01) == 0x00 and ReadShort(Now+0x08) == 0x3F then
+		ignore = true
 	end
 
-	if (ReadByte(BtlEnd) == 4 and prevBtlEnd ~= 4 and ReadByte(BtlTyp) == 2 and not inFinalXem)
-	or (ReadByte(BtlEnd) == 3 and prevBtlEnd ~= 3 and ReadByte(BtlTyp) == 2 and not inFinalXem) then
+	if (ReadByte(BtlEnd) == 4 and prevBtlEnd ~= 4 and ReadByte(BtlTyp) == 2 and not ignore)
+	or (ReadByte(BtlEnd) == 3 and prevBtlEnd ~= 3 and ReadByte(BtlTyp) == 2 and not ignore) then
 		--print("woot")
 		speedingUp = true
 		WriteFloat(GamSpd,2)

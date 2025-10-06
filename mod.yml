@@ -1,5 +1,5 @@
-title: King of the Crown Tourney Mod Pack v7.2
-description: ------------------------------------------------------ Place above the GoA | For Steam/Epic Version ------------------------------------------------------ 1234567890num's PS2 Duck Flare | Sonicshadowsilver's Cutscene Skipper | GhostTheBoo's Accurate Growth Text | Topaz's Information Box | Geek's Custom GoA | Geek's Custom AntiCheese | Geek's Drive Adjustments | Geek's Bonus Speed Up
+title: King of the Crown Modpack v1.0
+description: Patch notes - Official tourney release | Merged beta changes, adjusted Progression Points in TR/CoR, added settings presets and jsons ------------------------------------------------------ Place Above Seed for Path w/ Objectives,             Place Below Seed for Darts & Lucky Hitlist ------------------------------------------------------ PS2 Duck Flare | Cutscene Skipper | Accurate Growth Text | Information Box | KotC GoA | Custom AntiCheese | Drive Adjustments | Bonus Speed Up | GoA Perks
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua
@@ -30,7 +30,11 @@ assets:
   method: copy
   source:
   - name: EnablersAP.lua
-#Orichalcum Text -> Broken Mark
+- name: scripts/GoAChests.lua
+  method: copy
+  source:
+  - name: GoAChests.lua
+# Completion Mark text changes
 - name: msg/us/sys.bar
   multi:
   - name: msg/fr/sys.bar
@@ -45,7 +49,30 @@ assets:
     source:
     - name: msg/sys.yml
       language: en
-#Orichalcum+ icon replacement
+# Dream Weapon Flavor Text
+#- name: msg/us/tt.bar
+#  multi:
+#  - name: msg/fr/tt.bar
+#  - name: msg/gr/tt.bar
+#  - name: msg/it/tt.bar
+#  - name: msg/sp/tt.bar
+#  method: binarc
+#  source:
+#  - name: tt
+#    type: list
+#    method: kh2msg
+#    source:
+#    - name: msg/tt.yml
+#      language: en
+# Crystal Orb/Tournament Poster/Letter icon replacement
+- name: remastered/itempic/item-226.imd/-0.dds
+  method: copy
+  source:
+  - name: imgs/silvermark.dds
+- name: remastered/itempic/item-228.imd/-0.dds
+  method: copy
+  source:
+  - name: imgs/goldmark.dds
 - name: remastered/itempic/item-230.imd/-0.dds
   method: copy
   source:
@@ -278,21 +305,21 @@ assets:
     source:
     - name: ard/al10evt.yml
     type: AreaDataScript
-- method: binarc
-  name: ard/al11.ard #Ruined Chamber Cutscenes
-  multi:
-  - name: ard/jp/al11.ard
-  - name: ard/us/al11.ard
-  - name: ard/fr/al11.ard
-  - name: ard/gr/al11.ard
-  - name: ard/it/al11.ard
-  - name: ard/sp/al11.ard
-  source:
-  - method: areadatascript
-    name: evt
-    source:
-    - name: ard/al11evt.yml
-    type: AreaDataScript
+#- method: binarc
+#  name: ard/al11.ard #Ruined Chamber Cutscenes
+#  multi:
+#  - name: ard/jp/al11.ard
+#  - name: ard/us/al11.ard
+#  - name: ard/fr/al11.ard
+#  - name: ard/gr/al11.ard
+#  - name: ard/it/al11.ard
+#  - name: ard/sp/al11.ard
+#  source:
+#  - method: areadatascript
+#    name: evt
+#    source:
+#    - name: ard/al11evt.yml
+#    type: AreaDataScript
 - method: binarc
   name: ard/al13.ard #The Cave of Wonders: Chasm of Challenges Cutscenes
   multi:

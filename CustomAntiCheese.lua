@@ -154,7 +154,7 @@ function RoomCheck()
 		noBerserk = true
 		noDoubleneg = false
 		noSingleneg = false
-		noPan = false
+		noPan = true
 	--AS Zexion
 	elseif world == 0x04 and room == 0x22 and battle == 0x97 then
 		noBerserk = true

@@ -1,0 +1,63 @@
+- id: 0x43C0
+  en: 'GoA contains Combo Master, Combo Boost,
+  
+    Air Combo Boost, +2 Strength and Magic.'
+  jp: 'GoA contains Combo Master, Combo Boost,
+  
+    Air Combo Boost, +2 Str, +2 Mag.'
+- id: 0x43C1
+  en: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 09 00}You bet it is!'
+  jp: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 09 00}You bet it is!'
+- id: 0x43C2
+  en: 'GoA contains Experience Boost
+  
+    and 2 ethers.'
+  jp: 'GoA contains Experience Boost
+  
+    and 2 ethers.'
+- id: 0x43C3
+  en: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 0B 00}You bet it is!'
+  jp: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 0B 00}You bet it is!'
+- id: 0x43C4
+  en: 'GoA contains Glide Level 2
+  
+    and 2 ethers.'
+  jp: 'GoA contains Glide Level 2
+  
+    and 2 ethers.'
+- id: 0x43C5
+  en: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 0A 00}You bet it is!'
+  jp: '{:unk13 00 01 40 01}{:unk08 02 00 06}Is this your choice?
+
+    {:chardelay 33 00}Not really.
+
+    {:chardelay 0A 00}You bet it is!'
+- id: 0x45FC
+  en: 'Open the GoA Chests for your gifts.'
+  jp: 'Open the GoA Chests for your gifts.'
+- id: 0x45FD
+  en: 'Open the GoA Chests for your gifts.'
+  jp: 'Open the GoA Chests for your gifts.'
+- id: 0x45FE
+  en: 'Open the GoA Chests for your gifts.'
+  jp: 'Open the GoA Chests for your gifts.'

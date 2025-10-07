@@ -1,5 +1,5 @@
-title: King of the Crown Modpack v1.0
-description: Patch notes - Official tourney release | Merged beta changes, adjusted Progression Points in TR/CoR, added settings presets and jsons ------------------------------------------------------ Place Above Seed for Path w/ Objectives,             Place Below Seed for Darts & Lucky Hitlist ------------------------------------------------------ PS2 Duck Flare | Cutscene Skipper | Accurate Growth Text | Information Box | KotC GoA | Custom AntiCheese | Drive Adjustments | Bonus Speed Up | GoA Perks
+title: King of the Crown Modpack v1.1
+description: Patch notes - Official Lite release | 1.0 - Merged beta changes, adjusted Progression Points in TR/CoR, added settings presets and jsons | 1.1 - Lock out Chest Open RC in GoA when under 13 prog items ------------------------------------------------------ Place Above Seed for Path w/ Objectives,             Place Below Seed for Darts & Lucky Hitlist ------------------------------------------------------ PS2 Duck Flare | Cutscene Skipper | Accurate Growth Text | Information Box | KotC GoA | Custom AntiCheese | Drive Adjustments | Bonus Speed Up | GoA Perks
 assets:
 # Lua Scripts
 - name: scripts/CustomAntiCheese.lua

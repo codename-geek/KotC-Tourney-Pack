@@ -103,6 +103,16 @@ function _OnFrame()
 		GoA_Locked = true
 	end
 
+	if World == 0x04 and Room == 0x1A then --if in exactly the GoA room
+		if GoA_Warning then
+			WriteShort(BAR(Sys3,0x2,0x04BA),0x20,OnPC) --Unlock Chest RC in GoA
+		else
+			WriteShort(BAR(Sys3,0x2,0x04BA),0x00,OnPC) --Lock Chest RC in GoA
+		end
+	else --everywhere else
+		WriteShort(BAR(Sys3,0x2,0x04BA),0x20,OnPC)
+	end
+
 	if GoA_Locked then --under 13 unlocks, junk chests
 		WriteShort(BAR(Sys3, 0x7, 0xECA), 0x0148, OnPC)
 		WriteShort(BAR(Sys3, 0x7, 0xED6), 0x0169, OnPC)
